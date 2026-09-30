@@ -1,0 +1,258 @@
+{
+  "source": "Page MJ, et al. BMJ 2021;372:n71. doi:10.1136/bmj.n71",
+  "license": "CC BY 4.0",
+  "items": [
+    {
+      "id": "1",
+      "section": "TITLE",
+      "topic": "Title",
+      "text_en": "Identify the report as a systematic review."
+    },
+    {
+      "id": "2",
+      "section": "ABSTRACT",
+      "topic": "Abstract",
+      "text_en": "See the PRISMA 2020 for Abstracts checklist."
+    },
+    {
+      "id": "3",
+      "section": "INTRODUCTION",
+      "topic": "Rationale",
+      "text_en": "Describe the rationale for the review in the context of existing knowledge."
+    },
+    {
+      "id": "4",
+      "section": "INTRODUCTION",
+      "topic": "Objectives",
+      "text_en": "Provide an explicit statement of the objective(s) or question(s) the review addresses."
+    },
+    {
+      "id": "5",
+      "section": "METHODS",
+      "topic": "Eligibility criteria",
+      "text_en": "Specify the inclusion and exclusion criteria for the review and how studies were grouped for the syntheses."
+    },
+    {
+      "id": "6",
+      "section": "METHODS",
+      "topic": "Information sources",
+      "text_en": "Specify all databases, registers, websites, organisations, reference lists and other sources searched or consulted to identify studies. Specify the date when each source was last searched or consulted."
+    },
+    {
+      "id": "7",
+      "section": "METHODS",
+      "topic": "Search strategy",
+      "text_en": "Present the full search strategies for all databases, registers and websites, including any filters and limits used."
+    },
+    {
+      "id": "8",
+      "section": "METHODS",
+      "topic": "Selection process",
+      "text_en": "Specify the methods used to decide whether a study met the inclusion criteria of the review, including how many reviewers screened each record and each report retrieved, whether they worked independently, and if applicable, details of automation tools used in the process."
+    },
+    {
+      "id": "9",
+      "section": "METHODS",
+      "topic": "Data collection process",
+      "text_en": "Specify the methods used to collect data from reports, including how many reviewers collected data from each report, whether they worked independently, any processes for obtaining or confirming data from study investigators, and if applicable, details of automation tools used in the process."
+    },
+    {
+      "id": "10a",
+      "section": "METHODS",
+      "topic": "Data items",
+      "text_en": "List and define all outcomes for which data were sought. Specify whether all results that were compatible with each outcome domain in each study were sought (e.g. for all measures, time points, analyses), and if not, the methods used to decide which results to collect."
+    },
+    {
+      "id": "10b",
+      "section": "METHODS",
+      "topic": "Data items",
+      "text_en": "List and define all other variables for which data were sought (e.g. participant and intervention characteristics, funding sources). Describe any assumptions made about any missing or unclear information."
+    },
+    {
+      "id": "11",
+      "section": "METHODS",
+      "topic": "Study risk of bias assessment",
+      "text_en": "Specify the methods used to assess risk of bias in the included studies, including details of the tool(s) used, how many reviewers assessed each study and whether they worked independently, and if applicable, details of automation tools used in the process."
+    },
+    {
+      "id": "12",
+      "section": "METHODS",
+      "topic": "Effect measures",
+      "text_en": "Specify for each outcome the effect measure(s) (e.g. risk ratio, mean difference) used in the synthesis or presentation of results."
+    },
+    {
+      "id": "13a",
+      "section": "METHODS",
+      "topic": "Synthesis methods",
+      "text_en": "Describe the processes used to decide which studies were eligible for each synthesis (e.g. tabulating the study intervention characteristics and comparing against the planned groups for each synthesis (item #5))."
+    },
+    {
+      "id": "13b",
+      "section": "METHODS",
+      "topic": "Synthesis methods",
+      "text_en": "Describe any methods required to prepare the data for presentation or synthesis, such as handling of missing summary statistics, or data conversions."
+    },
+    {
+      "id": "13c",
+      "section": "METHODS",
+      "topic": "Synthesis methods",
+      "text_en": "Describe any methods used to tabulate or visually display results of individual studies and syntheses."
+    },
+    {
+      "id": "13d",
+      "section": "METHODS",
+      "topic": "Synthesis methods",
+      "text_en": "Describe any methods used to synthesize results and provide a rationale for the choice(s). If meta-analysis was performed, describe the model(s), method(s) to identify the presence and extent of statistical heterogeneity, and software package(s) used."
+    },
+    {
+      "id": "13e",
+      "section": "METHODS",
+      "topic": "Synthesis methods",
+      "text_en": "Describe any methods used to explore possible causes of heterogeneity among study results (e.g. subgroup analysis, meta-regression)."
+    },
+    {
+      "id": "13f",
+      "section": "METHODS",
+      "topic": "Synthesis methods",
+      "text_en": "Describe any sensitivity analyses conducted to assess robustness of the synthesized results."
+    },
+    {
+      "id": "14",
+      "section": "METHODS",
+      "topic": "Reporting bias assessment",
+      "text_en": "Describe any methods used to assess risk of bias due to missing results in a synthesis (arising from reporting biases)."
+    },
+    {
+      "id": "15",
+      "section": "METHODS",
+      "topic": "Certainty assessment",
+      "text_en": "Describe any methods used to assess certainty (or confidence) in the body of evidence for an outcome."
+    },
+    {
+      "id": "16a",
+      "section": "RESULTS",
+      "topic": "Study selection",
+      "text_en": "Describe the results of the search and selection process, from the number of records identified in the search to the number of studies included in the review, ideally using a flow diagram."
+    },
+    {
+      "id": "16b",
+      "section": "RESULTS",
+      "topic": "Study selection",
+      "text_en": "Cite studies that might appear to meet the inclusion criteria, but which were excluded, and explain why they were excluded."
+    },
+    {
+      "id": "17",
+      "section": "RESULTS",
+      "topic": "Study characteristics",
+      "text_en": "Cite each included study and present its characteristics."
+    },
+    {
+      "id": "18",
+      "section": "RESULTS",
+      "topic": "Risk of bias in studies",
+      "text_en": "Present assessments of risk of bias for each included study."
+    },
+    {
+      "id": "19",
+      "section": "RESULTS",
+      "topic": "Results of individual studies",
+      "text_en": "For all outcomes, present, for each study: (a) summary statistics for each group (where appropriate) and (b) an effect estimate and its precision (e.g. confidence/credible interval), ideally using structured tables or plots."
+    },
+    {
+      "id": "20a",
+      "section": "RESULTS",
+      "topic": "Results of syntheses",
+      "text_en": "For each synthesis, briefly summarise the characteristics and risk of bias among contributing studies."
+    },
+    {
+      "id": "20b",
+      "section": "RESULTS",
+      "topic": "Results of syntheses",
+      "text_en": "Present results of all statistical syntheses conducted. If meta-analysis was done, present for each the summary estimate and its precision (e.g. confidence/credible interval) and measures of statistical heterogeneity. If comparing groups, describe the direction of the effect."
+    },
+    {
+      "id": "20c",
+      "section": "RESULTS",
+      "topic": "Results of syntheses",
+      "text_en": "Present results of all investigations of possible causes of heterogeneity among study results."
+    },
+    {
+      "id": "20d",
+      "section": "RESULTS",
+      "topic": "Results of syntheses",
+      "text_en": "Present results of all sensitivity analyses conducted to assess the robustness of the synthesized results."
+    },
+    {
+      "id": "21",
+      "section": "RESULTS",
+      "topic": "Reporting biases",
+      "text_en": "Present assessments of risk of bias due to missing results (arising from reporting biases) for each synthesis assessed."
+    },
+    {
+      "id": "22",
+      "section": "RESULTS",
+      "topic": "Certainty of evidence",
+      "text_en": "Present assessments of certainty (or confidence) in the body of evidence for each outcome assessed."
+    },
+    {
+      "id": "23a",
+      "section": "DISCUSSION",
+      "topic": "Discussion",
+      "text_en": "Provide a general interpretation of the results in the context of other evidence."
+    },
+    {
+      "id": "23b",
+      "section": "DISCUSSION",
+      "topic": "Discussion",
+      "text_en": "Discuss any limitations of the evidence included in the review."
+    },
+    {
+      "id": "23c",
+      "section": "DISCUSSION",
+      "topic": "Discussion",
+      "text_en": "Discuss any limitations of the review processes used."
+    },
+    {
+      "id": "23d",
+      "section": "DISCUSSION",
+      "topic": "Discussion",
+      "text_en": "Discuss implications of the results for practice, policy, and future research."
+    },
+    {
+      "id": "24a",
+      "section": "OTHER INFORMATION",
+      "topic": "Registration and protocol",
+      "text_en": "Provide registration information for the review, including register name and registration number, or state that the review was not registered."
+    },
+    {
+      "id": "24b",
+      "section": "OTHER INFORMATION",
+      "topic": "Registration and protocol",
+      "text_en": "Indicate where the review protocol can be accessed, or state that a protocol was not prepared."
+    },
+    {
+      "id": "24c",
+      "section": "OTHER INFORMATION",
+      "topic": "Registration and protocol",
+      "text_en": "Describe and explain any amendments to information provided at registration or in the protocol."
+    },
+    {
+      "id": "25",
+      "section": "OTHER INFORMATION",
+      "topic": "Support",
+      "text_en": "Describe sources of financial or non-financial support for the review, and the role of the funders or sponsors in the review."
+    },
+    {
+      "id": "26",
+      "section": "OTHER INFORMATION",
+      "topic": "Competing interests",
+      "text_en": "Declare any competing interests of review authors."
+    },
+    {
+      "id": "27",
+      "section": "OTHER INFORMATION",
+      "topic": "Availability of data, code and other materials",
+      "text_en": "Report which of the following are publicly available and where they can be found: template data collection forms; data extracted from included studies; data used for all analyses; analytic code; any other materials used in the review."
+    }
+  ]
+}
