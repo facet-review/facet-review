@@ -191,15 +191,22 @@ interface Source {                    // z. B. „Scopus“, „MEDLINE via Ovid
   id: UUID; projectId: UUID;
   type: SourceType;
   name: string; platform?: string; url?: string;
+  databases?: string[];               // gemeinsame Suche mehrerer Datenbanken auf einer Plattform (PRISMA-S Item 2)
 }
 
 interface SourceRun {                 // eine konkrete Ausführung einer Suche
   id: UUID; projectId: UUID; sourceId: UUID;
-  date: ISODate;
-  searchString: string;               // vollständig, mehrzeilig
+  date: DateOnly;                     // Kalenderdatum YYYY-MM-DD (lokaler Tag)
+  dateTo?: DateOnly;                  // Ende eines Zeitraums (Websites, Zitationssuche, Kontakte, sonstige)
+  searchString: string;               // vollständig, mehrzeilig, unverändert gespeichert
   limits?: string;
   reportedHits?: number;              // laut Datenbank
   tool?: string;                      // z. B. 'OpenAlex API', 'Publish or Perish'
+  method?: 'search' | 'browse';       // Websites
+  recordsChecked?: number;            // Suchmaschinen: Anzahl geprüfter Treffer
+  citationDirection?: 'backward' | 'forward' | 'both';
+  seedDocuments?: string;             // Zitationssuche: Ausgangsdokumente
+  description?: string;               // Kontakte, sonstige Methoden
   notes?: string;
 }
 
@@ -253,6 +260,24 @@ type FlowVariant = 'new_db' | 'new_db_other' | 'update_db' | 'update_db_other';
 
 Standard-Ausschlussgründe bei neuen Projekten (in der Oberflächensprache angelegt, danach Nutzerdaten): falsche Population, falsche Intervention bzw. Exposition, falsches Studiendesign, falsches Outcome, falscher Publikationstyp, falsche Sprache, falscher Zeitraum.
 
+### Änderungen in Meilenstein 2 (Suchdokumentation)
+
+| Entscheidung | Begründung |
+|---|---|
+| **Eine Quelle pro gemeinsam ausgeführter Suche**, `Source.databases` listet die enthaltenen Datenbanken | Eine Suche über z. B. CINAHL und ERIC auf EBSCOhost liefert eine gemischte Trefferliste; eine Aufteilung pro Datenbank wäre nicht belegbar (PRISMA-S Item 2) |
+| **Suchmaschinen (z. B. Google Scholar) in der linken Spalte** des Flow-Diagramms („Datenbanken und Register“) | Entspricht der üblichen Berichtspraxis (Entscheidung vom 30.09.2026); die Zuordnung liegt an einer Stelle (`flowColumn()` in `src/domain/search/sourceTypes.ts`) |
+| Typspezifische Felder am `SourceRun` (`method`, `recordsChecked`, `citationDirection`, `seedDocuments`, `description`) | Pflichtfelder laut Tabelle in Modul 2 |
+| Optionales `dateTo` für Websites, Zitationssuche, Kontakte und sonstige Methoden | Solche Suchen erstrecken sich oft über Tage oder Wochen; „letzte Suche“ = Ende des Zeitraums |
+| Suchdatum als Kalenderdatum (`YYYY-MM-DD`, lokaler Tag) | Ein Suchdatum ist ein Tag, kein Zeitpunkt; UTC würde Suchen nach Mitternacht auf den Vortag legen |
+| Suchläufe, aus denen Datensätze importiert wurden, sind nicht löschbar | Schützt die Kette Suche → Treffer |
+| Quellen und Suchläufe werden explizit gespeichert (Formular), projektweite Angaben automatisch | Ein halb ausgefüllter Suchlauf soll nicht als Datensatz in der Kette landen |
+
+Pflichtfelder weichen an zwei Stellen bewusst von der Tabelle in Modul 2 ab: **Limits und Filter** sind optional (leer = keine Limits gesetzt; die Angabe „keine“ wäre sonst erzwungen), die **Trefferzahl** ist bei Zitationssuche, Kontakten und sonstigen Methoden optional.
+
+### Wann steigt `schemaVersion`?
+
+`schemaVersion` steigt, sobald **bestehende Daten transformiert werden müssen** (Umbenennen, Umstrukturieren, geänderte Bedeutung). Rein additive, optionale Felder ohne vorhandene Daten brauchen keinen Versionssprung. Meilenstein 2 bleibt daher bei Version 1: `sources` und `sourceRuns` waren in allen bisherigen Exporten leer.
+
 ### Austauschformat (Projekt-JSON)
 
 ```json
@@ -279,7 +304,7 @@ Alle Werte werden in `src/domain/flow/` als reine Funktion `computeFlow(projectD
 
 | Box (PRISMA 2020) | Ableitung |
 |---|---|
-| Records identified from databases (n, pro Datenbank) | Summe der importierten Datensätze aus `SourceRun`s mit `type = database` |
+| Records identified from databases (n, pro Datenbank) | Summe der importierten Datensätze aus `SourceRun`s mit `type ∈ {database, search_engine}`; eine gemeinsame Suche über mehrere Datenbanken erscheint als **eine** Zeile, z. B. „EBSCOhost (CINAHL, ERIC)“ |
 | … from registers | dto. mit `type = register` |
 | Duplicate records removed | Anzahl der Nicht-Primär-Mitglieder aller `DuplicateGroup`s |
 | Records marked as ineligible by automation tools | `removedBeforeScreening.by = 'automation'` |
@@ -292,7 +317,7 @@ Alle Werte werden in `src/domain/flow/` als reine Funktion `computeFlow(projectD
 | Reports excluded: Reason n | Letzte Entscheidung in Stufe 2 = `exclude`, gruppiert nach `reasonId` |
 | Reports of included studies | Letzte Entscheidung in Stufe 2 = `include` |
 | Studies included in review | Anzahl verschiedener `studyId` unter den eingeschlossenen Reports (ohne Zuordnung: 1 Report = 1 Studie) |
-| Rechte Spalte „other methods“ | Analog für Quellen mit `type ∈ {website, search_engine, citation_search, contact, other}`; hier wird ab „Reports sought“ gezählt, weil die PRISMA-Vorlage dort kein Titel-Screening vorsieht |
+| Rechte Spalte „other methods“ | Analog für Quellen mit `type ∈ {website, citation_search, contact, other}`; hier wird ab „Reports sought“ gezählt, weil die PRISMA-Vorlage dort kein Titel-Screening vorsieht |
 
 **Konsistenzprüfungen** (als Warnung in der UI anzeigen):
 
