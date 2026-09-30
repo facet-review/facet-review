@@ -36,6 +36,10 @@ npm run lint       # ESLint und Prettier
 
 Vor dem ersten `npm run test:e2e` einmalig `npx playwright install chromium` ausführen.
 
+## Veröffentlichung
+
+Facet Review läuft unter **[facetreview.org](https://facetreview.org)** auf GitHub Pages. Jeder Push auf `main` wird nach erfolgreicher CI automatisch gebaut und veröffentlicht (`.github/workflows/deploy.yml`).
+
 Produktbeschreibung: [`docs/PRD.md`](docs/PRD.md) · Mitarbeit: [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 ## Lizenz und Attribution
@@ -59,4 +63,4 @@ Systematic reviews according to PRISMA 2020 & PRISMA-S
 
 Facet Review is a browser-based, local-first web app that guides individual researchers and students through searching, screening and reporting a systematic review. Every number in the PRISMA 2020 flow diagram is derived from – and traceable to – concrete records, from the documented search (PRISMA-S) through deduplication and screening decisions to the checklist. All data stays in your browser; there is no backend, no account and no tracking. The interface is available in German (default) and English and targets WCAG 2.1 AA.
 
-Status: early development. See the development commands above; licensed under AGPL-3.0. Contributions are welcome – see [`CONTRIBUTING.md`](CONTRIBUTING.md) (German; questions in English are fine).
+Status: early development, published at [facetreview.org](https://facetreview.org). See the development commands above; licensed under AGPL-3.0. Contributions are welcome – see [`CONTRIBUTING.md`](CONTRIBUTING.md) (German; questions in English are fine).
