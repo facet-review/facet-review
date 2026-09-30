@@ -76,7 +76,10 @@
     "moveDown": "Nach unten",
     "emptyList": "Noch keine Einträge.",
     "saving": "Änderungen werden gespeichert …",
-    "saved": "Alle Änderungen gespeichert."
+    "saved": "Alle Änderungen gespeichert.",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
+    "deleteConfirm": "Endgültig löschen"
   },
   "overview": {
     "newProject": "Neues Projekt",
@@ -147,7 +150,11 @@
   },
   "validation": {
     "required": "Bitte ausfüllen.",
-    "invalidUrl": "Bitte eine vollständige Adresse mit http:// oder https:// eingeben."
+    "invalidUrl": "Bitte eine vollständige Adresse mit http:// oder https:// eingeben.",
+    "invalidNumber": "Bitte eine ganze Zahl ab 0 eingeben.",
+    "invalidDate": "Bitte ein gültiges Datum eingeben.",
+    "dateOrder": "Das Ende darf nicht vor dem Beginn liegen.",
+    "futureDate": "Hinweis: Dieses Datum liegt in der Zukunft."
   },
   "reviewType": {
     "new": "Neuer Review",
@@ -207,5 +214,168 @@
       "missingMigration": "Die Datei (Version {{detail}}) kann nicht umgewandelt werden.",
       "invalidField": "Ungültiger oder fehlender Wert: {{path}}"
     }
+  },
+  "form": {
+    "errorSummary": "Bitte prüfen Sie Ihre Angaben",
+    "unsavedTitle": "Änderungen verwerfen?",
+    "unsavedBody": "Ihre Eingaben in diesem Formular sind noch nicht gespeichert.",
+    "discard": "Verwerfen"
+  },
+  "sourceTypes": {
+    "database": {
+      "label": "Bibliografische Datenbank",
+      "group": "Bibliografische Datenbanken",
+      "hint": "z. B. MEDLINE via Ovid, Scopus, ERIC via EBSCOhost"
+    },
+    "register": {
+      "label": "Studienregister",
+      "group": "Studienregister",
+      "hint": "z. B. ClinicalTrials.gov, WHO ICTRP"
+    },
+    "search_engine": {
+      "label": "Suchmaschine",
+      "group": "Suchmaschinen",
+      "hint": "z. B. Google Scholar. Treffer werden nur als Datei importiert (z. B. aus Publish or Perish oder GSscraper), Facet Review liest Google Scholar nicht selbst aus."
+    },
+    "website": {
+      "label": "Website oder Online-Ressource",
+      "group": "Websites und Online-Ressourcen",
+      "hint": "z. B. Websites von Fachgesellschaften, Inhaltsverzeichnisse, Tagungsbände"
+    },
+    "citation_search": {
+      "label": "Zitationssuche",
+      "group": "Zitationssuche",
+      "hint": "Vorwärts- oder Rückwärtssuche ausgehend von Ausgangsdokumenten"
+    },
+    "contact": {
+      "label": "Kontakt zu Expert:innen oder Organisationen",
+      "group": "Kontakte zu Expert:innen und Organisationen",
+      "hint": "z. B. Anfrage an Autor:innen, Fachgesellschaften oder Hersteller"
+    },
+    "other": {
+      "label": "Sonstige Methode",
+      "group": "Sonstige Methoden",
+      "hint": "Jede weitere Methode, mit der Studien identifiziert wurden"
+    }
+  },
+  "search": {
+    "prismaS": "PRISMA-S Item {{items}}",
+    "addSource": "Quelle hinzufügen",
+    "empty": "Noch keine Quellen dokumentiert. Legen Sie für jede Datenbank, jedes Register und jede weitere Suchmethode eine Quelle an.",
+    "hits": {
+      "databases_registers": "Gemeldete Treffer aus Datenbanken, Registern und Suchmaschinen: {{hits}}",
+      "other_methods": "Gemeldete Treffer aus anderen Methoden: {{hits}}",
+      "missing_one": "({{count}} Suchlauf ohne Trefferzahl)",
+      "missing_other": "({{count}} Suchläufe ohne Trefferzahl)"
+    },
+    "platform": "Plattform",
+    "lastSearch": "Letzte Suche",
+    "notSearched": "noch keine",
+    "runs": {
+      "caption": "Suchläufe: {{source}}",
+      "date": "Datum",
+      "hits": "Treffer",
+      "content": "Suchstring bzw. Beschreibung",
+      "actions": "Aktionen",
+      "editFor": "Suchlauf vom {{date}}",
+      "none": "Noch keine Suchläufe.",
+      "add": "Suchlauf hinzufügen"
+    },
+    "source": {
+      "edit": "Quelle bearbeiten",
+      "delete": "Quelle löschen",
+      "deleteTitle": "Quelle löschen?",
+      "deleted": "Quelle „{{source}}“ wurde gelöscht.",
+      "deleteBlocked": "Aus „{{source}}“ wurden bereits {{count}} Datensätze importiert. Die Quelle kann deshalb nicht gelöscht werden.",
+      "deleteBody_one": "„{{source}}“ wird mit {{count}} Suchlauf gelöscht.",
+      "deleteBody_other": "„{{source}}“ wird mit {{count}} Suchläufen gelöscht."
+    },
+    "meta": {
+      "heading": "Projektweite Angaben zur Suche",
+      "filters": "Suchfilter",
+      "filtersHint": "Verwendete (validierte) Suchfilter mit Quellenangabe (PRISMA-S Item 10)",
+      "priorWork": "Nachnutzung früherer Suchen",
+      "priorWorkHint": "Wurden Suchstrategien anderer Reviews übernommen oder angepasst? (PRISMA-S Item 11)",
+      "updates": "Aktualisierungen der Suche",
+      "updatesHint": "Wann und wie wurde die Suche aktualisiert? (PRISMA-S Item 12)",
+      "peerReview": "Peer Review der Suchstrategie",
+      "peerReviewHint": "z. B. PRESS-Checkliste – durch wen? (PRISMA-S Item 14)"
+    },
+    "summarySources_one": "{{count}} Quelle",
+    "summarySources_other": "{{count}} Quellen",
+    "summaryRuns_one": "{{count}} Suchlauf",
+    "summaryRuns_other": "{{count}} Suchläufe"
+  },
+  "sourceForm": {
+    "newTitle": "Quelle hinzufügen",
+    "editTitle": "Quelle bearbeiten",
+    "type": "Quellentyp",
+    "name": "Bezeichnung",
+    "nameHint": {
+      "database": "Name der Datenbank bzw. der gemeinsamen Suche, z. B. „MEDLINE“ oder „EBSCOhost“",
+      "register": "z. B. ClinicalTrials.gov",
+      "search_engine": "z. B. Google Scholar",
+      "website": "z. B. Eurydice",
+      "citation_search": "z. B. Rückwärtssuche in den eingeschlossenen Studien",
+      "contact": "z. B. Österreichische Gesellschaft für Hochschuldidaktik",
+      "other": "Kurzbezeichnung der Methode"
+    },
+    "platform": "Plattform bzw. Oberfläche",
+    "platformHint": "z. B. Ovid, EBSCOhost, PubMed, Web of Science; bei Scopus identisch mit der Bezeichnung (PRISMA-S Item 1)",
+    "databases": "Gemeinsam durchsuchte Datenbanken",
+    "databasesHint": "Nur ausfüllen, wenn eine Suche mehrere Datenbanken auf einer Plattform gleichzeitig durchsucht hat. Eine gemeinsame Suche ist eine Quelle (PRISMA-S Item 2).",
+    "databaseItem": "Datenbank {{n}}",
+    "addDatabase": "Datenbank hinzufügen",
+    "url": "Adresse (URL)",
+    "submitNew": "Speichern und Suchlauf erfassen"
+  },
+  "runForm": {
+    "newTitle": "Suchlauf erfassen",
+    "editTitle": "Suchlauf bearbeiten",
+    "source": "Quelle: {{source}}",
+    "date": "Datum der Suche",
+    "dateHint": "PRISMA-S Item 13",
+    "dateStart": "Datum bzw. Beginn",
+    "dateTo": "Ende des Zeitraums",
+    "dateToHint": "Optional, wenn sich die Suche über mehrere Tage erstreckt hat.",
+    "searchString": "Suchstring",
+    "searchStringHint": "Vollständig und genau so, wie er ausgeführt wurde, einschließlich Zeilennummern (PRISMA-S Item 8).",
+    "searchTerms": "Verwendete Suchbegriffe",
+    "searchTermsHint": "Falls auf der Website gesucht wurde.",
+    "copy": "Suchstring kopieren",
+    "copied": "Suchstring wurde in die Zwischenablage kopiert.",
+    "copyFailed": "Kopieren ist in diesem Browser nicht möglich.",
+    "limits": "Limits und Filter",
+    "limitsHint": "z. B. Publikationsjahre, Sprachen, Dokumenttypen; leer lassen, wenn keine gesetzt wurden (PRISMA-S Item 9)",
+    "reportedHits": "Gemeldete Trefferzahl",
+    "reportedHitsHint": "Anzahl laut Quelle; wird beim Import mit der importierten Anzahl abgeglichen.",
+    "recordsChecked": "Anzahl geprüfter Treffer",
+    "recordsCheckedHint": "z. B. die ersten 200 Treffer",
+    "tool": "Werkzeug",
+    "toolHint": {
+      "search_engine": "Womit wurden die Treffer exportiert? z. B. Publish or Perish, GSscraper",
+      "citation_search": "z. B. manuell, Citationchaser, Scopus, Web of Science"
+    },
+    "method": "Vorgehen",
+    "methods": {
+      "search": "Suche auf der Website",
+      "browse": "Durchsehen (Browsing)"
+    },
+    "citationDirection": "Richtung",
+    "directions": {
+      "backward": "Rückwärts (Referenzlisten)",
+      "forward": "Vorwärts (zitierende Arbeiten)",
+      "both": "Vorwärts und rückwärts"
+    },
+    "seedDocuments": "Ausgangsdokumente",
+    "seedDocumentsHint": "z. B. die eingeschlossenen Studien oder konkrete Schlüsselpublikationen",
+    "description": "Beschreibung",
+    "descriptionHint": "Was wurde wie gemacht, wer wurde mit welcher Anfrage kontaktiert? (PRISMA-S Items 6 und 7)",
+    "notes": "Notizen",
+    "delete": "Suchlauf löschen",
+    "deleteTitle": "Suchlauf löschen?",
+    "deleteBody": "Der Suchlauf vom {{date}} wird gelöscht.",
+    "deleteBlocked": "Aus diesem Suchlauf wurden bereits {{count}} Datensätze importiert. Er kann deshalb nicht gelöscht werden.",
+    "manual": "manuell"
   }
 }

@@ -47,26 +47,40 @@ function FieldFrame({
 interface TextFieldProps extends BaseFieldProps {
   value: string;
   onChange: (value: string) => void;
-  type?: 'text' | 'url';
+  /** Stable id, e.g. as jump target of an error summary. */
+  id?: string;
+  type?: 'text' | 'url' | 'date';
+  /** `numeric` shows a number keyboard without the pitfalls of type="number". */
+  inputMode?: 'numeric';
   multiline?: boolean;
   rows?: number;
   autoComplete?: string;
+  /** Monospace, no spell check, whitespace kept – for search strategies. */
+  code?: boolean;
+  /** id of a <datalist> with suggestions. */
+  list?: string;
 }
 
 export function TextField({
   value,
   onChange,
+  id: fixedId,
   type = 'text',
+  inputMode,
   multiline = false,
   rows = 3,
   autoComplete = 'off',
+  code = false,
+  list,
   ...frame
 }: TextFieldProps) {
-  const id = useId();
+  const generatedId = useId();
+  const id = fixedId ?? generatedId;
   const common = {
     id,
     value,
-    className: styles.input,
+    className: code ? `${styles.input} ${styles.code}` : styles.input,
+    spellCheck: code ? false : undefined,
     required: frame.required,
     'aria-invalid': frame.error ? true : undefined,
     'aria-describedby': describedBy(frame.hint && `${id}-hint`, frame.error && `${id}-error`),
@@ -79,6 +93,8 @@ export function TextField({
         <input
           {...common}
           type={type}
+          inputMode={inputMode}
+          list={list}
           autoComplete={autoComplete}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -93,18 +109,21 @@ interface Option<T extends string> {
 }
 
 interface SelectFieldProps<T extends string> extends BaseFieldProps {
+  id?: string;
   value: T;
   options: readonly Option<T>[];
   onChange: (value: T) => void;
 }
 
 export function SelectField<T extends string>({
+  id: fixedId,
   value,
   options,
   onChange,
   ...frame
 }: SelectFieldProps<T>) {
-  const id = useId();
+  const generatedId = useId();
+  const id = fixedId ?? generatedId;
   return (
     <FieldFrame id={id} {...frame}>
       <select
@@ -127,7 +146,11 @@ export function SelectField<T extends string>({
 interface RadioGroupProps<T extends string> {
   legend: string;
   hint?: string;
-  value: T;
+  error?: string;
+  required?: boolean;
+  /** id of the first radio button, e.g. as jump target of an error summary. */
+  id?: string;
+  value: T | '';
   options: readonly Option<T>[];
   onChange: (value: T) => void;
 }
@@ -135,22 +158,38 @@ interface RadioGroupProps<T extends string> {
 export function RadioGroup<T extends string>({
   legend,
   hint,
+  error,
+  required,
+  id,
   value,
   options,
   onChange,
 }: RadioGroupProps<T>) {
+  const { t } = useTranslation();
   const name = useId();
   return (
-    <fieldset className={styles.fieldset} aria-describedby={hint ? `${name}-hint` : undefined}>
-      <legend className={styles.legend}>{legend}</legend>
+    <fieldset
+      className={styles.fieldset}
+      aria-describedby={describedBy(hint && `${name}-hint`, error && `${name}-error`)}
+    >
+      <legend className={styles.legend}>
+        {legend}
+        {required && <span className={styles.requiredMark}> ({t('common.required')})</span>}
+      </legend>
       {hint && (
         <p id={`${name}-hint`} className={styles.hint}>
           {hint}
         </p>
       )}
-      {options.map((option) => (
+      {error && (
+        <p id={`${name}-error`} className={styles.error}>
+          {error}
+        </p>
+      )}
+      {options.map((option, index) => (
         <label key={option.value} className={styles.radioOption}>
           <input
+            id={index === 0 ? id : undefined}
             type="radio"
             name={name}
             value={option.value}

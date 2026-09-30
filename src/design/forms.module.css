@@ -82,3 +82,23 @@ textarea.input {
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   gap: var(--space-4);
 }
+
+.code {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.warning {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-warning);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}

@@ -104,3 +104,21 @@ export function runFromDraft(draft: RunDraft): SourceRun {
   }
   return run;
 }
+
+/** Keeps only the source fields of its type, trims text, drops empty entries. */
+export function pruneSource(source: Source): Source {
+  const fields = SOURCE_TYPE_CONFIG[source.type].sourceFields;
+  const pruned: Source = {
+    id: source.id,
+    projectId: source.projectId,
+    type: source.type,
+    name: source.name.trim(),
+  };
+  for (const key of ['platform', 'url'] as const) {
+    const value = source[key]?.trim();
+    if (fields.includes(key) && value) pruned[key] = value;
+  }
+  const databases = (source.databases ?? []).map((name) => name.trim()).filter(Boolean);
+  if (fields.includes('databases') && databases.length > 0) pruned.databases = databases;
+  return pruned;
+}

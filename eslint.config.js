@@ -24,6 +24,11 @@ export default tseslint.config(
       reactRefresh.configs.vite,
       jsxA11y.flatConfigs.strict,
     ],
+    // Type information lets the i18n rule skip literals typed as string-literal unions
+    // (field keys, enum values) and flag only real user-facing text.
+    languageOptions: {
+      parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
+    },
     plugins: { i18next },
     rules: {
       // Principle 5: no hardcoded UI strings – all user-facing text goes through i18n keys.

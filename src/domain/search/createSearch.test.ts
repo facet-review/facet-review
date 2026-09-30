@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { sequentialIds } from '../testing';
 import type { SourceRun } from '../types';
-import { createRun, createSource, pruneRun, runFromDraft, draftFromRun } from './createSearch';
+import {
+  createRun,
+  createSource,
+  draftFromRun,
+  pruneRun,
+  pruneSource,
+  runFromDraft,
+} from './createSearch';
 
 describe('createSource / createRun', () => {
   it('creates a source with an id and trimmed name', () => {
@@ -88,5 +95,47 @@ describe('form drafts', () => {
 
   it('treats an empty end date as absent', () => {
     expect(runFromDraft({ ...draftFromRun(fullRun), dateTo: '' })).not.toHaveProperty('dateTo');
+  });
+});
+
+describe('pruneSource', () => {
+  const full = {
+    id: 's',
+    projectId: 'p',
+    type: 'database' as const,
+    name: ' EBSCOhost ',
+    platform: 'EBSCO',
+    url: 'https://example.org',
+    databases: ['CINAHL', ' ', 'ERIC '],
+  };
+
+  it('keeps the fields of the type, trims text and drops empty database entries', () => {
+    expect(pruneSource(full)).toEqual({
+      id: 's',
+      projectId: 'p',
+      type: 'database',
+      name: 'EBSCOhost',
+      platform: 'EBSCO',
+      databases: ['CINAHL', 'ERIC'],
+    });
+  });
+
+  it('removes fields that do not apply after a type change', () => {
+    expect(pruneSource({ ...full, type: 'website' })).toEqual({
+      id: 's',
+      projectId: 'p',
+      type: 'website',
+      name: 'EBSCOhost',
+      url: 'https://example.org',
+    });
+  });
+
+  it('drops empty optional fields and an empty database list', () => {
+    expect(pruneSource({ ...full, platform: '  ', databases: [' '] })).toEqual({
+      id: 's',
+      projectId: 'p',
+      type: 'database',
+      name: 'EBSCOhost',
+    });
   });
 });

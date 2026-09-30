@@ -12,3 +12,13 @@ export type ModuleKey = (typeof MODULES)[number]['key'];
 
 export const projectPath = (projectId: string, module: ModuleKey = 'project') =>
   `/projects/${projectId}/${module}`;
+
+export const searchPaths = {
+  page: (projectId: string) => `/projects/${projectId}/search`,
+  newSource: (projectId: string) => `/projects/${projectId}/search/sources/new`,
+  source: (projectId: string, sourceId: string) =>
+    `/projects/${projectId}/search/sources/${sourceId}`,
+  newRun: (projectId: string, sourceId: string) =>
+    `/projects/${projectId}/search/sources/${sourceId}/runs/new`,
+  run: (projectId: string, runId: string) => `/projects/${projectId}/search/runs/${runId}`,
+};
