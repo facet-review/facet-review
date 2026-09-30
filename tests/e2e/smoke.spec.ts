@@ -56,6 +56,13 @@ test.describe('app shell', () => {
     await expect(page).toHaveURL(/#main$/);
   });
 
+  test('loads a deep link directly and survives a reload', async ({ page }) => {
+    await page.goto('/screening');
+    await expect(page.getByRole('heading', { level: 1, name: 'Screening' })).toBeVisible();
+    await page.reload();
+    await expect(page.getByRole('heading', { level: 1, name: 'Screening' })).toBeVisible();
+  });
+
   test('shows a not-found page for unknown routes', async ({ page }) => {
     await page.goto('/does-not-exist');
     await expect(
