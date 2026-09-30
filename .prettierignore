@@ -1,0 +1,10 @@
+dist
+coverage
+playwright-report
+test-results
+package-lock.json
+docs/reference
+LICENSE
+
+# Prose documents are maintained by hand.
+*.md

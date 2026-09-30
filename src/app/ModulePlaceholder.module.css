@@ -1,0 +1,7 @@
+.notice {
+  padding: var(--space-4);
+  border: var(--line-hairline);
+  border-left: calc(var(--line-width) * 3) solid var(--color-accent);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}

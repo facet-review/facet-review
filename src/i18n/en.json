@@ -1,0 +1,68 @@
+{
+  "app": {
+    "name": "Facet Review",
+    "tagline": "Every facet of your search. Traceable.",
+    "subtitle": "Systematic reviews according to PRISMA 2020 & PRISMA-S",
+    "homeLink": "Facet Review – go to start page",
+    "skipLink": "Skip to content"
+  },
+  "nav": {
+    "label": "Modules"
+  },
+  "modules": {
+    "project": {
+      "title": "Project",
+      "description": "Research question, eligibility criteria, exclusion reasons, registration and protocol."
+    },
+    "search": {
+      "title": "Search",
+      "description": "Documentation of all sources and search runs according to PRISMA-S."
+    },
+    "import": {
+      "title": "Import",
+      "description": "Import of RIS, BibTeX, PubMed/MEDLINE and CSV with traceable deduplication."
+    },
+    "screening": {
+      "title": "Screening",
+      "description": "Title/abstract and full-text screening, fully operable by keyboard."
+    },
+    "flow": {
+      "title": "Flow diagram",
+      "description": "PRISMA 2020 flow diagram with every number derived from the data."
+    },
+    "checklist": {
+      "title": "Checklist",
+      "description": "PRISMA 2020 checklist with suggestions from the project data."
+    }
+  },
+  "pages": {
+    "overview": {
+      "title": "Projects",
+      "description": "Your review projects will appear here. All data stays in your browser."
+    },
+    "notFound": {
+      "title": "Page not found",
+      "description": "The requested page does not exist.",
+      "backHome": "Go to projects"
+    },
+    "placeholder": "Coming soon (milestone {{milestone}})."
+  },
+  "settings": {
+    "language": {
+      "label": "Language"
+    },
+    "theme": {
+      "label": "Appearance",
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    }
+  },
+  "footer": {
+    "authorPrefix": "A project by",
+    "attributionHeading": "Foundations",
+    "attributionNote": "The PRISMA 2020 checklist and flow diagram template are licensed under CC BY 4.0.",
+    "license": "Free software under the GNU AGPL-3.0.",
+    "sourceCode": "Source code"
+  }
+}

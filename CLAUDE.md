@@ -39,10 +39,11 @@ Jede Zahl im Flow-Diagramm muss auf konkrete Datensätze zurückführbar sein. E
 | i18n | react-i18next, Sprachdateien in `src/i18n/{de,en}.json` |
 | Flow-Diagramm | Eigenes SVG-Rendering (React-Komponente), kein Diagramm-Framework |
 | PDF-Export | pdf-lib oder @react-pdf/renderer (Entscheidung in Meilenstein 6, kurz begründen) |
-| Styling | CSS Modules oder Tailwind (Entscheidung in Meilenstein 0, kurz begründen) mit Design-Tokens als CSS Custom Properties |
+| Styling | **CSS Modules** mit Design-Tokens als CSS Custom Properties in `src/design/tokens.css` (M0: Tokens nativ, globale scharfe Ecken/Haarlinien ohne Utility-Defaults, lesbare semantische Klassen, a11y-Werte zentral, keine Zusatzabhängigkeit) |
+| Paketmanager | **npm** mit `package-lock.json`, in CI `npm ci` (M0: vorinstalliert, niedrigste Hürde für Beitragende; pnpm-Vorteile greifen bei einer Single-Package-App kaum) |
 | Tests | Vitest (Unit), Playwright (E2E) |
 | PWA | vite-plugin-pwa (Meilenstein 7) |
-| Lint/Format | ESLint und Prettier |
+| Lint/Format | ESLint 9 (Flat Config; `jsx-a11y` strict, `i18next/no-literal-string` gegen hartcodierte UI-Strings) und Prettier |
 | Lizenz | AGPL-3.0 |
 
 ## Verzeichnisstruktur (Ziel)
@@ -103,12 +104,21 @@ tests/e2e/
 
 ## Befehle
 
-(Werden in Meilenstein 0 angelegt und hier eingetragen.)
+Node 22 (`.nvmrc`). Paketmanager: npm.
 
 ```
-npm run dev        # Entwicklungsserver
-npm run build      # Produktionsbuild (statisch)
-npm run test       # Vitest
-npm run test:e2e   # Playwright
-npm run lint
+npm run dev            # Entwicklungsserver (Vite)
+npm run build          # Typecheck + Produktionsbuild (statisch, dist/)
+npm run preview        # Produktionsbuild lokal ausliefern
+npm run typecheck      # tsc -b
+npm run test           # Vitest (einmalig)
+npm run test:watch     # Vitest im Watch-Modus
+npm run test:coverage  # Vitest mit Coverage (v8)
+npm run test:e2e       # Playwright (baut und startet vite preview selbst)
+npm run lint           # ESLint + Prettier-Check
+npm run format         # Prettier schreibt
 ```
+
+Playwright braucht einmalig `npx playwright install chromium`. In Umgebungen mit vorinstalliertem Chromium stattdessen `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/pfad/zu/chrome npm run test:e2e`.
+
+Versionsgrenzen: TypeScript bleibt auf 6.0.x (typescript-eslint unterstützt < 6.1), ESLint auf 9 (eslint-plugin-jsx-a11y unterstützt ESLint 10 noch nicht).

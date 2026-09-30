@@ -1,0 +1,68 @@
+{
+  "app": {
+    "name": "Facet Review",
+    "tagline": "Jede Facette Ihrer Suche. Nachvollziehbar.",
+    "subtitle": "Systematic Reviews nach PRISMA 2020 & PRISMA-S",
+    "homeLink": "Facet Review – zur Startseite",
+    "skipLink": "Zum Inhalt springen"
+  },
+  "nav": {
+    "label": "Module"
+  },
+  "modules": {
+    "project": {
+      "title": "Projekt",
+      "description": "Forschungsfrage, Ein- und Ausschlusskriterien, Ausschlussgründe, Registrierung und Protokoll."
+    },
+    "search": {
+      "title": "Suche",
+      "description": "Dokumentation aller Quellen und Suchläufe nach PRISMA-S."
+    },
+    "import": {
+      "title": "Import",
+      "description": "Import von RIS, BibTeX, PubMed/MEDLINE und CSV mit nachvollziehbarer Deduplizierung."
+    },
+    "screening": {
+      "title": "Screening",
+      "description": "Titel- und Abstract-Screening sowie Volltext-Screening, vollständig per Tastatur bedienbar."
+    },
+    "flow": {
+      "title": "Flow-Diagramm",
+      "description": "PRISMA-2020-Flow-Diagramm, dessen Zahlen vollständig aus den Daten abgeleitet werden."
+    },
+    "checklist": {
+      "title": "Checkliste",
+      "description": "PRISMA-2020-Checkliste mit Vorschlägen aus den Projektdaten."
+    }
+  },
+  "pages": {
+    "overview": {
+      "title": "Projektübersicht",
+      "description": "Hier erscheinen künftig Ihre Review-Projekte. Alle Daten bleiben in Ihrem Browser."
+    },
+    "notFound": {
+      "title": "Seite nicht gefunden",
+      "description": "Die angeforderte Seite existiert nicht.",
+      "backHome": "Zur Projektübersicht"
+    },
+    "placeholder": "In Vorbereitung (Meilenstein {{milestone}})."
+  },
+  "settings": {
+    "language": {
+      "label": "Sprache"
+    },
+    "theme": {
+      "label": "Darstellung",
+      "system": "System",
+      "light": "Hell",
+      "dark": "Dunkel"
+    }
+  },
+  "footer": {
+    "authorPrefix": "Ein Projekt von",
+    "attributionHeading": "Grundlagen",
+    "attributionNote": "PRISMA-2020-Checkliste und Flow-Diagramm-Vorlage stehen unter der Lizenz CC BY 4.0.",
+    "license": "Freie Software unter der GNU AGPL-3.0.",
+    "sourceCode": "Quellcode"
+  }
+}
