@@ -102,6 +102,14 @@ tests/e2e/
 - Meilenstein für Meilenstein arbeiten (siehe `docs/PRD.md`, Abschnitt Roadmap). Nach jedem Meilenstein gilt: Tests grün, kurze Zusammenfassung, dann Freigabe abwarten.
 - Bei fachlichen Unklarheiten zu PRISMA oder PRISMA-S **nachfragen statt raten**. Die Referenzdateien liegen in `docs/reference/`.
 
+## Datenmodell und Persistenz (ab Meilenstein 1)
+
+- Typen: `src/domain/types.ts`. Jede Entität trägt `projectId`. Nebenwirkungen (`newId`, `now`) werden in Domain-Funktionen hineingereicht (`src/app/runtime.ts`), damit Tests deterministisch sind.
+- Austauschformat: `src/domain/exchange/` (`format: 'facet-review-project'`, `schemaVersion`). **Jede Formatänderung:** `CURRENT_SCHEMA_VERSION` erhöhen, Eintrag in `PROJECT_MIGRATIONS` mit Test, PRD Abschnitt 4 nachtragen.
+- Datenbank: `src/db/db.ts` (Dexie). **Jede Schemaänderung:** neue `this.version(n)` mit Upgrade-Funktion, nie eine bestehende Version ändern.
+- Zugriff nur über Repository-Funktionen in `src/db/` (atomare Transaktionen, Löschen kaskadierend). Komponenten lesen reaktiv mit `useLiveQuery`.
+- Coverage-Schwelle 90 % für `src/domain/**`, erzwungen in CI (`npm run test:coverage`).
+
 ## Befehle
 
 Node 22 (`.nvmrc`). Paketmanager: npm.
