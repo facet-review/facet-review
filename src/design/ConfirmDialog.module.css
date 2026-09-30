@@ -1,0 +1,30 @@
+.dialog {
+  max-width: min(36rem, calc(100vw - 2 * var(--space-4)));
+  padding: var(--space-5);
+  border: var(--line-control);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+.dialog::backdrop {
+  background: rgb(0 0 0 / 0.45);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+}
+
+.body {
+  margin-bottom: var(--space-5);
+}
+
+.body p:last-child {
+  margin-bottom: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}

@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, NavLink, Outlet, useLocation } from 'react-router';
+import { Link, Outlet, useLocation } from 'react-router';
 import { Footer } from './Footer';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { MODULES } from './modules';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import styles from './Layout.module.css';
 
@@ -41,17 +40,6 @@ export function Layout() {
             <ThemeSwitcher />
           </div>
         </div>
-        <nav aria-label={t('nav.label')} className={styles.nav}>
-          <ol className={styles.navList}>
-            {MODULES.map((module) => (
-              <li key={module.key}>
-                <NavLink to={module.path} className={styles.navLink}>
-                  {t(`modules.${module.key}.title`)}
-                </NavLink>
-              </li>
-            ))}
-          </ol>
-        </nav>
       </header>
 
       <main id="main" ref={mainRef} tabIndex={-1} className={styles.main}>

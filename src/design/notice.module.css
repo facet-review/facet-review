@@ -1,0 +1,25 @@
+.notice {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border: var(--line-hairline);
+  border-left: calc(var(--line-width) * 3) solid var(--color-accent);
+  background: var(--color-surface);
+}
+
+.warning {
+  border-left-color: var(--color-warning);
+}
+
+.error {
+  border-left-color: var(--color-danger);
+}
+
+.notice h2 {
+  font-size: var(--font-size-md);
+  margin-bottom: var(--space-2);
+}
+
+.notice ul {
+  margin: 0;
+  padding-left: var(--space-5);
+}

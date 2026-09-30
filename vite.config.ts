@@ -1,4 +1,5 @@
 /// <reference types="vitest/config" />
+import { readFileSync } from 'node:fs';
 import { copyFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
@@ -22,7 +23,17 @@ function spaFallback(): Plugin {
   };
 }
 
+const { version } = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+) as {
+  version: string;
+};
+
 export default defineConfig({
+  define: {
+    // Written into every project export (`app.version`).
+    __APP_VERSION__: JSON.stringify(version),
+  },
   // Absolute asset paths are required: 404.html is served at arbitrary nested paths.
   base: '/',
   plugins: [react(), spaFallback()],
@@ -35,7 +46,12 @@ export default defineConfig({
     environment: 'node',
     coverage: {
       provider: 'v8',
-      include: ['src/domain/**', 'src/i18n/**'],
+      include: ['src/domain/**', 'src/db/**'],
+      exclude: ['src/**/*.test.ts', 'src/domain/testing.ts'],
+      // CLAUDE.md: counting and deduplication ≥ 90 %; applied to all domain logic.
+      thresholds: {
+        'src/domain/**': { statements: 90, branches: 90, functions: 90, lines: 90 },
+      },
     },
   },
 });
