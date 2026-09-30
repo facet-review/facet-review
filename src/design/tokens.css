@@ -1,0 +1,115 @@
+/*
+ * Facet Review design tokens.
+ * All colours, type, spacing and lines are defined here as CSS custom properties.
+ * Components reference tokens only – never raw values.
+ * Contrast targets (WCAG 2.1 AA): text ≥ 4.5:1, UI boundaries and focus ≥ 3:1.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Colour – light */
+  --color-stone: #dde1e2; /* brand base */
+  --color-petrol: #1f5f6b; /* brand accent (provisional) */
+
+  --color-bg: var(--color-stone);
+  --color-surface: #f4f5f5;
+  --color-surface-raised: #ffffff;
+  --color-text: #1a1d1e;
+  --color-text-muted: #4a5356;
+  --color-accent: var(--color-petrol);
+  --color-accent-hover: #164852;
+  --color-on-accent: #ffffff;
+  --color-line: #b4bbbd; /* decorative hairlines */
+  --color-line-strong: #6b7477; /* boundaries of interactive controls */
+  --color-focus: var(--color-petrol);
+
+  --color-success: #2b6a3f;
+  --color-warning: #7a5000;
+  --color-danger: #a3322b;
+
+  /* Typography */
+  --font-sans:
+    'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-3xl: 2.25rem;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.65;
+
+  /* Spacing – 4 px grid */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Lines and shape – hairlines, sharp corners */
+  --line-width: 1px;
+  --line-hairline: var(--line-width) solid var(--color-line);
+  --line-control: var(--line-width) solid var(--color-line-strong);
+  --radius: 0;
+
+  /* Focus */
+  --focus-width: 2px;
+  --focus-offset: 2px;
+
+  /* Layout */
+  --content-max-width: 72rem;
+}
+
+/* Colour – dark (shared by system preference and explicit choice) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --color-bg: #15191b;
+    --color-surface: #1c2225;
+    --color-surface-raised: #242b2e;
+    --color-text: #e4e8e9;
+    --color-text-muted: #a9b3b6;
+    --color-accent: #7fbfca;
+    --color-accent-hover: #a3d3db;
+    --color-on-accent: #0f1a1d;
+    --color-line: #353e41;
+    --color-line-strong: #7d888b;
+    --color-focus: #7fbfca;
+    --color-success: #7cc795;
+    --color-warning: #e3b45c;
+    --color-danger: #f08c84;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-bg: #15191b;
+  --color-surface: #1c2225;
+  --color-surface-raised: #242b2e;
+  --color-text: #e4e8e9;
+  --color-text-muted: #a9b3b6;
+  --color-accent: #7fbfca;
+  --color-accent-hover: #a3d3db;
+  --color-on-accent: #0f1a1d;
+  --color-line: #353e41;
+  --color-line-strong: #7d888b;
+  --color-focus: #7fbfca;
+  --color-success: #7cc795;
+  --color-warning: #e3b45c;
+  --color-danger: #f08c84;
+}
