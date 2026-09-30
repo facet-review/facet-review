@@ -6,6 +6,8 @@ import NewProjectPage from '../features/project/NewProjectPage';
 import ProjectLayout from '../features/project/ProjectLayout';
 import ProjectPage from '../features/project/ProjectPage';
 import SearchPage from '../features/search/SearchPage';
+import SourceFormPage from '../features/search/SourceFormPage';
+import RunFormPage from '../features/search/RunFormPage';
 import ImportPage from '../features/import/ImportPage';
 import ScreeningPage from '../features/screening/ScreeningPage';
 import FlowPage from '../features/flow/FlowPage';
@@ -24,6 +26,10 @@ export const router = createBrowserRouter([
           { index: true, element: <Navigate to="project" replace /> },
           { path: 'project', element: <ProjectPage /> },
           { path: 'search', element: <SearchPage /> },
+          { path: 'search/sources/new', element: <SourceFormPage /> },
+          { path: 'search/sources/:sourceId', element: <SourceFormPage /> },
+          { path: 'search/sources/:sourceId/runs/new', element: <RunFormPage /> },
+          { path: 'search/runs/:runId', element: <RunFormPage /> },
           { path: 'import', element: <ImportPage /> },
           { path: 'screening', element: <ScreeningPage /> },
           { path: 'flow', element: <FlowPage /> },

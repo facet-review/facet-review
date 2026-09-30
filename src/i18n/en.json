@@ -76,7 +76,10 @@
     "moveDown": "Move down",
     "emptyList": "No entries yet.",
     "saving": "Saving changes …",
-    "saved": "All changes saved."
+    "saved": "All changes saved.",
+    "save": "Save",
+    "edit": "Edit",
+    "deleteConfirm": "Delete permanently"
   },
   "overview": {
     "newProject": "New project",
@@ -147,7 +150,11 @@
   },
   "validation": {
     "required": "Please fill in.",
-    "invalidUrl": "Please enter a full address starting with http:// or https://."
+    "invalidUrl": "Please enter a full address starting with http:// or https://.",
+    "invalidNumber": "Please enter a whole number of 0 or more.",
+    "invalidDate": "Please enter a valid date.",
+    "dateOrder": "The end must not be before the start.",
+    "futureDate": "Note: this date lies in the future."
   },
   "reviewType": {
     "new": "New review",
@@ -207,5 +214,168 @@
       "missingMigration": "The file (version {{detail}}) cannot be converted.",
       "invalidField": "Invalid or missing value: {{path}}"
     }
+  },
+  "form": {
+    "errorSummary": "Please check your entries",
+    "unsavedTitle": "Discard changes?",
+    "unsavedBody": "Your entries in this form have not been saved yet.",
+    "discard": "Discard"
+  },
+  "sourceTypes": {
+    "database": {
+      "label": "Bibliographic database",
+      "group": "Bibliographic databases",
+      "hint": "e.g. MEDLINE via Ovid, Scopus, ERIC via EBSCOhost"
+    },
+    "register": {
+      "label": "Study register",
+      "group": "Study registers",
+      "hint": "e.g. ClinicalTrials.gov, WHO ICTRP"
+    },
+    "search_engine": {
+      "label": "Search engine",
+      "group": "Search engines",
+      "hint": "e.g. Google Scholar. Results are only imported as a file (e.g. from Publish or Perish or GSscraper); Facet Review does not scrape Google Scholar."
+    },
+    "website": {
+      "label": "Website or online resource",
+      "group": "Websites and online resources",
+      "hint": "e.g. websites of professional societies, tables of contents, conference proceedings"
+    },
+    "citation_search": {
+      "label": "Citation searching",
+      "group": "Citation searching",
+      "hint": "Forward or backward searching starting from seed documents"
+    },
+    "contact": {
+      "label": "Contact with experts or organisations",
+      "group": "Contacts with experts and organisations",
+      "hint": "e.g. requests to authors, professional societies or manufacturers"
+    },
+    "other": {
+      "label": "Other method",
+      "group": "Other methods",
+      "hint": "Any other method used to identify studies"
+    }
+  },
+  "search": {
+    "prismaS": "PRISMA-S item {{items}}",
+    "addSource": "Add source",
+    "empty": "No sources documented yet. Add a source for every database, register and other search method.",
+    "hits": {
+      "databases_registers": "Reported hits from databases, registers and search engines: {{hits}}",
+      "other_methods": "Reported hits from other methods: {{hits}}",
+      "missing_one": "({{count}} search run without a number)",
+      "missing_other": "({{count}} search runs without a number)"
+    },
+    "platform": "Platform",
+    "lastSearch": "Last searched",
+    "notSearched": "not yet",
+    "runs": {
+      "caption": "Search runs: {{source}}",
+      "date": "Date",
+      "hits": "Hits",
+      "content": "Search string or description",
+      "actions": "Actions",
+      "editFor": "search run of {{date}}",
+      "none": "No search runs yet.",
+      "add": "Add search run"
+    },
+    "source": {
+      "edit": "Edit source",
+      "delete": "Delete source",
+      "deleteTitle": "Delete source?",
+      "deleted": "Source “{{source}}” was deleted.",
+      "deleteBlocked": "{{count}} records have already been imported from “{{source}}”, so it cannot be deleted.",
+      "deleteBody_one": "“{{source}}” will be deleted together with {{count}} search run.",
+      "deleteBody_other": "“{{source}}” will be deleted together with {{count}} search runs."
+    },
+    "meta": {
+      "heading": "Project-wide search information",
+      "filters": "Search filters",
+      "filtersHint": "(Validated) search filters used, with their source (PRISMA-S item 10)",
+      "priorWork": "Prior work",
+      "priorWorkHint": "Were search strategies from other reviews reused or adapted? (PRISMA-S item 11)",
+      "updates": "Updates of the search",
+      "updatesHint": "When and how was the search updated? (PRISMA-S item 12)",
+      "peerReview": "Peer review of the search strategy",
+      "peerReviewHint": "e.g. PRESS checklist – by whom? (PRISMA-S item 14)"
+    },
+    "summarySources_one": "{{count}} source",
+    "summarySources_other": "{{count}} sources",
+    "summaryRuns_one": "{{count}} search run",
+    "summaryRuns_other": "{{count}} search runs"
+  },
+  "sourceForm": {
+    "newTitle": "Add source",
+    "editTitle": "Edit source",
+    "type": "Source type",
+    "name": "Name",
+    "nameHint": {
+      "database": "Name of the database or of the combined search, e.g. “MEDLINE” or “EBSCOhost”",
+      "register": "e.g. ClinicalTrials.gov",
+      "search_engine": "e.g. Google Scholar",
+      "website": "e.g. Eurydice",
+      "citation_search": "e.g. backward searching in included studies",
+      "contact": "e.g. a professional society or research group",
+      "other": "Short name of the method"
+    },
+    "platform": "Platform or interface",
+    "platformHint": "e.g. Ovid, EBSCOhost, PubMed, Web of Science; for Scopus the same as the name (PRISMA-S item 1)",
+    "databases": "Databases searched together",
+    "databasesHint": "Only if one search covered several databases on one platform simultaneously. A combined search is one source (PRISMA-S item 2).",
+    "databaseItem": "Database {{n}}",
+    "addDatabase": "Add database",
+    "url": "Address (URL)",
+    "submitNew": "Save and add search run"
+  },
+  "runForm": {
+    "newTitle": "Add search run",
+    "editTitle": "Edit search run",
+    "source": "Source: {{source}}",
+    "date": "Date of search",
+    "dateHint": "PRISMA-S item 13",
+    "dateStart": "Date or start",
+    "dateTo": "End of period",
+    "dateToHint": "Optional, if the search extended over several days.",
+    "searchString": "Search string",
+    "searchStringHint": "Complete and exactly as executed, including line numbers (PRISMA-S item 8).",
+    "searchTerms": "Search terms used",
+    "searchTermsHint": "If the website was searched.",
+    "copy": "Copy search string",
+    "copied": "Search string copied to the clipboard.",
+    "copyFailed": "Copying is not possible in this browser.",
+    "limits": "Limits and filters",
+    "limitsHint": "e.g. publication years, languages, document types; leave empty if none were set (PRISMA-S item 9)",
+    "reportedHits": "Reported number of hits",
+    "reportedHitsHint": "Number as reported by the source; compared with the number of imported records.",
+    "recordsChecked": "Number of results examined",
+    "recordsCheckedHint": "e.g. the first 200 results",
+    "tool": "Tool",
+    "toolHint": {
+      "search_engine": "How were the results exported? e.g. Publish or Perish, GSscraper",
+      "citation_search": "e.g. manual, Citationchaser, Scopus, Web of Science"
+    },
+    "method": "Approach",
+    "methods": {
+      "search": "Searching the website",
+      "browse": "Browsing"
+    },
+    "citationDirection": "Direction",
+    "directions": {
+      "backward": "Backward (reference lists)",
+      "forward": "Forward (citing works)",
+      "both": "Forward and backward"
+    },
+    "seedDocuments": "Seed documents",
+    "seedDocumentsHint": "e.g. the included studies or specific key publications",
+    "description": "Description",
+    "descriptionHint": "What was done and how; who was contacted with which request? (PRISMA-S items 6 and 7)",
+    "notes": "Notes",
+    "delete": "Delete search run",
+    "deleteTitle": "Delete search run?",
+    "deleteBody": "The search run of {{date}} will be deleted.",
+    "deleteBlocked": "{{count}} records have already been imported from this search run, so it cannot be deleted.",
+    "manual": "manual"
   }
 }

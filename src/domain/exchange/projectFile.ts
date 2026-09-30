@@ -1,3 +1,5 @@
+import { SOURCE_TYPES } from '../search/sourceTypes';
+import { isDateOnly } from '../util/dates';
 import { CURRENT_SCHEMA_VERSION, type ISODate, type ProjectBundle, type Result } from '../types';
 import type { ImportIssue } from './issues';
 import { PROJECT_MIGRATIONS, runMigrations, type VersionedFile } from './migrations';
@@ -58,8 +60,11 @@ export function parseProjectFile(text: string): Result<ProjectBundle, ImportIssu
   const invalid = (path: string) => issues.push({ code: 'invalidField', path });
 
   const projectId = validateProject(file.project, invalid);
+  const sourceIds = new Set(
+    Array.isArray(file.sources) ? file.sources.filter(isObject).map((source) => source.id) : [],
+  );
   for (const key of COLLECTIONS) {
-    validateCollection(file[key], key, projectId, invalid);
+    validateCollection(file[key], key, { projectId, sourceIds }, invalid);
   }
   if (issues.length > 0) return { ok: false, errors: issues };
 
@@ -215,18 +220,59 @@ function checkList(value: unknown, path: string, report: Report, fields: Record<
   value.forEach((entry, index) => checkFields(entry, `${path}[${index}]`, fields, report));
 }
 
+const isCount: Check = (v) => typeof v === 'number' && Number.isInteger(v) && v >= 0;
+const isDate: Check = (v) => typeof v === 'string' && isDateOnly(v);
+
+/** Entity-specific fields; entities not listed yet are refined in their milestone. */
+const ENTITY_FIELDS: Partial<Record<(typeof COLLECTIONS)[number], Record<string, Check>>> = {
+  sources: {
+    type: oneOf(...SOURCE_TYPES),
+    name: isString,
+    platform: optional(isString),
+    url: optional(isString),
+  },
+  sourceRuns: {
+    date: isDate,
+    dateTo: optional(isDate),
+    searchString: isString,
+    limits: optional(isString),
+    reportedHits: optional(isCount),
+    tool: optional(isString),
+    method: optional(oneOf('search', 'browse')),
+    recordsChecked: optional(isCount),
+    citationDirection: optional(oneOf('backward', 'forward', 'both')),
+    seedDocuments: optional(isString),
+    description: optional(isString),
+    notes: optional(isString),
+  },
+};
+
 /**
- * Child entities: structure beyond identity is validated in the milestone that
- * introduces them. Here: object, id (itemId for checklist), matching projectId.
+ * Child entities: identity (id, or itemId for the checklist), matching projectId,
+ * entity-specific fields and references that must resolve within the file.
  */
 function validateCollection(
   value: unknown,
   key: (typeof COLLECTIONS)[number],
-  projectId: string | undefined,
+  context: { projectId: string | undefined; sourceIds: Set<unknown> },
   report: Report,
 ) {
-  const belongs: Check = (v) => projectId === undefined || v === projectId;
+  const belongs: Check = (v) => context.projectId === undefined || v === context.projectId;
   const identity: Record<string, Check> =
     key === 'checklist' ? { itemId: isString } : { id: isString };
-  checkList(value, key, report, { ...identity, projectId: belongs });
+  const references: Record<string, Check> =
+    key === 'sourceRuns' ? { sourceId: (v) => isString(v) && context.sourceIds.has(v) } : {};
+  checkList(value, key, report, {
+    ...identity,
+    projectId: belongs,
+    ...references,
+    ...ENTITY_FIELDS[key],
+  });
+  if (key === 'sources' && Array.isArray(value)) {
+    value.forEach((source, index) => {
+      if (isObject(source) && source.databases !== undefined) {
+        checkArray(source.databases, `sources[${index}].databases`, isString, report);
+      }
+    });
+  }
 }
