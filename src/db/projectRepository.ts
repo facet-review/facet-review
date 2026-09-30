@@ -29,6 +29,19 @@ export async function saveProject(db: FacetReviewDB, draft: Project, now: ISODat
   });
 }
 
+/**
+ * Marks the project as changed (updatedAt, backup counter). Call inside a
+ * transaction that includes `db.projects` together with the actual change.
+ */
+export async function touchProject(db: FacetReviewDB, projectId: UUID, now: ISODate) {
+  const project = await db.projects.get(projectId);
+  if (!project) return;
+  await db.projects.update(projectId, {
+    updatedAt: now,
+    backup: { ...project.backup, changesSinceExport: project.backup.changesSinceExport + 1 },
+  });
+}
+
 /** Records a successful JSON export. Does not count as an edit. */
 export async function markExported(db: FacetReviewDB, id: UUID, now: ISODate): Promise<void> {
   await db.projects.update(id, { backup: { lastExportedAt: now, changesSinceExport: 0 } });
