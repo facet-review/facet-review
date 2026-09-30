@@ -1,0 +1,84 @@
+.section {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: var(--line-hairline);
+  background: var(--color-surface);
+}
+
+.section + .section {
+  margin-top: var(--space-5);
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: var(--font-size-xl);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.label,
+.legend {
+  font-weight: var(--font-weight-medium);
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: var(--space-1);
+}
+
+.requiredMark {
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+}
+
+.input {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: var(--space-2) var(--space-3);
+  border: var(--line-control);
+  background: var(--color-surface-raised);
+}
+
+textarea.input {
+  resize: vertical;
+  line-height: var(--line-height-normal);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.hint {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.error {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+}
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.radioOption {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  padding-block: var(--space-1);
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-4);
+}

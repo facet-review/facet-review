@@ -168,14 +168,16 @@ interface Project {
   id: UUID;
   schemaVersion: number;
   title: string;
-  question: { framework: 'PICO' | 'PICo' | 'SPIDER' | 'free'; fields: Record<string, string> };
+  question: { text: string; framework: 'PICO' | 'PICo' | 'SPIDER' | 'free'; fields: Record<string, string> };
   reviewType: 'new' | 'update';
   eligibility: { inclusion: string[]; exclusion: string[] };
   exclusionReasons: ExclusionReason[];
-  registration?: { registry: string; id?: string; url?: string; protocolUrl?: string };
-  reviewers: Reviewer[];              // V1: genau eine Person
+  registration: { registry: string; id: string; url: string; protocolUrl: string };
+  metadata: { author: string; institution: string; language: string };  // language = Sprache der Arbeit
+  reviewers: Reviewer[];              // V1: genau eine Person, synchron mit metadata.author
   searchMeta: { filters?: string; priorWork?: string; updates?: string; peerReview?: string };
   flowOverrides?: { variant?: FlowVariant; previousStudies?: number; previousReports?: number };
+  backup: { lastExportedAt?: ISODate; changesSinceExport: number };  // Sicherungserinnerung
   createdAt: ISODate; updatedAt: ISODate;
 }
 
@@ -192,7 +194,7 @@ interface Source {                    // z. B. „Scopus“, „MEDLINE via Ovid
 }
 
 interface SourceRun {                 // eine konkrete Ausführung einer Suche
-  id: UUID; sourceId: UUID;
+  id: UUID; projectId: UUID; sourceId: UUID;
   date: ISODate;
   searchString: string;               // vollständig, mehrzeilig
   limits?: string;
@@ -213,22 +215,23 @@ interface BibRecord {             // nicht 'Record' – Kollision mit TS-Utility
 }
 
 interface DuplicateGroup {
-  id: UUID; primaryRecordId: UUID; memberIds: UUID[];
+  id: UUID; projectId: UUID; primaryRecordId: UUID; memberIds: UUID[];
   rule: 'doi' | 'pmid' | 'title-fuzzy' | 'manual';
   score?: number; confirmedAt?: ISODate;
 }
 
 interface Decision {                  // append-only
-  id: UUID; recordId: UUID; reviewerId: UUID;
+  id: UUID; projectId: UUID; recordId: UUID; reviewerId: UUID;
   stage: 'title_abstract' | 'full_text';
   value: 'include' | 'exclude' | 'maybe' | 'not_retrieved';
   reasonId?: UUID; note?: string;
   timestamp: ISODate;
 }
 
-interface Study { id: UUID; label: string; }
+interface Study { id: UUID; projectId: UUID; label: string; }
 
 interface ChecklistEntry {
+  projectId: UUID;
   itemId: string;                     // '1', '10a', '16b' …
   status: 'open' | 'done' | 'na';
   location?: string; note?: string;
@@ -236,6 +239,37 @@ interface ChecklistEntry {
 
 type FlowVariant = 'new_db' | 'new_db_other' | 'update_db' | 'update_db_other';
 ```
+
+### Änderungen gegenüber dem ersten Entwurf (Meilenstein 1)
+
+| Änderung | Begründung |
+|---|---|
+| `projectId` an jeder Entität | Export, Import und kaskadierendes Löschen über einen Index; keine verwaisten Datensätze |
+| `question.text` | Die Forschungsfrage selbst; die Framework-Felder strukturieren sie nur optional |
+| `metadata { author, institution, language }` | Modul 1 verlangt diese Angaben; `language` ist die Sprache der Arbeit, nicht der Oberfläche |
+| Autor:in = Reviewer:in (V1) | Ein Feld in der UI, intern getrennt (`metadata.author`, `reviewers[0]`) – Teams später ohne Migration |
+| `registration` immer vorhanden (leere Strings) | Einfachere Formulare; leer = nicht registriert |
+| `backup { lastExportedAt, changesSinceExport }` | Sicherungserinnerung nach **7 Tagen oder 50 Änderungen** seit dem letzten Export (ohne Export: seit Anlage) |
+
+Standard-Ausschlussgründe bei neuen Projekten (in der Oberflächensprache angelegt, danach Nutzerdaten): falsche Population, falsche Intervention bzw. Exposition, falsches Studiendesign, falsches Outcome, falscher Publikationstyp, falsche Sprache, falscher Zeitraum.
+
+### Austauschformat (Projekt-JSON)
+
+```json
+{
+  "format": "facet-review-project",
+  "schemaVersion": 1,
+  "exportedAt": "2026-09-30T12:00:00.000Z",
+  "app": { "name": "Facet Review", "version": "0.0.0" },
+  "project": { … },
+  "sources": [], "sourceRuns": [], "records": [], "duplicateGroups": [],
+  "decisions": [], "studies": [], "checklist": []
+}
+```
+
+- `schemaVersion` versioniert das **Austauschformat**; die Dexie-Version der Browser-Datenbank ist davon unabhängig.
+- Import: Dateien älterer Versionen durchlaufen die Migrationskette (`src/domain/exchange/migrations.ts`), Dateien einer **neueren** App-Version werden mit Hinweis abgelehnt. Fehler werden mit JSON-Pfad gemeldet, nie mit Absturz.
+- Existiert die Projekt-ID bereits, wählt die Nutzerin „Ersetzen“ oder „Als Kopie importieren“ (alle IDs werden neu vergeben, Verweise bleiben konsistent).
 
 **Hinweis für die Umsetzung:** Das Modell ist ein Entwurf. Änderungen sind erlaubt, wenn sie begründet und im PRD nachgetragen werden. Nicht verhandelbar sind die append-only Entscheidungen mit `reviewerId`, die Herkunft jedes Datensatzes (`sourceRunId`) und `schemaVersion`.
 

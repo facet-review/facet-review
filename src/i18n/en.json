@@ -7,7 +7,8 @@
     "skipLink": "Skip to content"
   },
   "nav": {
-    "label": "Modules"
+    "label": "Modules",
+    "breadcrumb": "Breadcrumb"
   },
   "modules": {
     "project": {
@@ -38,7 +39,7 @@
   "pages": {
     "overview": {
       "title": "Projects",
-      "description": "Your review projects will appear here. All data stays in your browser."
+      "description": "Your review projects in this browser. All data stays local; nothing is uploaded."
     },
     "notFound": {
       "title": "Page not found",
@@ -64,5 +65,147 @@
     "attributionNote": "The PRISMA 2020 checklist and flow diagram template are licensed under CC BY 4.0.",
     "license": "Free software under the GNU AGPL-3.0.",
     "sourceCode": "Source code"
+  },
+  "common": {
+    "loading": "Loading …",
+    "cancel": "Cancel",
+    "required": "required",
+    "add": "Add",
+    "remove": "Remove",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "emptyList": "No entries yet.",
+    "saving": "Saving changes …",
+    "saved": "All changes saved."
+  },
+  "overview": {
+    "newProject": "New project",
+    "importProject": "Import project (JSON)",
+    "listHeading": "Your projects",
+    "empty": "No projects yet. Create a new project or import a project file.",
+    "reviewType": "Review type",
+    "updatedAt": "Last modified",
+    "lastExport": "Last backup",
+    "neverExported": "never",
+    "export": "Export (JSON)",
+    "exportFor": "Export project “{{title}}” as JSON",
+    "delete": "Delete",
+    "deleteFor": "Delete project “{{title}}”",
+    "deleteTitle": "Delete project?",
+    "deleteBody": "“{{title}}” will be deleted from this browser with all searches, records and decisions. This cannot be undone. Export the project first if you want to keep it.",
+    "deleteConfirm": "Delete permanently",
+    "deleted": "Project “{{title}}” was deleted.",
+    "exported": "Project “{{title}}” was exported.",
+    "backupReminder": "Please back up: browser data can be cleared. Export the project regularly as a JSON file."
+  },
+  "newProject": {
+    "title": "New project",
+    "description": "You can add further details afterwards in the “Project” module.",
+    "submit": "Create project"
+  },
+  "project": {
+    "untitled": "Untitled project",
+    "sections": {
+      "basics": "Basics",
+      "question": "Research question",
+      "eligibility": "Eligibility criteria",
+      "exclusionReasons": "Exclusion reasons for full-text screening",
+      "registration": "Registration and protocol"
+    },
+    "fields": {
+      "title": "Review title",
+      "author": "Author",
+      "authorHint": "In version 1 also the person who screens (PRISMA item 8).",
+      "institution": "Institution",
+      "language": "Language of the review",
+      "reviewType": "Review type",
+      "reviewTypeHint": "Determines the flow diagram variant.",
+      "questionText": "Research question",
+      "framework": "Structure",
+      "frameworkHint": "Optional: break the question down into the components of a framework.",
+      "inclusion": "Inclusion criteria",
+      "inclusionItem": "Inclusion criterion {{n}}",
+      "addInclusion": "Add inclusion criterion",
+      "exclusion": "Exclusion criteria",
+      "exclusionItem": "Exclusion criterion {{n}}",
+      "addExclusion": "Add exclusion criterion",
+      "eligibilityHint": "Feeds PRISMA item 5.",
+      "reasonsHint": "When excluding a report at full-text stage, one of these reasons must be chosen. The order is also used in the flow diagram.",
+      "reasonItem": "Exclusion reason {{n}}",
+      "addReason": "Add exclusion reason",
+      "registry": "Registry",
+      "registryHint": "e.g. PROSPERO or OSF (PRISMA item 24a)",
+      "registrationId": "Registration number",
+      "registrationUrl": "Registration link",
+      "protocolUrl": "Protocol link",
+      "protocolUrlHint": "PRISMA item 24b",
+      "urlHint": "Full address including https://"
+    },
+    "frameworkDiscardTitle": "Change structure?",
+    "frameworkDiscardBody": "The following filled-in fields do not exist in the new structure; their content will be lost: {{fields}}",
+    "frameworkDiscardConfirm": "Change"
+  },
+  "validation": {
+    "required": "Please fill in.",
+    "invalidUrl": "Please enter a full address starting with http:// or https://."
+  },
+  "reviewType": {
+    "new": "New review",
+    "update": "Update of an existing review"
+  },
+  "frameworks": {
+    "free": "None (free wording)",
+    "PICO": "PICO – Population, Intervention, Comparison, Outcome",
+    "PICo": "PICo – Population, Phenomenon of Interest, Context",
+    "SPIDER": "SPIDER – Sample, Phenomenon of Interest, Design, Evaluation, Research type"
+  },
+  "frameworkFields": {
+    "population": "Population",
+    "intervention": "Intervention or exposure",
+    "comparison": "Comparison",
+    "outcome": "Outcome",
+    "phenomenon": "Phenomenon of interest",
+    "context": "Context",
+    "sample": "Sample",
+    "design": "Design",
+    "evaluation": "Evaluation",
+    "researchType": "Research type (qualitative, quantitative, mixed)"
+  },
+  "reviewLanguages": {
+    "de": "German",
+    "en": "English",
+    "fr": "French",
+    "es": "Spanish",
+    "it": "Italian",
+    "other": "Other"
+  },
+  "defaults": {
+    "exclusionReasons": {
+      "population": "Wrong population",
+      "intervention": "Wrong intervention or exposure",
+      "studyDesign": "Wrong study design",
+      "outcome": "Wrong outcome",
+      "publicationType": "Wrong publication type",
+      "language": "Wrong language",
+      "timeframe": "Wrong time period"
+    }
+  },
+  "importFile": {
+    "success": "Project “{{title}}” was imported.",
+    "copySuffix": " (copy)",
+    "errorTitle": "The file could not be imported",
+    "conflictTitle": "Project already exists",
+    "conflictBody": "A project with the same identifier (“{{title}}”) already exists in this browser. Do you want to replace it with the file or import the file as a copy?",
+    "replace": "Replace",
+    "copy": "Import as copy",
+    "errors": {
+      "invalidJson": "The file is not valid JSON.",
+      "notAnObject": "The file does not contain a Facet Review project.",
+      "wrongFormat": "The file is not a Facet Review project file.",
+      "invalidSchemaVersion": "The file’s version information is missing or invalid.",
+      "unsupportedFutureVersion": "The file comes from a newer version of Facet Review (supported up to version {{detail}}). Please update the app.",
+      "missingMigration": "The file (version {{detail}}) cannot be converted.",
+      "invalidField": "Invalid or missing value: {{path}}"
+    }
   }
 }

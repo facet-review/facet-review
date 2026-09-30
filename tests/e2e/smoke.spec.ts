@@ -2,16 +2,14 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
 test.describe('app shell', () => {
-  test('shows wordmark, German by default, and all six modules', async ({ page }) => {
+  test('shows wordmark, German by default, the project overview and attribution', async ({
+    page,
+  }) => {
     await page.goto('/');
     await expect(page.locator('html')).toHaveAttribute('lang', 'de');
     await expect(page.getByRole('link', { name: /Facet Review/ })).toBeVisible();
     await expect(page.getByRole('heading', { level: 1, name: 'Projektübersicht' })).toBeVisible();
-
-    const nav = page.getByRole('navigation', { name: 'Module' });
-    for (const name of ['Projekt', 'Suche', 'Import', 'Screening', 'Flow-Diagramm', 'Checkliste']) {
-      await expect(nav.getByRole('link', { name })).toBeVisible();
-    }
+    await expect(page.getByRole('link', { name: 'Neues Projekt' })).toBeVisible();
     await expect(page.getByText('Ein Projekt von')).toBeVisible();
     await expect(page.getByRole('link', { name: 'doi:10.1136/bmj.n71' })).toBeVisible();
   });
@@ -25,26 +23,11 @@ test.describe('app shell', () => {
       'aria-pressed',
       'true',
     );
-    await expect(
-      page.getByRole('navigation', { name: 'Modules' }).getByRole('link', { name: 'Checklist' }),
-    ).toBeVisible();
+    await expect(page.getByRole('link', { name: 'New project' })).toBeVisible();
 
     await page.reload();
     await expect(page.getByRole('heading', { level: 1, name: 'Projects' })).toBeVisible();
     await expect(page).toHaveTitle('Projects – Facet Review');
-  });
-
-  test('navigates to a module and marks it as current page', async ({ page }) => {
-    await page.goto('/');
-    const link = page.getByRole('navigation', { name: 'Module' }).getByRole('link', {
-      name: 'Screening',
-    });
-    await link.click();
-
-    await expect(page).toHaveURL(/\/screening$/);
-    await expect(link).toHaveAttribute('aria-current', 'page');
-    await expect(page.getByRole('heading', { level: 1, name: 'Screening' })).toBeVisible();
-    await expect(page.locator('main')).toBeFocused();
   });
 
   test('offers a skip link as first keyboard stop', async ({ page }) => {
@@ -57,14 +40,18 @@ test.describe('app shell', () => {
   });
 
   test('loads a deep link directly and survives a reload', async ({ page }) => {
-    await page.goto('/screening');
-    await expect(page.getByRole('heading', { level: 1, name: 'Screening' })).toBeVisible();
+    await page.goto('/projects/new');
+    await expect(page.getByRole('heading', { level: 1, name: 'Neues Projekt' })).toBeVisible();
     await page.reload();
-    await expect(page.getByRole('heading', { level: 1, name: 'Screening' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'Neues Projekt' })).toBeVisible();
   });
 
-  test('shows a not-found page for unknown routes', async ({ page }) => {
+  test('shows a not-found page for unknown routes and unknown projects', async ({ page }) => {
     await page.goto('/does-not-exist');
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'Seite nicht gefunden' }),
+    ).toBeVisible();
+    await page.goto('/projects/00000000-0000-0000-0000-000000000000/project');
     await expect(
       page.getByRole('heading', { level: 1, name: 'Seite nicht gefunden' }),
     ).toBeVisible();
@@ -73,7 +60,7 @@ test.describe('app shell', () => {
 
 test.describe('accessibility (WCAG 2.1 AA)', () => {
   for (const theme of ['Hell', 'Dunkel'] as const) {
-    test(`has no axe violations in theme "${theme}"`, async ({ page }) => {
+    test(`has no axe violations on the overview in theme "${theme}"`, async ({ page }) => {
       await page.goto('/');
       await page.getByRole('button', { name: theme }).click();
       const results = await new AxeBuilder({ page })
