@@ -122,3 +122,11 @@ npm run format         # Prettier schreibt
 Playwright braucht einmalig `npx playwright install chromium`. In Umgebungen mit vorinstalliertem Chromium stattdessen `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/pfad/zu/chrome npm run test:e2e`.
 
 Versionsgrenzen: TypeScript bleibt auf 6.0.x (typescript-eslint unterstützt < 6.1), ESLint auf 9 (eslint-plugin-jsx-a11y unterstützt ESLint 10 noch nicht).
+
+## Deployment
+
+- Hosting: **GitHub Pages** mit eigener Domain **facetreview.org** (`www` leitet auf die Hauptdomain um). Die Domain ist in Settings → Pages eingetragen; eine `CNAME`-Datei gibt es bewusst nicht, weil GitHub sie beim Deploy per Actions ignoriert.
+- Workflow `.github/workflows/deploy.yml`: Bei jedem Push auf `main` läuft zuerst die komplette CI (`ci.yml` als wiederverwendbarer Workflow), danach Build und Veröffentlichung. Rot in der CI heißt: kein Deploy.
+- Routing mit sauberen URLs (BrowserRouter). Der SPA-Fallback ist `dist/404.html` als Kopie von `index.html` (Vite-Plugin in `vite.config.ts`). Deep Links funktionieren, der Server antwortet dabei mit HTTP 404 – für eine local-first App ohne teilbare Inhalte unerheblich.
+- `base` bleibt `/` (absolute Asset-Pfade), sonst bricht der Fallback unter verschachtelten Pfaden.
+

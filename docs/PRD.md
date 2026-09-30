@@ -271,6 +271,8 @@ Alle Werte werden in `src/domain/flow/` als reine Funktion `computeFlow(projectD
 
 - **Performance:** 10.000 Datensätze pro Projekt ohne spürbare Verzögerung beim Screening (Virtualisierung von Listen, Deduplizierung im Web Worker).
 - **Datenschutz:** Kein Datenversand außer an OpenAlex bei aktiver Suche. Die Datenschutzerklärung ist entsprechend kurz.
+  - **Content Security Policy (spätestens Meilenstein 7):** Das Versprechen „kein Datenversand außer an OpenAlex“ wird technisch erzwungen, nicht nur zugesagt. Weil GitHub Pages keine eigenen HTTP-Header erlaubt, wird die CSP als `<meta http-equiv="Content-Security-Policy">` in `index.html` gesetzt, mindestens mit `default-src 'self'` und `connect-src 'self' https://api.openalex.org`; Schriften, Skripte, Styles und Bilder nur aus `'self'` (bzw. `data:`/`blob:`, wo für Exporte nötig). Ein E2E-Test prüft, dass die Policy greift. Die CSP ist auch ein Argument gegenüber Hochschulen und Datenschutzbeauftragten.
+  - **Hosting-Hinweis für die Datenschutzerklärung:** Die App wird über GitHub Pages (GitHub Inc., USA) unter facetreview.org ausgeliefert. Beim Seitenaufruf verarbeitet GitHub technisch notwendige Verbindungsdaten, insbesondere die IP-Adresse. Das ist kein Tracking durch die App, muss aber in der Datenschutzerklärung benannt werden (inkl. Verweis auf die GitHub-Datenschutzbestimmungen).
 - **Barrierefreiheit:** WCAG 2.1 AA, vollständige Tastaturbedienung, sichtbarer Fokus, Kontraste ≥ 4.5:1.
 - **Browser:** Aktuelle Versionen von Chrome, Edge, Firefox und Safari.
 - **Offline:** Als PWA installierbar (Meilenstein 7). Ohne Netz funktioniert alles außer der OpenAlex-Suche.
@@ -289,7 +291,7 @@ Alle Werte werden in `src/domain/flow/` als reine Funktion `computeFlow(projectD
 | 4 | Screening | Stufen 1 und 2, Tastatursteuerung, Ausschlussgründe, Report-Studie-Zuordnung |
 | 5 | Flow-Diagramm | `computeFlow` mit Tests, SVG-Rendering in vier Varianten, Drill-down, Export |
 | 6 | Checkliste & Exporte | Modul 6, PDF-Exporte, RIS- und CSV-Exporte, PRISMA-S-Anhang |
-| 7 | OpenAlex, PWA & Feinschliff | OpenAlex-Suche, PWA, a11y-Audit, Englisch vervollständigen, Startseite mit Logo |
+| 7 | OpenAlex, PWA & Feinschliff | OpenAlex-Suche, PWA, Content Security Policy, Datenschutzerklärung, a11y-Audit, Englisch vervollständigen, Startseite mit Logo |
 
 ### Version 2 und später (im Datenmodell schon mitgedacht)
 
