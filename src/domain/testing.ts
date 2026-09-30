@@ -35,7 +35,7 @@ export function makeLinkedBundle(): ProjectBundle {
         id: 'run-1',
         projectId,
         sourceId: 'src-1',
-        date: '2026-09-29T00:00:00.000Z',
+        date: '2026-09-29',
         searchString: 'tutoring AND grades',
         reportedHits: 2,
       },

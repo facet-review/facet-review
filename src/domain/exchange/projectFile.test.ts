@@ -128,6 +128,56 @@ describe('parseProjectFile', () => {
     ]);
   });
 
+  it('validates sources and search runs field by field', () => {
+    const file = corruptibleFile();
+    file.sources[0].type = 'library';
+    file.sources[0].databases = ['CINAHL', 7];
+    file.sourceRuns[0].date = '29.09.2026';
+    file.sourceRuns[0].dateTo = '2026-02-30';
+    file.sourceRuns[0].reportedHits = -2;
+    file.sourceRuns[0].method = 'guess';
+    file.sourceRuns[0].searchString = null;
+    expect(errorsOf(JSON.stringify(file))).toEqual([
+      { code: 'invalidField', path: 'sources[0].type' },
+      { code: 'invalidField', path: 'sources[0].databases[1]' },
+      { code: 'invalidField', path: 'sourceRuns[0].date' },
+      { code: 'invalidField', path: 'sourceRuns[0].dateTo' },
+      { code: 'invalidField', path: 'sourceRuns[0].searchString' },
+      { code: 'invalidField', path: 'sourceRuns[0].reportedHits' },
+      { code: 'invalidField', path: 'sourceRuns[0].method' },
+    ]);
+  });
+
+  it('rejects search runs that point to a missing source', () => {
+    const file = corruptibleFile();
+    file.sourceRuns[0].sourceId = 'src-missing';
+    expect(errorsOf(JSON.stringify(file))).toEqual([
+      { code: 'invalidField', path: 'sourceRuns[0].sourceId' },
+    ]);
+  });
+
+  it('round-trips all type-specific run fields', () => {
+    const bundle = makeLinkedBundle();
+    bundle.sources[0] = {
+      ...bundle.sources[0]!,
+      platform: 'EBSCOhost',
+      databases: ['CINAHL', 'ERIC'],
+    };
+    bundle.sourceRuns[0] = {
+      ...bundle.sourceRuns[0]!,
+      dateTo: '2026-09-30',
+      limits: 'English',
+      tool: 'Citationchaser',
+      method: 'browse',
+      recordsChecked: 200,
+      citationDirection: 'both',
+      seedDocuments: 'Doe 2020',
+      description: 'd',
+      notes: 'n',
+    };
+    expect(roundTrip(bundle)).toEqual({ ok: true, value: bundle });
+  });
+
   it('accepts files without optional project fields', () => {
     const bundle = makeLinkedBundle();
     bundle.project.flowOverrides = { variant: 'new_db', previousStudies: 3 };

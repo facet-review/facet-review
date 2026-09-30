@@ -53,6 +53,14 @@ export interface Project {
 export type SourceType =
   'database' | 'register' | 'website' | 'search_engine' | 'citation_search' | 'contact' | 'other';
 
+/** Calendar date in ISO 8601 format, e.g. 2026-09-30 (no time, no zone). */
+export type DateOnly = string;
+
+/**
+ * One searchable unit: a database on a platform, a register, a website, …
+ * A search run simultaneously over several databases on one platform (PRISMA-S
+ * item 2) is ONE source; `databases` lists what it covered.
+ */
 export interface Source {
   id: UUID;
   projectId: UUID;
@@ -60,17 +68,31 @@ export interface Source {
   name: string;
   platform?: string;
   url?: string;
+  databases?: string[];
 }
 
+export type SearchMethod = 'search' | 'browse';
+export type CitationDirection = 'backward' | 'forward' | 'both';
+
+/** One concrete execution of a search. Which fields apply depends on the source type. */
 export interface SourceRun {
   id: UUID;
   projectId: UUID;
   sourceId: UUID;
-  date: ISODate;
+  date: DateOnly;
+  /** End of a period (websites, contacts, citation searching, other methods). */
+  dateTo?: DateOnly;
+  /** Complete, multi-line search strategy exactly as executed (PRISMA-S item 8). */
   searchString: string;
   limits?: string;
   reportedHits?: number;
   tool?: string;
+  method?: SearchMethod;
+  /** Search engines: number of results actually examined (e.g. first 200). */
+  recordsChecked?: number;
+  citationDirection?: CitationDirection;
+  seedDocuments?: string;
+  description?: string;
   notes?: string;
 }
 
