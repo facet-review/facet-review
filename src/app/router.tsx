@@ -12,6 +12,7 @@ import ImportPage from '../features/import/ImportPage';
 import ImportWizardPage from '../features/import/ImportWizardPage';
 import DuplicatesPage from '../features/import/DuplicatesPage';
 import ScreeningPage from '../features/screening/ScreeningPage';
+import ScreeningUnitPage from '../features/screening/ScreeningUnitPage';
 import FlowPage from '../features/flow/FlowPage';
 import ChecklistPage from '../features/checklist/ChecklistPage';
 
@@ -36,6 +37,7 @@ export const router = createBrowserRouter([
           { path: 'import/runs/:runId', element: <ImportWizardPage /> },
           { path: 'import/duplicates', element: <DuplicatesPage /> },
           { path: 'screening', element: <ScreeningPage /> },
+          { path: 'screening/:stage/:recordId', element: <ScreeningUnitPage /> },
           { path: 'flow', element: <FlowPage /> },
           { path: 'checklist', element: <ChecklistPage /> },
         ],

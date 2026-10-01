@@ -22,6 +22,8 @@ interface EditableListProps {
   onAdd: () => void;
   onRemove: (index: number) => void;
   onMove: (index: number, direction: -1 | 1) => void;
+  /** Explanation why an item cannot be removed (e.g. still referenced), if so. */
+  removeBlocked?: (index: number) => string | undefined;
 }
 
 type PendingFocus =
@@ -45,6 +47,7 @@ export function EditableList({
   onAdd,
   onRemove,
   onMove,
+  removeBlocked,
 }: EditableListProps) {
   const { t } = useTranslation();
   const headingId = useId();
@@ -95,6 +98,7 @@ export function EditableList({
           {items.map((item, index) => {
             const name = itemLabel(index + 1);
             const inputId = `${headingId}-${index}`;
+            const blocked = removeBlocked?.(index);
             return (
               <li key={item.key} className={styles.item}>
                 <label htmlFor={inputId} className="visually-hidden">
@@ -132,12 +136,19 @@ export function EditableList({
                   <button
                     type="button"
                     className={`${button.button} ${button.small} ${button.danger}`}
-                    onClick={() => remove(index)}
+                    aria-disabled={blocked ? true : undefined}
+                    aria-describedby={blocked ? `${inputId}-blocked` : undefined}
+                    onClick={blocked ? undefined : () => remove(index)}
                   >
                     {t('common.remove')}
                     <span className="visually-hidden">{` – ${name}`}</span>
                   </button>
                 </div>
+                {blocked && (
+                  <p id={`${inputId}-blocked`} className={styles.blocked}>
+                    {blocked}
+                  </p>
+                )}
               </li>
             );
           })}
