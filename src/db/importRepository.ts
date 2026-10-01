@@ -64,7 +64,7 @@ export async function undoImport(db: FacetReviewDB, batchId: UUID, now: ISODate)
         .equals(batchId)
         .primaryKeys()) as UUID[];
       const ids = new Set(recordIds);
-      if ((await db.decisions.where('recordId').anyOf(recordIds).count()) > 0) {
+      if ((await db.decisions.where('recordIds').anyOf(recordIds).count()) > 0) {
         throw new ScreeningExistsError();
       }
       const affected = await db.dedupDecisions

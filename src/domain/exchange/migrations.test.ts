@@ -70,4 +70,52 @@ describe('PROJECT_MIGRATIONS', () => {
     const result = runMigrations(v1, PROJECT_MIGRATIONS, 2);
     expect(result.ok && result.value.importBatches).toEqual([{ id: 'b' }]);
   });
+
+  it('2 → 3 turns record decisions into unit decisions and adds screening settings', () => {
+    const v2 = {
+      schemaVersion: 2,
+      project: { id: 'p', title: 'T' },
+      records: [{ id: 'r1', studyId: 's', removedBeforeScreening: { by: 'other', reason: 'x' } }],
+      decisions: [{ id: 'd1', recordId: 'r1', stage: 'title_abstract', value: 'include' }],
+    };
+    expect(runMigrations(v2, PROJECT_MIGRATIONS, 3)).toEqual({
+      ok: true,
+      value: {
+        schemaVersion: 3,
+        project: {
+          id: 'p',
+          title: 'T',
+          screening: { maybeToFullText: false, highlights: { include: [], exclude: [] } },
+        },
+        records: [{ id: 'r1' }],
+        decisions: [
+          {
+            id: 'd1',
+            recordIds: ['r1'],
+            shownRecordId: 'r1',
+            stage: 'title_abstract',
+            value: 'include',
+          },
+        ],
+      },
+    });
+  });
+
+  it('2 → 3 leaves malformed entries for validation to report', () => {
+    const v2 = { schemaVersion: 2, project: null, records: 'x', decisions: [null, { id: 'd' }] };
+    expect(runMigrations(v2, PROJECT_MIGRATIONS, 3)).toEqual({
+      ok: true,
+      value: { schemaVersion: 3, project: null, records: 'x', decisions: [null, { id: 'd' }] },
+    });
+  });
+
+  it('2 → 3 keeps screening settings a file already has', () => {
+    const settings = { maybeToFullText: true, highlights: { include: ['a'], exclude: [] } };
+    const result = runMigrations(
+      { schemaVersion: 2, project: { id: 'p', screening: settings } },
+      PROJECT_MIGRATIONS,
+      3,
+    );
+    expect(result.ok && result.value.project).toEqual({ id: 'p', screening: settings });
+  });
 });

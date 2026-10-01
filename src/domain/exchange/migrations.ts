@@ -18,7 +18,50 @@ export const PROJECT_MIGRATIONS: MigrationRegistry = {
     importBatches: file.importBatches ?? [],
     dedupDecisions: file.dedupDecisions ?? [],
   }),
+  /**
+   * Milestone 4: decisions refer to all records of a screening unit; the
+   * never-written record fields studyId and removedBeforeScreening are replaced
+   * by decisions; projects get screening settings. Literal defaults on purpose –
+   * a migration must not change when app constants do.
+   */
+  2: (file) => {
+    const project = isObject(file.project)
+      ? {
+          ...file.project,
+          screening: file.project.screening ?? {
+            maybeToFullText: false,
+            highlights: { include: [], exclude: [] },
+          },
+        }
+      : file.project;
+    const records = Array.isArray(file.records)
+      ? file.records.map((record: unknown) => {
+          if (!isObject(record)) return record;
+          const rest = { ...record };
+          delete rest.studyId;
+          delete rest.removedBeforeScreening;
+          return rest;
+        })
+      : file.records;
+    const decisions = Array.isArray(file.decisions)
+      ? file.decisions.map((decision: unknown) => {
+          if (!isObject(decision) || typeof decision.recordId !== 'string') return decision;
+          const { recordId, ...rest } = decision;
+          return { ...rest, recordIds: [recordId], shownRecordId: recordId };
+        })
+      : file.decisions;
+    return {
+      ...file,
+      ...(project !== undefined && { project }),
+      ...(records !== undefined && { records }),
+      ...(decisions !== undefined && { decisions }),
+    };
+  },
 };
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
 
 export function runMigrations(
   file: VersionedFile,

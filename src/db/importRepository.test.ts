@@ -143,7 +143,8 @@ describe('import repository', () => {
     await db.decisions.add({
       id: 'dec',
       projectId: projectId(),
-      recordId: a.records[0]!.id,
+      recordIds: [a.records[0]!.id],
+      shownRecordId: a.records[0]!.id,
       reviewerId: 'rev',
       stage: 'title_abstract',
       value: 'include',

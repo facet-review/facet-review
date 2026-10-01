@@ -38,6 +38,7 @@ export function createProject(input: NewProjectInput, deps: CreateProjectDeps): 
     metadata: { author: input.author, institution: '', language: input.language },
     reviewers: [reviewer],
     searchMeta: {},
+    screening: { maybeToFullText: false, highlights: { include: [], exclude: [] } },
     backup: { changesSinceExport: 0 },
     createdAt: timestamp,
     updatedAt: timestamp,

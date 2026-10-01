@@ -48,6 +48,37 @@ export class FacetReviewDB extends Dexie {
       records: 'id, projectId, sourceRunId, importBatchId, doi, pmid, duplicateGroupId',
       dedupDecisions: 'id, projectId',
     });
+    // Milestone 4: decisions refer to all records of a screening unit (multi-entry
+    // index); same transformation as PROJECT_MIGRATIONS[2] for the exchange format.
+    this.version(3)
+      .stores({ decisions: 'id, projectId, *recordIds' })
+      .upgrade(async (tx) => {
+        await tx
+          .table('projects')
+          .toCollection()
+          .modify((project: Record<string, unknown>) => {
+            project.screening ??= {
+              maybeToFullText: false,
+              highlights: { include: [], exclude: [] },
+            };
+          });
+        await tx
+          .table('records')
+          .toCollection()
+          .modify((record: Record<string, unknown>) => {
+            delete record.studyId;
+            delete record.removedBeforeScreening;
+          });
+        await tx
+          .table('decisions')
+          .toCollection()
+          .modify((decision: Record<string, unknown>) => {
+            if (typeof decision.recordId !== 'string') return;
+            decision.recordIds = [decision.recordId];
+            decision.shownRecordId = decision.recordId;
+            delete decision.recordId;
+          });
+      });
   }
 
   /** Child tables in dependency-free order (all keyed by projectId). */

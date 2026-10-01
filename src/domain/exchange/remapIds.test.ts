@@ -53,17 +53,24 @@ describe('remapIds', () => {
     for (const record of copy.records) {
       expect(runIds.has(record.sourceRunId)).toBe(true);
       if (record.duplicateGroupId) expect(groupIds.has(record.duplicateGroupId)).toBe(true);
-      if (record.studyId) expect(studyIds.has(record.studyId)).toBe(true);
     }
     for (const group of copy.duplicateGroups) {
       expect(recordIds.has(group.primaryRecordId)).toBe(true);
       expect(group.memberIds.every((id) => recordIds.has(id))).toBe(true);
     }
+    const decisionIds = new Set(copy.decisions.map((d) => d.id));
     for (const decision of copy.decisions) {
-      expect(recordIds.has(decision.recordId)).toBe(true);
+      expect(decision.recordIds.every((id) => recordIds.has(id))).toBe(true);
+      expect(recordIds.has(decision.shownRecordId)).toBe(true);
       expect(reviewerIds.has(decision.reviewerId)).toBe(true);
-      expect(reasonIds.has(decision.reasonId!)).toBe(true);
+      if (decision.reasonId) expect(reasonIds.has(decision.reasonId)).toBe(true);
+      if (decision.studyId) expect(studyIds.has(decision.studyId)).toBe(true);
+      if (decision.undoOf) expect(decisionIds.has(decision.undoOf)).toBe(true);
     }
+    expect(copy.decisions.map((d) => [!!d.reasonId, !!d.studyId, !!d.undoOf])).toEqual([
+      [true, false, false],
+      [false, true, true],
+    ]);
   });
 
   it('preserves all non-id content', () => {

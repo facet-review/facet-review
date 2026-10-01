@@ -1,3 +1,4 @@
+import { reasonInUse } from '../domain/screening/decide';
 import type { ISODate, Project, ProjectBundle, UUID } from '../domain/types';
 import type { FacetReviewDB } from './db';
 
@@ -13,13 +14,26 @@ export async function addProject(db: FacetReviewDB, project: Project): Promise<v
   await db.projects.add(project);
 }
 
+export class ReasonInUseError extends Error {
+  constructor() {
+    super('An exclusion reason that screening decisions use cannot be deleted');
+  }
+}
+
 /**
  * Saves an edited project. Backup bookkeeping always comes from the stored
- * record – a form draft may predate the last export.
+ * record – a form draft may predate the last export. Exclusion reasons used by
+ * decisions must stay (audit trail).
  */
 export async function saveProject(db: FacetReviewDB, draft: Project, now: ISODate): Promise<void> {
-  await db.transaction('rw', db.projects, async () => {
+  await db.transaction('rw', [db.projects, db.decisions], async () => {
     const stored = await db.projects.get(draft.id);
+    const kept = new Set(draft.exclusionReasons.map((reason) => reason.id));
+    const removed = (stored?.exclusionReasons ?? []).filter((reason) => !kept.has(reason.id));
+    if (removed.length > 0) {
+      const decisions = await db.decisions.where('projectId').equals(draft.id).toArray();
+      if (removed.some((reason) => reasonInUse(decisions, reason.id))) throw new ReasonInUseError();
+    }
     const backup = stored?.backup ?? draft.backup;
     await db.projects.put({
       ...draft,
