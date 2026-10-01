@@ -3,7 +3,9 @@ import type {
   BibRecord,
   ChecklistEntry,
   Decision,
+  DedupDecision,
   DuplicateGroup,
+  ImportBatch,
   Project,
   Source,
   SourceRun,
@@ -19,8 +21,10 @@ export class FacetReviewDB extends Dexie {
   declare projects: EntityTable<Project, 'id'>;
   declare sources: EntityTable<Source, 'id'>;
   declare sourceRuns: EntityTable<SourceRun, 'id'>;
+  declare importBatches: EntityTable<ImportBatch, 'id'>;
   declare records: EntityTable<BibRecord, 'id'>;
   declare duplicateGroups: EntityTable<DuplicateGroup, 'id'>;
+  declare dedupDecisions: EntityTable<DedupDecision, 'id'>;
   declare decisions: EntityTable<Decision, 'id'>;
   declare studies: EntityTable<Study, 'id'>;
   declare checklist: Table<ChecklistEntry, [string, string]>;
@@ -37,6 +41,13 @@ export class FacetReviewDB extends Dexie {
       studies: 'id, projectId',
       checklist: '[projectId+itemId], projectId',
     });
+    // Milestone 3: import batches and dedup decisions; records indexed by batch.
+    // No upgrade function needed: version 1 never stored records.
+    this.version(2).stores({
+      importBatches: 'id, projectId, sourceRunId',
+      records: 'id, projectId, sourceRunId, importBatchId, doi, pmid, duplicateGroupId',
+      dedupDecisions: 'id, projectId',
+    });
   }
 
   /** Child tables in dependency-free order (all keyed by projectId). */
@@ -44,8 +55,10 @@ export class FacetReviewDB extends Dexie {
     return [
       this.sources,
       this.sourceRuns,
+      this.importBatches,
       this.records,
       this.duplicateGroups,
+      this.dedupDecisions,
       this.decisions,
       this.studies,
       this.checklist,

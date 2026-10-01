@@ -110,6 +110,13 @@ tests/e2e/
 - Zugriff nur über Repository-Funktionen in `src/db/` (atomare Transaktionen, Löschen kaskadierend). Komponenten lesen reaktiv mit `useLiveQuery`.
 - Coverage-Schwelle 90 % für `src/domain/**`, erzwungen in CI (`npm run test:coverage`).
 
+## Import und Deduplizierung (ab Meilenstein 3)
+
+- Parser in `src/domain/import/` (eigener RIS- und .nbib-Parser, citation-js nur für BibTeX, Papa Parse für CSV). Ein fehlerhafter Datensatz erzeugt eine Warnung mit Zeilennummer, bricht aber nie den ganzen Import ab.
+- Dedup in `src/domain/dedup/`: Gruppen werden aus Datensätzen und append-only `DedupDecision`s **abgeleitet** (`deduplicate()`), nie direkt editiert. DOI/PMID automatisch, Titel-Ähnlichkeit (Schwelle `TITLE_SIMILARITY_THRESHOLD` = 0,90, Begründung in PRD §4) nur als Kandidat.
+- Echtdaten-Erwartungen (`tests/unit/*.fixtures.test.ts`) sind fixiert. Ändert sich eine Regel, Zahlen erst manuell prüfen, dann Test und `tests/fixtures/README.md` anpassen.
+- Parsen und Deduplizieren laufen im Web Worker (`src/features/import/worker/`). Schwere Bibliotheken (citation-js, papaparse) nur dort importieren, nicht im Haupt-Bundle.
+
 ## Befehle
 
 Node 22 (`.nvmrc`). Paketmanager: npm.

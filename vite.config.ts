@@ -42,7 +42,7 @@ export default defineConfig({
     assetsInlineLimit: 0,
   },
   test: {
-    include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+    include: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'tests/unit/**/*.test.ts'],
     environment: 'node',
     coverage: {
       provider: 'v8',

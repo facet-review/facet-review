@@ -9,7 +9,7 @@ Zwei Arten von Testdaten:
 
 ## Erwartete Ergebnisse `synthetic/`
 
-Insgesamt 16 Datensätze in 3 Dateien.
+Insgesamt 16 Datensätze in 3 Dateien (RIS, .nbib, CSV). Zusätzlich prüft `edge-cases.bib` den BibTeX-Parser (String-Makro, LaTeX-Umlaute, Körperschaft als Autor:in, Eintrag ohne Jahr, nicht geschlossener Eintrag in Zeile 23 → Warnung, folgende Einträge werden trotzdem gelesen); diese Datei geht nicht in die Dedup-Zählung ein.
 
 | Fall | Datensätze | Erwartung | Regel |
 |---|---|---|---|
@@ -32,3 +32,11 @@ Insgesamt 16 Datensätze in 3 Dateien.
 - Dateiname: `<quelle>_<format>.<ext>`, z. B. `scopus_ris.ris`, `pubmed_medline.nbib`, `wos_tagged.txt`, `proquest_ris.ris`, `openalex_csv.csv`
 - Pro Quelle ein Eintrag in `real/MANIFEST.md`: Datum, Plattform, exakter Suchstring, Limits, gemeldete Trefferzahl, exportierte Anzahl
 - Die gleiche Suche in allen Quellen erzeugt **natürliche Dubletten**. Die erwartete Überschneidung wird nicht vorab festgelegt, sondern nach dem ersten Lauf manuell geprüft und dann als Erwartung in den Tests fixiert.
+
+## Fixierte Erwartungen `real/` (Meilenstein 3)
+
+Nach manueller Prüfung des ersten Laufs in `tests/unit/parsers.fixtures.test.ts` und `tests/unit/dedup.fixtures.test.ts` festgeschrieben:
+
+- Alle Datensätze importierbar, Anzahl laut `MANIFEST.md` (209 / 209 / 190 / 20).
+- Deduplizierung: 419 Datensätze → 139 Gruppen (138 DOI, 1 PMID), 141 Dubletten entfernt, **278 eindeutig**.
+- 2 Titel-Kandidaten, beide inhaltlich echte Parallelveröffentlichungen mit unterschiedlicher DOI: PRISMA-S (Syst Rev / JMLA) und die spanisch-/englischsprachige Ausgabe von Enfermería Intensiva.

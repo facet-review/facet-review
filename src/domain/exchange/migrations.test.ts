@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { runMigrations, type MigrationRegistry } from './migrations';
+import { PROJECT_MIGRATIONS, runMigrations, type MigrationRegistry } from './migrations';
 
 const registry: MigrationRegistry = {
   1: (file) => ({ ...file, renamed: file.old, old: undefined }),
@@ -47,5 +47,27 @@ describe('runMigrations', () => {
     const file = { schemaVersion: 2 };
     runMigrations(file, registry, 3);
     expect(file).toEqual({ schemaVersion: 2 });
+  });
+});
+
+describe('PROJECT_MIGRATIONS', () => {
+  it('1 → 2 adds empty import batches and dedup decisions, keeping everything else', () => {
+    const v1 = { schemaVersion: 1, format: 'facet-review-project', sources: [{ id: 's' }] };
+    expect(runMigrations(v1, PROJECT_MIGRATIONS, 2)).toEqual({
+      ok: true,
+      value: {
+        schemaVersion: 2,
+        format: 'facet-review-project',
+        sources: [{ id: 's' }],
+        importBatches: [],
+        dedupDecisions: [],
+      },
+    });
+  });
+
+  it('1 → 2 keeps existing collections if a file already has them', () => {
+    const v1 = { schemaVersion: 1, importBatches: [{ id: 'b' }] };
+    const result = runMigrations(v1, PROJECT_MIGRATIONS, 2);
+    expect(result.ok && result.value.importBatches).toEqual([{ id: 'b' }]);
   });
 });
