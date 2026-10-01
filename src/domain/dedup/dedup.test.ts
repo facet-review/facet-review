@@ -172,10 +172,14 @@ describe('deduplicate – decisions', () => {
   });
 
   it('rejecting a candidate keeps the records apart and hides the candidate', () => {
-    const { groups, candidates, stats } = deduplicate([c1, c2], [decision('separate', 'c2', 'c1')]);
+    const { groups, candidates, stats, separated } = deduplicate(
+      [c1, c2],
+      [decision('separate', 'c2', 'c1')],
+    );
     expect(groups).toEqual([]);
     expect(candidates).toEqual([]);
     expect(stats.separatedPairs).toBe(1);
+    expect(separated).toEqual([{ a: 'c1', b: 'c2' }]);
   });
 
   it('can undo an automatic DOI merge and restore it with reset', () => {

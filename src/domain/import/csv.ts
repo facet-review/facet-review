@@ -4,30 +4,9 @@ import { cleanText, compactCsl, pages, parseIssued } from './fields';
 import { normalizeDoi, normalizePmid, parsePersonName } from './normalize';
 import type { ParsedRecord, ParseResult } from './types';
 
-export const CSV_FIELDS = [
-  'title',
-  'authors',
-  'year',
-  'container',
-  'doi',
-  'pmid',
-  'abstract',
-  'volume',
-  'issue',
-  'pages',
-  'pageStart',
-  'pageEnd',
-  'keywords',
-  'type',
-  'language',
-  'url',
-  'publisher',
-  'issn',
-] as const;
-export type CsvField = (typeof CSV_FIELDS)[number];
-
-/** Column index per field; fields without a column are absent. */
-export type CsvMapping = Partial<Record<CsvField, number>>;
+export { CSV_FIELDS, type CsvField, type CsvMapping } from './csvFields';
+import type { CsvField, CsvMapping } from './csvFields';
+import { CSV_FIELDS } from './csvFields';
 
 export interface CsvTable {
   headers: string[];

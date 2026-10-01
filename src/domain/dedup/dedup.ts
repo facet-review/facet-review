@@ -57,6 +57,8 @@ export interface DedupStats {
 export interface DedupResult {
   groups: DedupGroupResult[];
   candidates: Candidate[];
+  /** Pairs the user marked as different (latest decision), ids sorted. */
+  separated: { a: UUID; b: UUID }[];
   stats: DedupStats;
 }
 
@@ -217,6 +219,10 @@ export function deduplicate(
   return {
     groups,
     candidates,
+    separated: [...separated].sort().map((key) => {
+      const [a = '', b = ''] = key.split('|');
+      return { a, b };
+    }),
     stats: {
       records: records.length,
       groups: groups.length,

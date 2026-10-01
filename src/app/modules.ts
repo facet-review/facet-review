@@ -22,3 +22,9 @@ export const searchPaths = {
     `/projects/${projectId}/search/sources/${sourceId}/runs/new`,
   run: (projectId: string, runId: string) => `/projects/${projectId}/search/runs/${runId}`,
 };
+
+export const importPaths = {
+  page: (projectId: string) => `/projects/${projectId}/import`,
+  run: (projectId: string, runId: string) => `/projects/${projectId}/import/runs/${runId}`,
+  duplicates: (projectId: string) => `/projects/${projectId}/import/duplicates`,
+};
