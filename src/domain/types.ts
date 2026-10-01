@@ -145,6 +145,8 @@ export interface CslItem {
 }
 
 export type ImportFormat = 'ris' | 'nbib' | 'bibtex' | 'csv';
+/** Where an import batch came from: a file in one of the formats, or an OpenAlex search (M7). */
+export type BatchFormat = ImportFormat | 'openalex';
 
 /** A problem found while reading a file; never fatal for the other records. */
 export interface ImportWarning {
@@ -159,8 +161,9 @@ export interface ImportBatch {
   id: UUID;
   projectId: UUID;
   sourceRunId: UUID;
+  /** File name, or the request URL for OpenAlex searches. */
   fileName: string;
-  format: ImportFormat;
+  format: BatchFormat;
   importedAt: ISODate;
   recordCount: number;
   warnings: ImportWarning[];

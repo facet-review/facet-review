@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "count": 3,
+    "db_response_time_ms": 57,
+    "page": null,
+    "per_page": 2,
+    "next_cursor": "IlsxMDAuMCwgJ2h0dHBzOi8vb3BlbmFsZXgub3JnL1c1NTU1MDAwMDAyJ10i",
+    "groups_count": null
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W5555000001",
+      "doi": "https://doi.org/10.5555/FR.TEST.0001",
+      "display_name": "Information literacy through peer tutoring: a randomised trial",
+      "publication_year": 2024,
+      "publication_date": "2024-03-15",
+      "type": "article",
+      "language": "en",
+      "ids": {
+        "openalex": "https://openalex.org/W5555000001",
+        "doi": "https://doi.org/10.5555/fr.test.0001",
+        "pmid": "https://pubmed.ncbi.nlm.nih.gov/99000101"
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": { "id": "https://openalex.org/A1", "display_name": "Anna M. Berger" },
+          "raw_author_name": "Berger, Anna M."
+        },
+        {
+          "author_position": "last",
+          "author": { "id": "https://openalex.org/A2", "display_name": "José van der Linden" },
+          "raw_author_name": "van der Linden, José"
+        }
+      ],
+      "primary_location": {
+        "landing_page_url": "https://doi.org/10.5555/FR.TEST.0001",
+        "source": {
+          "id": "https://openalex.org/S1",
+          "display_name": "Journal of Library Instruction"
+        }
+      },
+      "biblio": { "volume": "12", "issue": "3", "first_page": "101", "last_page": "118" },
+      "abstract_inverted_index": {
+        "Peer": [0],
+        "tutoring": [1, 8],
+        "improves": [2],
+        "information": [3],
+        "literacy.": [4],
+        "We": [5],
+        "compared": [6],
+        "structured": [7],
+        "with": [9],
+        "lectures": [10],
+        "(n": [11],
+        "=": [12],
+        "120).": [13]
+      }
+    },
+    {
+      "id": "https://openalex.org/W5555000002",
+      "doi": null,
+      "display_name": "Informationskompetenz im Tutorium – ein Praxisbericht",
+      "publication_year": 2021,
+      "publication_date": "2021-01-01",
+      "type": "book-chapter",
+      "language": "de",
+      "ids": { "openalex": "https://openalex.org/W5555000002" },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": { "id": "https://openalex.org/A3", "display_name": "Bibliotheksverbund" },
+          "raw_author_name": "Bibliotheksverbund"
+        }
+      ],
+      "primary_location": {
+        "landing_page_url": "https://example.org/chapter",
+        "source": {
+          "id": "https://openalex.org/S2",
+          "display_name": "Handbuch Informationskompetenz"
+        }
+      },
+      "biblio": { "volume": null, "issue": null, "first_page": "45", "last_page": "45" },
+      "abstract_inverted_index": null
+    }
+  ],
+  "group_by": []
+}

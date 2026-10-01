@@ -424,7 +424,8 @@
     "ris": "RIS",
     "nbib": "PubMed/MEDLINE (.nbib)",
     "bibtex": "BibTeX",
-    "csv": "CSV"
+    "csv": "CSV",
+    "openalex": "OpenAlex search"
   },
   "dedupStats": {
     "records": "Imported",
@@ -1044,6 +1045,86 @@
       "peerReview": "Peer review of the search",
       "source2021": "Structure following PRISMA-S: Rethlefsen ML, et al. Syst Rev 2021;10:39. doi:10.1186/s13643-020-01542-z",
       "license": "Licence: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Created with Facet Review."
+    }
+  },
+  "openalex": {
+    "button": "Search OpenAlex",
+    "title": "Search OpenAlex",
+    "description": "The search string, filters and date are documented automatically as a search run; the hits are imported directly.",
+    "privacy": "For this search your browser sends the search string and filters to the OpenAlex API (OurResearch, USA) – plus your e-mail address or API key if you enter them below. Nothing else leaves your browser.",
+    "offline": "Searching OpenAlex needs an internet connection. Everything else also works offline.",
+    "searchHeading": "Search",
+    "text": "Search string",
+    "textHint": "Boolean operators AND, OR, NOT in capitals, phrases in quotation marks. Documented exactly as entered.",
+    "field": "Fields searched",
+    "fields": {
+      "title_and_abstract": "Title and abstract (recommended)",
+      "title": "Title only",
+      "fulltext": "Title, abstract and full-text index"
+    },
+    "limitsHeading": "Limits",
+    "fromYear": "Publication year from",
+    "toYear": "Publication year to",
+    "types": "Publication types",
+    "typesHint": "No selection means all types.",
+    "typeNames": {
+      "article": "Article",
+      "review": "Review",
+      "preprint": "Preprint",
+      "book-chapter": "Book chapter",
+      "book": "Book",
+      "dissertation": "Dissertation",
+      "report": "Report",
+      "dataset": "Dataset"
+    },
+    "languages": "Languages",
+    "languagesHint": "ISO 639-1 codes separated by commas, e.g. “en, de”. Empty means all languages.",
+    "openAccess": "Open access only",
+    "settingsHeading": "Details for OpenAlex (this browser only)",
+    "settingsHint": "Stored only in this browser, never in the project and never in an export.",
+    "mailto": "E-mail address (optional)",
+    "mailtoHint": "OpenAlex asks for a contact address (mailto parameter). Leave empty if you prefer not to send one.",
+    "apiKey": "API key (optional)",
+    "apiKeyHint": "Only needed if you have a key from OpenAlex.",
+    "count": "Count hits",
+    "counting": "Counting hits …",
+    "result": "{{count}} hits in OpenAlex.",
+    "previewHeading": "First hits",
+    "tooMany": "More than {{max}} hits. Please narrow the search (limits or search string) so that screening stays manageable.",
+    "none": "No hits. Nothing will be documented.",
+    "import": "Import {{count}} hits and document the search run",
+    "loading": "Loaded page {{page}} of {{pages}} ({{loaded}} of {{count}} hits) …",
+    "cancel": "Cancel",
+    "cancelled": "Cancelled. Nothing was saved.",
+    "stale": "The search has changed since counting. Please count again.",
+    "done": "{{count}} records imported from OpenAlex; search run of {{date}} documented.",
+    "toImport": "Go to import",
+    "toSearch": "Go to search overview",
+    "errorTitle": "The search cannot be run like this",
+    "issues": {
+      "textMissing": "Please enter a search string.",
+      "textComma": "Commas are not possible when searching title or title and abstract (OpenAlex uses them to separate filters). Please remove them or choose “Title, abstract and full-text index”.",
+      "yearInvalid": "Please enter a four-digit year.",
+      "yearOrder": "The “from” year is after the “to” year.",
+      "languageInvalid": "Please enter languages as two-letter ISO codes, e.g. en, de."
+    },
+    "errors": {
+      "rateLimited": "OpenAlex reports too many requests. Please try again in a few minutes. Nothing was saved.",
+      "http": "OpenAlex rejected the request (HTTP {{status}}). Nothing was saved.",
+      "network": "OpenAlex cannot be reached. Please check your internet connection. Nothing was saved.",
+      "invalid": "OpenAlex returned an unexpected answer. Nothing was saved.",
+      "tooMany": "The search now returns {{status}} hits, more than {{max}}. Please narrow it. Nothing was saved.",
+      "aborted": "Cancelled. Nothing was saved.",
+      "save": "The hits could not be saved. Nothing was saved."
+    },
+    "protocol": {
+      "years": "Publication year {{from}}–{{to}}",
+      "fromYear": "Publication year from {{year}}",
+      "toYear": "Publication year up to {{year}}",
+      "types": "Publication types: {{list}}",
+      "languages": "Languages: {{list}}",
+      "openAccess": "open access only",
+      "cursorNote": "Documented automatically by Facet Review (OpenAlex API, all pages loaded by cursor)."
     }
   }
 }

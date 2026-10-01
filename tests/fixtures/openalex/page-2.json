@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "count": 3,
+    "db_response_time_ms": 33,
+    "page": null,
+    "per_page": 2,
+    "next_cursor": null,
+    "groups_count": null
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W5555000003",
+      "doi": "https://doi.org/10.5555/fr.preprint.1",
+      "display_name": "Peer teaching of search skills: a preprint",
+      "publication_year": 2026,
+      "publication_date": "2026-02-01",
+      "type": "preprint",
+      "language": "en",
+      "ids": {
+        "openalex": "https://openalex.org/W5555000003",
+        "doi": "https://doi.org/10.5555/fr.preprint.1"
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": { "id": "https://openalex.org/A4", "display_name": "Chen Wei" },
+          "raw_author_name": "Chen Wei"
+        }
+      ],
+      "primary_location": { "landing_page_url": null, "source": null },
+      "biblio": { "volume": null, "issue": null, "first_page": null, "last_page": null },
+      "abstract_inverted_index": { "Search": [0], "skills": [1], "&": [2], "peers.": [3] }
+    }
+  ],
+  "group_by": []
+}

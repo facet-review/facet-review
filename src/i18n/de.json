@@ -424,7 +424,8 @@
     "ris": "RIS",
     "nbib": "PubMed/MEDLINE (.nbib)",
     "bibtex": "BibTeX",
-    "csv": "CSV"
+    "csv": "CSV",
+    "openalex": "OpenAlex-Suche"
   },
   "dedupStats": {
     "records": "Importiert",
@@ -1044,6 +1045,86 @@
       "peerReview": "Peer Review der Suche",
       "source2021": "Struktur nach PRISMA-S: Rethlefsen ML, et al. Syst Rev 2021;10:39. doi:10.1186/s13643-020-01542-z",
       "license": "Lizenz: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Erstellt mit Facet Review."
+    }
+  },
+  "openalex": {
+    "button": "In OpenAlex suchen",
+    "title": "Suche in OpenAlex",
+    "description": "Suchstring, Filter und Datum werden automatisch als Suchlauf protokolliert, die Treffer direkt importiert.",
+    "privacy": "Für diese Suche sendet Ihr Browser den Suchstring und die Filter an die OpenAlex-API (OurResearch, USA) – und, falls unten hinterlegt, Ihre E-Mail-Adresse bzw. Ihren API-Key. Sonst verlässt nichts Ihren Browser.",
+    "offline": "Die OpenAlex-Suche braucht eine Internetverbindung. Alles andere funktioniert auch offline.",
+    "searchHeading": "Suche",
+    "text": "Suchstring",
+    "textHint": "Boolesche Operatoren AND, OR, NOT in Großbuchstaben, Phrasen in Anführungszeichen. Wird unverändert protokolliert.",
+    "field": "Durchsuchte Felder",
+    "fields": {
+      "title_and_abstract": "Titel und Abstract (empfohlen)",
+      "title": "Nur Titel",
+      "fulltext": "Titel, Abstract und Volltext-Index"
+    },
+    "limitsHeading": "Limits",
+    "fromYear": "Erscheinungsjahr von",
+    "toYear": "Erscheinungsjahr bis",
+    "types": "Publikationstypen",
+    "typesHint": "Keine Auswahl bedeutet: alle Typen.",
+    "typeNames": {
+      "article": "Artikel",
+      "review": "Review",
+      "preprint": "Preprint",
+      "book-chapter": "Buchkapitel",
+      "book": "Buch",
+      "dissertation": "Dissertation",
+      "report": "Bericht",
+      "dataset": "Datensatz"
+    },
+    "languages": "Sprachen",
+    "languagesHint": "ISO-639-1-Codes, getrennt durch Komma, z. B. „en, de“. Leer bedeutet: alle Sprachen.",
+    "openAccess": "Nur Open Access",
+    "settingsHeading": "Angaben für OpenAlex (nur in diesem Browser)",
+    "settingsHint": "Werden nur in diesem Browser gespeichert, nie im Projekt und nie im Export.",
+    "mailto": "E-Mail-Adresse (optional)",
+    "mailtoHint": "OpenAlex bittet um eine Kontaktadresse (Parameter mailto). Leer lassen, wenn Sie keine übermitteln möchten.",
+    "apiKey": "API-Key (optional)",
+    "apiKeyHint": "Nur nötig, wenn Sie bei OpenAlex einen Key haben.",
+    "count": "Treffer zählen",
+    "counting": "Treffer werden gezählt …",
+    "result": "{{count}} Treffer in OpenAlex.",
+    "previewHeading": "Erste Treffer",
+    "tooMany": "Mehr als {{max}} Treffer. Bitte schränken Sie die Suche ein (Limits oder Suchstring), damit das Screening handhabbar bleibt.",
+    "none": "Keine Treffer. Es wird nichts protokolliert.",
+    "import": "{{count}} Treffer importieren und Suchlauf protokollieren",
+    "loading": "Seite {{page}} von {{pages}} geladen ({{loaded}} von {{count}} Treffern) …",
+    "cancel": "Abbrechen",
+    "cancelled": "Abgebrochen. Es wurde nichts gespeichert.",
+    "stale": "Die Suche wurde seit dem Zählen geändert. Bitte erneut zählen.",
+    "done": "{{count}} Datensätze aus OpenAlex importiert, Suchlauf vom {{date}} protokolliert.",
+    "toImport": "Zum Import",
+    "toSearch": "Zur Suchübersicht",
+    "errorTitle": "Die Suche kann so nicht ausgeführt werden",
+    "issues": {
+      "textMissing": "Bitte einen Suchstring eingeben.",
+      "textComma": "Kommas sind bei der Suche in Titel bzw. Titel und Abstract nicht möglich (OpenAlex trennt damit Filter). Bitte entfernen oder „Titel, Abstract und Volltext-Index“ wählen.",
+      "yearInvalid": "Bitte ein Jahr mit vier Ziffern eingeben.",
+      "yearOrder": "Das Jahr „von“ liegt nach dem Jahr „bis“.",
+      "languageInvalid": "Bitte Sprachen als zweistellige ISO-Codes angeben, z. B. en, de."
+    },
+    "errors": {
+      "rateLimited": "OpenAlex meldet zu viele Anfragen. Bitte in einigen Minuten erneut versuchen. Es wurde nichts gespeichert.",
+      "http": "OpenAlex hat die Anfrage abgelehnt (HTTP {{status}}). Es wurde nichts gespeichert.",
+      "network": "OpenAlex ist nicht erreichbar. Bitte die Internetverbindung prüfen. Es wurde nichts gespeichert.",
+      "invalid": "OpenAlex hat eine unerwartete Antwort geliefert. Es wurde nichts gespeichert.",
+      "tooMany": "Die Suche liefert inzwischen {{status}} Treffer, mehr als {{max}}. Bitte einschränken. Es wurde nichts gespeichert.",
+      "aborted": "Abgebrochen. Es wurde nichts gespeichert.",
+      "save": "Die Treffer konnten nicht gespeichert werden. Es wurde nichts gespeichert."
+    },
+    "protocol": {
+      "years": "Erscheinungsjahr {{from}}–{{to}}",
+      "fromYear": "Erscheinungsjahr ab {{year}}",
+      "toYear": "Erscheinungsjahr bis {{year}}",
+      "types": "Publikationstypen: {{list}}",
+      "languages": "Sprachen: {{list}}",
+      "openAccess": "nur Open Access",
+      "cursorNote": "Automatisch protokolliert von Facet Review (OpenAlex-API, alle Seiten per Cursor geladen)."
     }
   }
 }

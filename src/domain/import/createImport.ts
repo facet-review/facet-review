@@ -1,10 +1,10 @@
-import type { BibRecord, ImportBatch, ImportFormat, IdSource, Clock, UUID } from '../types';
+import type { BatchFormat, BibRecord, ImportBatch, IdSource, Clock, UUID } from '../types';
 import type { ParseResult } from './types';
 
 /** Turns parsed records into an import batch and stored records with full provenance. */
 export function createImport(
   parsed: ParseResult,
-  target: { projectId: UUID; sourceRunId: UUID; fileName: string; format: ImportFormat },
+  target: { projectId: UUID; sourceRunId: UUID; fileName: string; format: BatchFormat },
   deps: IdSource & Clock,
 ): { batch: ImportBatch; records: BibRecord[] } {
   const batch: ImportBatch = {

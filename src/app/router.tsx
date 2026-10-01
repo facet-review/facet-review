@@ -8,6 +8,7 @@ import ProjectPage from '../features/project/ProjectPage';
 import SearchPage from '../features/search/SearchPage';
 import SourceFormPage from '../features/search/SourceFormPage';
 import RunFormPage from '../features/search/RunFormPage';
+import OpenAlexPage from '../features/search/openalex/OpenAlexPage';
 import ImportPage from '../features/import/ImportPage';
 import ImportWizardPage from '../features/import/ImportWizardPage';
 import DuplicatesPage from '../features/import/DuplicatesPage';
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
           { index: true, element: <Navigate to="project" replace /> },
           { path: 'project', element: <ProjectPage /> },
           { path: 'search', element: <SearchPage /> },
+          { path: 'search/openalex', element: <OpenAlexPage /> },
           { path: 'search/sources/new', element: <SourceFormPage /> },
           { path: 'search/sources/:sourceId', element: <SourceFormPage /> },
           { path: 'search/sources/:sourceId/runs/new', element: <RunFormPage /> },
