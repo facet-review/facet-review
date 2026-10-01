@@ -40,3 +40,7 @@ Nach manueller Prüfung des ersten Laufs in `tests/unit/parsers.fixtures.test.ts
 - Alle Datensätze importierbar, Anzahl laut `MANIFEST.md` (209 / 209 / 190 / 20).
 - Deduplizierung: 419 Datensätze → 139 Gruppen (138 DOI, 1 PMID), 141 Dubletten entfernt, **278 eindeutig**.
 - 2 Titel-Kandidaten, beide inhaltlich echte Parallelveröffentlichungen mit unterschiedlicher DOI: PRISMA-S (Syst Rev / JMLA) und die spanisch-/englischsprachige Ausgabe von Enfermería Intensiva.
+
+## `synthetic/late-import.ris` (Meilenstein 4)
+
+Zwei Datensätze für den Nachimport nach Screening-Beginn (Fall 5 der Screening-Regeln, PRD §4): **A3** mit derselben DOI wie A1/A2 (wird Gruppe A zugeordnet und erbt deren Status) und **N1** ohne Dublette (bleibt offen). Die Datei geht nicht in die Zählung der 16 synthetischen Datensätze ein.
