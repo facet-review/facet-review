@@ -124,6 +124,14 @@ tests/e2e/
 - URLs der Einzelansicht nennen einen Datensatz, nicht die Gruppe (stabil bei Zusammenführen/Aufteilen).
 - Einzeltasten-Kürzel: abschaltbar (WCAG 2.1.4), nie in Eingabefeldern; jede Aktion auch als Button.
 
+## Flow-Diagramm (ab Meilenstein 5)
+
+- `computeFlow()` in `src/domain/flow/` zählt ausschließlich auf den Screening-Einheiten aus M4 (`evaluateUnits`), keine eigene Zähllogik. Jede Zahl trägt ihre Datensatz-IDs (Drill-down).
+- **Verbindliche Abnahme:** `tests/fixtures/flow/golden-scenario.md`, umgesetzt in `tests/unit/flow.golden.test.ts`. Ändert sich eine Zählregel, zuerst das Golden Scenario mit dem Autor klären.
+- Layout (`src/features/flow/layout.ts`) ist rein und deterministisch (feste Zeichenbreite statt DOM-Messung); dieselbe Komponente `FlowSvg` zeichnet Bildschirm (Tokens) und Export (Druckfarben, eingebettete Schriften).
+- Diagrammtexte unter `flow.diagram.*` in den i18n-Dateien, gezeichnet mit `i18n.getFixedT(lang)` unabhängig von der Oberflächensprache; Standard EN, DE als Arbeitsübersetzung gekennzeichnet.
+- Attribution (Page et al. 2021, CC BY 4.0) in jedem Export.
+
 ## Befehle
 
 Node 22 (`.nvmrc`). Paketmanager: npm.

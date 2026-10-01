@@ -75,7 +75,7 @@ Zusätzlicher Prüffall: Bei **H1** zuerst `include`, dann mit `Z` rückgängig 
 | Abwandlung | Erwartete Warnung |
 |---|---|
 | Bei D2 die Stufe-2-Entscheidung weglassen | „Screening unvollständig“; assessed 6 ≠ excluded 3 + included 2 (+1 offen) |
-| C-Zusammenführung nachträglich aufheben | Duplicates 3, screened 13; C2 erbt die Stufe-1-Entscheidung von C mit Hinweis „nach Aufteilung prüfen“ |
+| C-Zusammenführung nachträglich aufheben | Duplicates 3, screened 13; C2 erbt die Stufe-1-Entscheidung von C mit Hinweis „nach Aufteilung prüfen“ ¹ |
 
 ## 7. Beschriftungen DE / EN
 
@@ -104,3 +104,5 @@ Die englischen Texte folgen der Vorlage (Page et al. 2021, CC BY 4.0). Die deuts
 | Reports of studies included in previous version of review | Berichte der in der vorherigen Version eingeschlossenen Studien |
 | New studies included in review / Reports of new included studies | Neu eingeschlossene Studien / Berichte der neu eingeschlossenen Studien |
 | Total studies included in review / Reports of total included studies | Insgesamt eingeschlossene Studien / Berichte aller eingeschlossenen Studien |
+
+¹ Präzisiert nach der Screening-Regel 3 aus Meilenstein 4 (PRD §4, Entscheidung vom 01.10.2026): Der angezeigte Teil (C1) behält die Entscheidung. Der abgespaltene Teil C2 ist **offen**, die frühere Entscheidung wird ihm als **Vorschlag** angezeigt („nach Aufteilung prüfen“, Übernahme per Klick bzw. Taste). Er zählt damit nicht als „sought“, sondern als offen: sought bleibt 7, und die Konsistenzprüfung meldet „Screening unvollständig (1 offen)“. Hinweis: Primärdatensatz einer Gruppe ist nach der Regel aus Meilenstein 3 der vollständigste Datensatz (bei Gruppe B daher B-nbib mit PMID); die Zahlen ändert das nicht.
