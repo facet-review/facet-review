@@ -4,6 +4,7 @@ import { copyFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
+import { contentSecurityPolicy } from './src/app/csp.ts';
 
 /**
  * GitHub Pages serves 404.html for unknown paths. A copy of index.html lets the
@@ -23,6 +24,24 @@ function spaFallback(): Plugin {
   };
 }
 
+/**
+ * Writes the Content Security Policy into the built index.html (and so into
+ * 404.html). Build only: the dev server needs inline styles and its HMR socket.
+ */
+function contentSecurityPolicyMeta(): Plugin {
+  return {
+    name: 'content-security-policy',
+    apply: 'build',
+    transformIndexHtml: () => [
+      {
+        tag: 'meta',
+        attrs: { 'http-equiv': 'Content-Security-Policy', content: contentSecurityPolicy() },
+        injectTo: 'head-prepend',
+      },
+    ],
+  };
+}
+
 const { version } = JSON.parse(
   readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
 ) as {
@@ -36,7 +55,7 @@ export default defineConfig({
   },
   // Absolute asset paths are required: 404.html is served at arbitrary nested paths.
   base: '/',
-  plugins: [react(), spaFallback()],
+  plugins: [react(), contentSecurityPolicyMeta(), spaFallback()],
   build: {
     // Keep font files as separate local assets instead of inlining them.
     assetsInlineLimit: 0,
