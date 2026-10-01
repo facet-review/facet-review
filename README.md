@@ -11,7 +11,7 @@ Suche (PRISMA-S) → Treffer → Deduplizierung → Screening-Entscheidung → Z
 
 Jede Zahl im Flow-Diagramm ist auf konkrete Datensätze zurückführbar.
 
-> **Status:** frühe Entwicklung (Meilenstein 0: Setup). Noch nicht produktiv nutzbar.
+> **Status:** Meilenstein 7 abgeschlossen, Version 1.0 in Vorbereitung. Alle Module sind nutzbar.
 
 ## Prinzipien
 
@@ -19,7 +19,9 @@ Jede Zahl im Flow-Diagramm ist auf konkrete Datensätze zurückführbar.
 - **Kein Tracking:** keine Analytics, keine Cookies, keine externen CDNs.
 - **Offene Formate:** RIS, BibTeX, PubMed/MEDLINE, CSV, CSL-JSON.
 - **Nachvollziehbarkeit vor Automatik:** Deduplizierung und Zählungen sind transparent und korrigierbar.
-- **Zweisprachig** (Deutsch/Englisch) und **barrierefrei** nach WCAG 2.1 AA.
+- **Zweisprachig** (Deutsch/Englisch) und **barrierefrei** nach WCAG 2.1 AA (Audit: [`docs/a11y-audit.md`](docs/a11y-audit.md)).
+- **Technisch abgesichert:** Eine Content Security Policy erlaubt Verbindungen nur zur App selbst und – bei aktiver Suche – zur OpenAlex-API.
+- **Offline nutzbar:** Als Web-App (PWA) installierbar; nach dem ersten Besuch funktioniert alles ohne Netz außer der OpenAlex-Suche.
 
 ## Entwicklung
 
@@ -35,6 +37,8 @@ npm run lint       # ESLint und Prettier
 ```
 
 Vor dem ersten `npm run test:e2e` einmalig `npx playwright install chromium` ausführen.
+
+Hilfsskripte: `node scripts/record-openalex.mjs` nimmt echte OpenAlex-Antworten für die Tests auf (siehe `tests/fixtures/openalex/README.md`), `node scripts/generate-icons.mjs` erzeugt die App-Icons aus dem Logo.
 
 ## Veröffentlichung
 
@@ -63,4 +67,4 @@ Systematic reviews according to PRISMA 2020 & PRISMA-S
 
 Facet Review is a browser-based, local-first web app that guides individual researchers and students through searching, screening and reporting a systematic review. Every number in the PRISMA 2020 flow diagram is derived from – and traceable to – concrete records, from the documented search (PRISMA-S) through deduplication and screening decisions to the checklist. All data stays in your browser; there is no backend, no account and no tracking. The interface is available in German (default) and English and targets WCAG 2.1 AA.
 
-Status: early development, published at [facetreview.org](https://facetreview.org). See the development commands above; licensed under AGPL-3.0. Contributions are welcome – see [`CONTRIBUTING.md`](CONTRIBUTING.md) (German; questions in English are fine).
+Status: milestone 7 complete, version 1.0 in preparation; published at [facetreview.org](https://facetreview.org). Installable as a progressive web app and usable offline except for the OpenAlex search; a Content Security Policy only allows connections to the app itself and the OpenAlex API. See the development commands above; licensed under AGPL-3.0. Contributions are welcome – see [`CONTRIBUTING.md`](CONTRIBUTING.md) (German; questions in English are fine).

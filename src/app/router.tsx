@@ -8,6 +8,7 @@ import ProjectPage from '../features/project/ProjectPage';
 import SearchPage from '../features/search/SearchPage';
 import SourceFormPage from '../features/search/SourceFormPage';
 import RunFormPage from '../features/search/RunFormPage';
+import OpenAlexPage from '../features/search/openalex/OpenAlexPage';
 import ImportPage from '../features/import/ImportPage';
 import ImportWizardPage from '../features/import/ImportWizardPage';
 import DuplicatesPage from '../features/import/DuplicatesPage';
@@ -16,6 +17,7 @@ import ScreeningUnitPage from '../features/screening/ScreeningUnitPage';
 import FlowPage from '../features/flow/FlowPage';
 import ChecklistPage from '../features/checklist/ChecklistPage';
 import ExportPage from '../features/export/ExportPage';
+import LegalPage from '../features/legal/LegalPage';
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +32,7 @@ export const router = createBrowserRouter([
           { index: true, element: <Navigate to="project" replace /> },
           { path: 'project', element: <ProjectPage /> },
           { path: 'search', element: <SearchPage /> },
+          { path: 'search/openalex', element: <OpenAlexPage /> },
           { path: 'search/sources/new', element: <SourceFormPage /> },
           { path: 'search/sources/:sourceId', element: <SourceFormPage /> },
           { path: 'search/sources/:sourceId/runs/new', element: <RunFormPage /> },
@@ -44,6 +47,8 @@ export const router = createBrowserRouter([
           { path: 'export', element: <ExportPage /> },
         ],
       },
+      { path: 'impressum', element: <LegalPage page="imprint" /> },
+      { path: 'datenschutz', element: <LegalPage page="privacy" /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

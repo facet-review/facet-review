@@ -140,6 +140,16 @@ tests/e2e/
 - CSV immer über `toCsv()` (BOM, Trennzeichen wählbar, Formel-Schutz). RIS muss mit dem eigenen Parser verlustfrei wieder einlesbar sein (`tests/unit/export.roundtrip.test.ts`).
 - PDFs (`src/features/export/pdf/`) nur über den dynamischen Import in `pdf/index.ts` laden, nie statisch.
 
+## OpenAlex, Sicherheit und Offline (ab Meilenstein 7)
+
+- OpenAlex-Logik in `src/domain/openalex/` (Abfrage, Protokoll, Abbildung, Client mit hineingereichtem `fetch`). **Nichts wird gespeichert, bevor alle Seiten geladen sind** (`saveOpenAlexImport`, eine Transaktion). `mailto` und API-Key nur pro Browser, nie im Projekt.
+- **Keine Live-Abfragen in Tests:** Unit-Tests mit `fetch`-Attrappe, E2E mit `page.route('https://api.openalex.org/**')` und den Antworten in `tests/fixtures/openalex/`.
+- **CSP** in `src/app/csp.ts` (Build schreibt sie als `<meta>`). `connect-src` bleibt `'self'` plus OpenAlex; jede neue Verbindung, Schrift- oder Skriptquelle ist eine bewusste Entscheidung mit PRD-Eintrag. Nie `unsafe-inline`/`unsafe-eval`.
+- **PWA** über `vite-plugin-pwa` (Konfiguration in `vite.config.ts`, Registrierung in `src/app/UpdatePrompt.tsx`). Updates nur auf Nachfrage. In E2E-Tests sind Service Worker blockiert, außer in `tests/e2e/pwa.spec.ts`.
+- **Barrierefreiheit:** `tests/e2e/a11y.spec.ts` prüft jede Route (axe hell/dunkel, 320 px, Textabstände, Tastatur). Neue Seiten in `collectRoutes()` aufnehmen; Befunde in `docs/a11y-audit.md` nachtragen. Einspaltige Grids mit `grid-template-columns: minmax(0, 1fr)`.
+- Logo: `src/design/Logo.tsx` und `public/favicon.svg` (gleiche Geometrie); Icons mit `node scripts/generate-icons.mjs` neu erzeugen.
+- Rechtstexte (`/impressum`, `/datenschutz`) liegen in den i18n-Dateien unter `legal.*`; Platzhalter `[PLATZHALTER: …]`/`[PLACEHOLDER: …]` lösen automatisch den Entwurfshinweis aus.
+
 ## Befehle
 
 Node 22 (`.nvmrc`). Paketmanager: npm.

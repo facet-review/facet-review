@@ -11,6 +11,8 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${port}`,
     trace: 'on-first-retry',
+    // The service worker would cache the build between tests; only pwa.spec.ts allows it.
+    serviceWorkers: 'block',
   },
   projects: [
     {

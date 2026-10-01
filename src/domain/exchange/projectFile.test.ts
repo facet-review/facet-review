@@ -256,6 +256,12 @@ describe('parseProjectFile', () => {
     }
   });
 
+  it('accepts batches from an OpenAlex search (M7, additive)', () => {
+    const file = corruptibleFile();
+    file.importBatches[0].format = 'openalex';
+    expect(parseProjectFile(JSON.stringify(file)).ok).toBe(true);
+  });
+
   it('validates import batches, records and dedup data', () => {
     const file = corruptibleFile();
     file.importBatches[0].format = 'docx';

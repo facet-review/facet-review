@@ -35,6 +35,9 @@ export default function SearchPage() {
         >
           {t('search.addSource')}
         </Link>
+        <Link to={searchPaths.openAlex(project.id)} className={button.button}>
+          {t('openalex.button')}
+        </Link>
       </div>
       <p role="status" className={styles.status}>
         {status}

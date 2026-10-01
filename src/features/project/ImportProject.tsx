@@ -14,9 +14,12 @@ import { ConfirmDialog } from '../../design/ConfirmDialog';
 
 interface ImportProjectProps {
   onImported: (title: string) => void;
+  /** Button text; defaults to "import project (JSON)". */
+  label?: string;
+  className?: string;
 }
 
-export function ImportProject({ onImported }: ImportProjectProps) {
+export function ImportProject({ onImported, label, className }: ImportProjectProps) {
   const { t } = useTranslation();
   const input = useRef<HTMLInputElement>(null);
   const [issues, setIssues] = useState<ImportIssue[]>([]);
@@ -58,8 +61,12 @@ export function ImportProject({ onImported }: ImportProjectProps) {
 
   return (
     <>
-      <button type="button" className={button.button} onClick={() => input.current?.click()}>
-        {t('overview.importProject')}
+      <button
+        type="button"
+        className={className ?? button.button}
+        onClick={() => input.current?.click()}
+      >
+        {label ?? t('overview.importProject')}
       </button>
       <input
         ref={input}

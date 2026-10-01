@@ -23,6 +23,7 @@
 
 .group {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   margin-bottom: var(--space-6);
 }
@@ -41,6 +42,7 @@
 
 .card {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
   border: var(--line-hairline);
@@ -78,6 +80,8 @@
 
 .tableWrap {
   overflow-x: auto;
+  /* Keeps visually hidden (absolute) text inside the scroll area (WCAG 1.4.10). */
+  position: relative;
 }
 
 .table {

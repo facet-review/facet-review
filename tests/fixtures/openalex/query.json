@@ -1,0 +1,9 @@
+{
+  "text": "\"information literacy\" AND (tutoring OR \"peer teaching\")",
+  "field": "title_and_abstract",
+  "fromYear": 2015,
+  "toYear": 2026,
+  "types": ["article", "book-chapter", "preprint"],
+  "languages": [],
+  "openAccessOnly": false
+}

@@ -303,7 +303,7 @@ function entityFields(key: (typeof COLLECTIONS)[number], context: Context): Reco
       return {
         sourceRunId: refersTo(context.runIds),
         fileName: isString,
-        format: oneOf('ris', 'nbib', 'bibtex', 'csv'),
+        format: oneOf('ris', 'nbib', 'bibtex', 'csv', 'openalex'),
         importedAt: isString,
         recordCount: isCount,
       };

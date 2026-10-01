@@ -2,6 +2,7 @@
 
 .section {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   margin-bottom: var(--space-6);
 }
@@ -26,6 +27,7 @@
 
 .tab {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-1);
   padding: var(--space-3) var(--space-4);
   border-bottom: calc(var(--line-width) * 3) solid transparent;
@@ -47,6 +49,7 @@
 
 .progress {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2);
 }
 
@@ -84,6 +87,8 @@
 
 .tableWrap {
   overflow-x: auto;
+  /* Keeps visually hidden (absolute) text inside the scroll area (WCAG 1.4.10). */
+  position: relative;
 }
 
 .table {
@@ -120,6 +125,7 @@
 
 .plainList {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2);
   margin: 0;
   padding: 0;
@@ -130,6 +136,7 @@
 
 .unitLayout {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
 }
 
@@ -143,6 +150,7 @@
 
 .record {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
   padding: var(--space-5);
   border: var(--line-hairline);
@@ -224,6 +232,7 @@
 
 .panel {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
   border: var(--line-hairline);
@@ -253,6 +262,7 @@
 
 .inlineForm {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
   max-width: 40rem;
   margin-top: var(--space-3);

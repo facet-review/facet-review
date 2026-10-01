@@ -7,6 +7,7 @@
 
 .inner {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
   max-width: var(--content-max-width);
   margin: 0 auto;
@@ -38,4 +39,10 @@
 .license {
   padding-top: var(--space-3);
   border-top: var(--line-hairline);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
 }

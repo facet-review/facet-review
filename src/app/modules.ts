@@ -17,6 +17,7 @@ export const projectPath = (projectId: string, module: ModuleKey = 'project') =>
 export const searchPaths = {
   page: (projectId: string) => `/projects/${projectId}/search`,
   newSource: (projectId: string) => `/projects/${projectId}/search/sources/new`,
+  openAlex: (projectId: string) => `/projects/${projectId}/search/openalex`,
   source: (projectId: string, sourceId: string) =>
     `/projects/${projectId}/search/sources/${sourceId}`,
   newRun: (projectId: string, sourceId: string) =>

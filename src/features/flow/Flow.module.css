@@ -1,10 +1,12 @@
 .page {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-5);
 }
 
 .settings {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   max-width: 48rem;
 }
@@ -12,6 +14,7 @@
 .figure {
   margin: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
 }
 
@@ -23,6 +26,8 @@
 /* Wide diagrams scroll inside their frame, never the page. */
 .canvas {
   overflow-x: auto;
+  /* Keeps visually hidden (absolute) text inside the scroll area (WCAG 1.4.10). */
+  position: relative;
   border: var(--line-hairline);
   background: var(--color-surface-raised);
 }
@@ -58,6 +63,7 @@
 .drill,
 .section {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
 }
 
@@ -91,6 +97,8 @@
 
 .tableWrap {
   overflow-x: auto;
+  /* Keeps visually hidden (absolute) text inside the scroll area (WCAG 1.4.10). */
+  position: relative;
 }
 
 .table {
