@@ -1,0 +1,124 @@
+.page {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.settings {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 48rem;
+}
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.caption {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* Wide diagrams scroll inside their frame, never the page. */
+.canvas {
+  overflow-x: auto;
+  border: var(--line-hairline);
+  background: var(--color-surface-raised);
+}
+
+.svg {
+  display: block;
+}
+
+.box {
+  cursor: pointer;
+}
+
+.box:hover .boxRect {
+  stroke: var(--color-accent) !important;
+  stroke-width: 2px !important;
+}
+
+.box:focus {
+  outline: none;
+}
+
+.box:focus-visible .boxRect {
+  stroke: var(--color-focus) !important;
+  stroke-width: 3px !important;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.drill,
+.section {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.drill {
+  padding: var(--space-4) var(--space-5);
+  border: var(--line-hairline);
+  background: var(--color-surface);
+}
+
+.drill h2,
+.section h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+}
+
+.drillGroup h3 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-md);
+}
+
+.drillList {
+  margin: 0;
+  padding-left: var(--space-5);
+  font-size: var(--font-size-sm);
+}
+
+.muted {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.table th,
+.table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--line-hairline);
+  text-align: left;
+  vertical-align: top;
+  font-weight: var(--font-weight-regular);
+}
+
+.table thead th {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+}
+
+.table .groupRow {
+  padding-top: var(--space-4);
+  font-weight: var(--font-weight-semibold);
+}
+
+.number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

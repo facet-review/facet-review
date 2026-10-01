@@ -124,6 +124,14 @@ Dazu kommen **projektweite Angaben:**
 - **Export:** SVG, PNG (2x) und CSV der Zahlen. Die Beschriftung ist in DE oder EN wählbar, unabhängig von der Sprache der Oberfläche. Das Original ist Englisch, und die meisten Journals erwarten Englisch.
 - Die Attribution (Page et al. 2021, CC BY 4.0) ist in jedem Export enthalten.
 
+**Umsetzung (Meilenstein 5):**
+
+- Beschriftung standardmäßig **Englisch** (Original); Deutsch ist eine als solche gekennzeichnete Arbeitsübersetzung (Hinweis im Diagramm, im Export und auf der Seite). Ausschlussgründe erscheinen so, wie sie im Projekt angelegt sind.
+- **Varianten:** automatisch aus Review-Typ und Quellen („andere Methoden“, sobald eine Quelle der rechten Spalte einen Suchlauf hat), überschreibbar über `flowOverrides.variant`.
+- Ausschlussgründe mit n = 0 werden nicht gezeichnet, stehen aber in der CSV.
+- **Drill-down** per Klick oder Enter/Leertaste auf ein Kästchen; jede Zahl der Zahlentabelle hat einen eigenen Drill-down. Die Tabelle ist zugleich die **Textalternative** zum Diagramm (WCAG).
+- **Export:** SVG mit eingebetteten Schriften, PNG (2x), CSV (UTF-8 mit BOM); die Hinweise * und ** der Vorlage richten sich an Autor:innen und erscheinen nicht im fertigen Diagramm.
+
 ### Modul 6: PRISMA-2020-Checkliste
 
 - Alle 42 Einträge (27 Items mit Unterpunkten) aus `docs/reference/prisma2020-checklist.json`.
@@ -399,7 +407,15 @@ Alle Werte werden in `src/domain/flow/` als reine Funktion `computeFlow(projectD
 | Studies included in review | Anzahl verschiedener `studyId` an den Stufe-2-Einschlussentscheidungen (ohne Zuordnung: 1 Report = 1 Studie; `includedCounts()` in `src/domain/screening/studies.ts`) |
 | Rechte Spalte „other methods“ | Analog für Quellen mit `type ∈ {website, citation_search, contact, other}`; hier wird ab „Reports sought“ gezählt, weil die PRISMA-Vorlage dort kein Titel-Screening vorsieht |
 
-**Konsistenzprüfungen** (als Warnung in der UI anzeigen):
+**Präzisierungen (Meilenstein 5, `computeFlow()` in `src/domain/flow/`):**
+
+- Gezählt wird auf den Screening-Einheiten aus Meilenstein 4; Konflikte und abgespaltene Teile („nach Aufteilung prüfen“) zählen als offen.
+- **Linke Spalte:** Datenbanken einschließlich Suchmaschinen (M2-Entscheidung), Register getrennt, jeweils pro Quelle. Dubletten = Σ (Datensätze aus linken Quellen je Einheit − 1); damit gilt identified − duplicates = Einheiten auch dann, wenn ein Datensatz aus anderen Methoden in einer linken Einheit steckt.
+- **Rechte Spalte (andere Methoden):** identifiziert pro Methodentyp (Websites, Organisationen = Kontakte, Zitationssuche, sonstige). Ab „Reports sought“ zählen nur Einheiten, die **ausschließlich** aus anderen Methoden stammen. Datensätze, die Dubletten eines Datenbank-Datensatzes sind, werden links berichtet und rechts als Hinweis „davon auch über Datenbanken oder Register gefunden“ ausgewiesen; Dubletten innerhalb der anderen Methoden ebenfalls als Hinweis (die Vorlage hat dafür kein Kästchen).
+- „Vielleicht“ ohne Mitnahme in Stufe 2 zählt als offen in Stufe 1.
+- Studien: verschiedene `studyId` über beide Spalten; ohne Zuordnung 1 Report = 1 Studie. Update: Gesamt = vorherige (manuell) + neue.
+
+**Konsistenzprüfungen** (als Warnung in der UI anzeigen; offene Einheiten → „Screening unvollständig“, jede andere Abweichung → Fehler):
 
 - identified − duplicates − removed = screened
 - screened = excluded + sought (+ offene Datensätze, als Warnung „Screening unvollständig“)
