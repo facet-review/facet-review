@@ -147,6 +147,12 @@ Dazu kommen **projektweite Angaben:**
 - Die Texte der Items gibt es auf Englisch (Original) und in einer deutschen Arbeitsübersetzung, **als Übersetzung gekennzeichnet**.
 - **Export als PDF**, im Layout der offiziellen Checkliste, mit Spalte „Location where item is reported“.
 
+**Umsetzung (Meilenstein 6):**
+
+- Itemtexte in der Oberflächensprache; bei Deutsch steht der Hinweis „Inoffizielle Arbeitsübersetzung …“ (`translation.notice_de`) sichtbar über der Liste, und jedes Item kann den englischen Originaltext aufklappen (`lang="en"`).
+- Vorschläge (Items 5, 6, 7, 8, 16a, 16b, 24a, 24b) werden nur auf Knopfdruck übernommen; stehen in „Wo berichtet“ oder „Notiz“ bereits andere Texte, fragt ein Dialog vorher. Übernommene Vorschläge setzen den Status auf „erledigt“ (außer „nicht zutreffend“). Item 8 weist die Einzelperson ohne unabhängige Zweitprüfung offen aus.
+- PDF: Querformat Letter, vier Spalten wie das Original, Abschnittszeilen, Quellenzeile; Sprache wählbar (Standard Englisch). „Nicht zutreffend“ ohne Fundstelle erscheint als „Not applicable“.
+
 ### Exporte (querschnittlich)
 
 | Export | Format | Version 1 |
@@ -158,6 +164,14 @@ Dazu kommen **projektweite Angaben:**
 | Flow-Diagramm | SVG, PNG, CSV | ✔ |
 | Checkliste | PDF | ✔ |
 | Checkliste | DOCX | Version 2 |
+
+**Umsetzung (Meilenstein 6):** zentrale Seite „Exporte“ (7. Navigationspunkt) plus kontextbezogene Buttons.
+
+- **PDF-Bibliothek: `@react-pdf/renderer`** (MIT). Begründung: Zeilen- und Seitenumbruch, wiederholte Tabellenköpfe und Unicode-Schriften (IBM Plex Sans aus den lokal gebündelten Dateien) sind eingebaut; mit pdf-lib müsste all das selbst gebaut werden. Die Bibliothek wird nur beim Export nachgeladen (eigener Chunk). Beide Bibliotheken erzeugen ungetaggte PDFs; barrierefreie Alternativen sind die Ansicht in der App, der Markdown-Anhang und die CSV-Dateien.
+- **CSV:** UTF-8 mit BOM, alle Zellen in Anführungszeichen, Trennzeichen wählbar (Standard Semikolon bei deutscher, Komma bei englischer Oberfläche), Schutz gegen Formel-Injection (führendes `=`, `+`, `@`).
+- **RIS:** Umkehrung des eigenen RIS-Parsers; per Roundtrip-Test auf allen Fixtures geprüft. Die PMID steht als Notiz (`N1 - PMID: …`), weil es kein Standard-Tag gibt; die Studienzuordnung ebenfalls als Notiz. RIS enthält **keine Attribution** (Entscheidung vom 01.10.2026): RIS kennt keine Kommentare, ein Vermerk würde als Schein-Referenz in Zotero/Citavi landen.
+- **Attribution** in allen übrigen Exporten: Checkliste und Datensatz-/Studien-CSV Page et al. 2021, Suchanhang Rethlefsen et al. 2021, jeweils CC BY 4.0.
+- **Suchanhang:** Suchstrings unverändert (Markdown-Codeblock, dessen Zaun länger ist als jede Backtick-Folge im String), Limits in drei Zuständen („Keine Limits angewendet“ / „Nicht dokumentiert“ / Text).
 
 ### Projektverwaltung
 

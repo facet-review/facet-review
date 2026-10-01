@@ -38,7 +38,7 @@ Jede Zahl im Flow-Diagramm muss auf konkrete Datensätze zurückführbar sein. E
 | Bibliografie-Parsing | citation-js (RIS, BibTeX, CSL-JSON), eigener Parser für .nbib, Papa Parse für CSV |
 | i18n | react-i18next, Sprachdateien in `src/i18n/{de,en}.json` |
 | Flow-Diagramm | Eigenes SVG-Rendering (React-Komponente), kein Diagramm-Framework |
-| PDF-Export | pdf-lib oder @react-pdf/renderer (Entscheidung in Meilenstein 6, kurz begründen) |
+| PDF-Export | **@react-pdf/renderer** (M6: Layout-Engine mit Zeilen-/Seitenumbruch und Unicode-Schriften; nur beim Export nachgeladen) |
 | Styling | **CSS Modules** mit Design-Tokens als CSS Custom Properties in `src/design/tokens.css` (M0: Tokens nativ, globale scharfe Ecken/Haarlinien ohne Utility-Defaults, lesbare semantische Klassen, a11y-Werte zentral, keine Zusatzabhängigkeit) |
 | Paketmanager | **npm** mit `package-lock.json`, in CI `npm ci` (M0: vorinstalliert, niedrigste Hürde für Beitragende; pnpm-Vorteile greifen bei einer Single-Package-App kaum) |
 | Tests | Vitest (Unit), Playwright (E2E) |
@@ -131,6 +131,14 @@ tests/e2e/
 - Layout (`src/features/flow/layout.ts`) ist rein und deterministisch (feste Zeichenbreite statt DOM-Messung); dieselbe Komponente `FlowSvg` zeichnet Bildschirm (Tokens) und Export (Druckfarben, eingebettete Schriften).
 - Diagrammtexte unter `flow.diagram.*` in den i18n-Dateien, gezeichnet mit `i18n.getFixedT(lang)` unabhängig von der Oberflächensprache; Standard EN, DE als Arbeitsübersetzung gekennzeichnet.
 - Attribution (Page et al. 2021, CC BY 4.0) in jedem Export.
+
+## Checkliste und Exporte (ab Meilenstein 6)
+
+- Checklisten-Texte direkt aus `docs/reference/prisma2020-checklist.json` (`src/domain/checklist/items.ts`); DE immer mit `translation.notice_de` kennzeichnen.
+- Vorschläge (`checklistSuggestions`) werden nie automatisch geschrieben; `adoptSuggestion` meldet, was überschrieben würde.
+- Export-Mapping in `src/domain/export/` (RIS, CSV, Suchanhang), Texte über hineingereichte Label-Funktionen (`src/features/export/labels.ts`).
+- CSV immer über `toCsv()` (BOM, Trennzeichen wählbar, Formel-Schutz). RIS muss mit dem eigenen Parser verlustfrei wieder einlesbar sein (`tests/unit/export.roundtrip.test.ts`).
+- PDFs (`src/features/export/pdf/`) nur über den dynamischen Import in `pdf/index.ts` laden, nie statisch.
 
 ## Befehle
 
