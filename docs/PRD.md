@@ -87,7 +87,7 @@ Dazu kommen **projektweite Angaben:**
 
 1. Exakte Übereinstimmung der normalisierten DOI.
 2. Exakte Übereinstimmung der PMID.
-3. Normalisierter Titel (Kleinschreibung, ohne Satzzeichen, ohne Diakritika), Jahr ±1 und erster Autor: Ähnlichkeitswert (z. B. Jaro-Winkler oder Levenshtein-Ratio). Ab einem Schwellenwert wird das Paar als **Kandidat** zur manuellen Bestätigung vorgeschlagen.
+3. Normalisierter Titel (Kleinschreibung, ohne Satzzeichen, ohne Diakritika), Jahr ±1 und erster Autor: Ähnlichkeitswert (z. B. Jaro-Winkler oder Levenshtein-Ratio). Ab einem Schwellenwert (festgelegt: Levenshtein-Ratio 0,90, Begründung in Abschnitt 4) wird das Paar als **Kandidat** zur manuellen Bestätigung vorgeschlagen.
 4. Sichere Treffer (1 und 2) werden automatisch zusammengeführt, aber **rückgängig gemacht werden kann das jederzeit.**
 5. Jede Zusammenführung bildet eine `DuplicateGroup` mit einem Primärdatensatz und protokollierter Regel (`rule: 'doi' | 'pmid' | 'title-fuzzy' | 'manual'`).
 
@@ -208,11 +208,21 @@ interface SourceRun {                 // eine konkrete Ausführung einer Suche
   seedDocuments?: string;             // Zitationssuche: Ausgangsdokumente
   description?: string;               // Kontakte, sonstige Methoden
   notes?: string;
+  importNote?: string;                // Begründung bei Abweichung gemeldet ↔ importiert (M3)
+}
+
+interface ImportBatch {               // eine importierte Datei (M3)
+  id: UUID; projectId: UUID; sourceRunId: UUID;
+  fileName: string; format: 'ris' | 'nbib' | 'bibtex' | 'csv';
+  importedAt: ISODate; recordCount: number;
+  warnings: { code: string; line?: number; detail?: string }[];
 }
 
 interface BibRecord {             // nicht 'Record' – Kollision mit TS-Utility-Typ
   id: UUID; projectId: UUID;
   sourceRunId: UUID;
+  importBatchId: UUID;                // M3: Import als Ganzes rückgängig machbar
+  sourceLine?: number;                // Zeile in der Importdatei
   csl: CSLJSON;                       // normalisierte bibliografische Daten
   raw: string;                        // Originaleintrag aus der Importdatei
   doi?: string; pmid?: string;        // normalisiert, für Dedup indiziert
@@ -221,10 +231,17 @@ interface BibRecord {             // nicht 'Record' – Kollision mit TS-Utility
   studyId?: UUID;                     // Zuordnung Report → Studie
 }
 
-interface DuplicateGroup {
+interface DuplicateGroup {             // abgeleitet aus Datensätzen + DedupDecisions
   id: UUID; projectId: UUID; primaryRecordId: UUID; memberIds: UUID[];
-  rule: 'doi' | 'pmid' | 'title-fuzzy' | 'manual';
+  rule: 'doi' | 'pmid' | 'title-fuzzy' | 'manual';   // stärkste Regel der Gruppe
+  links: { a: UUID; b: UUID; rule: DuplicateRule; score?: number }[];  // jede Verbindung erklärt
   score?: number; confirmedAt?: ISODate;
+}
+
+interface DedupDecision {             // append-only, je Paar gilt die letzte (M3)
+  id: UUID; projectId: UUID; recordIds: UUID[];
+  value: 'merge' | 'separate' | 'reset' | 'primary';
+  reviewerId: UUID; timestamp: ISODate;
 }
 
 interface Decision {                  // append-only
@@ -274,20 +291,46 @@ Standard-Ausschlussgründe bei neuen Projekten (in der Oberflächensprache angel
 
 Pflichtfelder weichen an zwei Stellen bewusst von der Tabelle in Modul 2 ab: **Limits und Filter** sind optional (leer = keine Limits gesetzt; die Angabe „keine“ wäre sonst erzwungen), die **Trefferzahl** ist bei Zitationssuche, Kontakten und sonstigen Methoden optional.
 
+### Änderungen in Meilenstein 3 (Import & Deduplizierung)
+
+| Entscheidung | Begründung |
+|---|---|
+| Neue Entität **`ImportBatch`** (eine Datei), `BibRecord.importBatchId` und `sourceLine` | Ein Import lässt sich als Ganzes rückgängig machen (solange keine Screening-Entscheidungen existieren); Warnungen verweisen auf Zeilen der Originaldatei |
+| Mehrere Dateien pro Suchlauf | Datenbanken begrenzen Exporte (z. B. 2 000 Datensätze); der Abgleich summiert alle Dateien eines Suchlaufs |
+| Abgleich gemeldet ↔ importiert: Begründung (`SourceRun.importNote`) ist Pflicht bei Abweichung, außer die Nutzerin gibt an, dass **weitere Dateien folgen** (nur solange importiert < gemeldet) | Teilexporte sollen nicht zu Scheinbegründungen zwingen; die Abweichung bleibt bis zur Begründung sichtbar (`reconcile()`) |
+| **`DedupDecision`** (append-only) statt manuell gepflegter Gruppen; `DuplicateGroup` wird aus Datensätzen und Entscheidungen **abgeleitet** (`deduplicate()`) und mit stabilen IDs gespeichert | Nachvollziehbarkeit (Prinzip 4): jede Gruppe ist reproduzierbar, jede Entscheidung trägt `reviewerId` und ist rücknehmbar |
+| `DuplicateGroup.links` | Jede Verbindung in einer Gruppe ist mit Regel und ggf. Ähnlichkeitswert erklärt |
+| Primärdatensatz = **vollständigster Datensatz** (DOI, PMID, Abstract, Autor:innen …), manuell änderbar | Das Screening zeigt den informativsten Eintrag |
+| Eigener RIS-Parser, citation-js nur für BibTeX, Papa Parse für CSV | Datenbankspezifische RIS-Eigenheiten (Scopus `C2` = PMID, `AN` bei PubMed) brauchen eigene Regeln |
+| **Verschoben auf M4:** manuelle Zusammenführung beliebiger Datensätze, „vor dem Screening entfernt“ | Beides gehört in die Datensatzliste des Screenings |
+
+**Dedup-Regeln (`src/domain/dedup/dedup.ts`):**
+
+1. Gleiche normalisierte DOI → automatisch zusammengeführt (`doi`).
+2. Gleiche PMID → automatisch zusammengeführt (`pmid`).
+3. **Kandidat** (`title-fuzzy`, nie automatisch): normalisierte Titel (Kleinschreibung, ohne Satzzeichen und Diakritika, Umlaute transliteriert) mit Levenshtein-Ähnlichkeit **≥ 0,90**, Jahr ±1 und gleiche:r Erstautor:in (fehlende Angaben gelten als unbekannt, nicht als Widerspruch). Unterschiedliche DOIs werden als Warnung angezeigt (Preprint vs. Zeitschrift, Doppelpublikation).
+4. Errata („Correction to: …“) werden nie mit dem Original gepaart.
+5. Bestätigte Kandidaten werden zu `manual`-Verbindungen; „Getrennt lassen“ ist ebenso protokolliert und rücknehmbar. Auch automatische Zusammenführungen lassen sich lösen.
+
+**Begründung des Schwellenwerts 0,90** (Testdaten `tests/fixtures/real/`, 419 Datensätze aus vier Quellen): Alle 142 über DOI belegten Dubletten erreichen eine Titelähnlichkeit ≥ 0,99, die ähnlichsten Nicht-Dubletten ≤ 0,72. 0,90 lässt Raum für Schreibvarianten (britisch/amerikanisch, Transliteration, Untertitel-Satzzeichen), ohne dass unterschiedliche Arbeiten vorgeschlagen werden. Ergebnis auf den Echtdaten: 139 Gruppen (138 DOI, 1 PMID), 141 Dubletten entfernt, 278 eindeutige Datensätze, 2 Kandidaten (PRISMA-S in Syst Rev und JMLA; Parallelausgabe von Enfermería Intensiva).
+
+**Leistung:** Blocking nach Erstautor:in und gleitendes Fenster (10) über sortierte Titel, Levenshtein mit Abbruchgrenze; Berechnung im Web Worker.
+
 ### Wann steigt `schemaVersion`?
 
-`schemaVersion` steigt, sobald **bestehende Daten transformiert werden müssen** (Umbenennen, Umstrukturieren, geänderte Bedeutung). Rein additive, optionale Felder ohne vorhandene Daten brauchen keinen Versionssprung. Meilenstein 2 bleibt daher bei Version 1: `sources` und `sourceRuns` waren in allen bisherigen Exporten leer.
+`schemaVersion` steigt, sobald **bestehende Daten transformiert werden müssen** (Umbenennen, Umstrukturieren, geänderte Bedeutung). Rein additive, optionale Felder ohne vorhandene Daten brauchen keinen Versionssprung. Meilenstein 2 bleibt daher bei Version 1: `sources` und `sourceRuns` waren in allen bisherigen Exporten leer. **Meilenstein 3 hebt auf Version 2:** Die Migration 1 → 2 ergänzt die Sammlungen `importBatches` und `dedupDecisions` (leer); Datensätze gab es vorher nicht. Die Browser-Datenbank (Dexie) steht auf Version 2 mit den Tabellen `importBatches`, `dedupDecisions` und dem Index `records.importBatchId`.
 
 ### Austauschformat (Projekt-JSON)
 
 ```json
 {
   "format": "facet-review-project",
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "exportedAt": "2026-09-30T12:00:00.000Z",
   "app": { "name": "Facet Review", "version": "0.0.0" },
   "project": { … },
-  "sources": [], "sourceRuns": [], "records": [], "duplicateGroups": [],
+  "sources": [], "sourceRuns": [], "importBatches": [], "records": [],
+  "duplicateGroups": [], "dedupDecisions": [],
   "decisions": [], "studies": [], "checklist": []
 }
 ```
