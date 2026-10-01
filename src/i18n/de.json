@@ -1126,5 +1126,12 @@
       "openAccess": "nur Open Access",
       "cursorNote": "Automatisch protokolliert von Facet Review (OpenAlex-API, alle Seiten per Cursor geladen)."
     }
+  },
+  "pwa": {
+    "update": "Eine neue Version von Facet Review ist verfügbar. Ihre Daten bleiben beim Neuladen erhalten.",
+    "reload": "Jetzt neu laden",
+    "later": "Später",
+    "offlineReady": "Facet Review ist jetzt auch offline nutzbar (außer der OpenAlex-Suche).",
+    "dismiss": "Ausblenden"
   }
 }

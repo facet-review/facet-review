@@ -88,3 +88,22 @@
     padding-inline: var(--space-4);
   }
 }
+
+.banner {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: var(--space-4) auto 0;
+  padding-inline: var(--space-5);
+}
+
+.bannerInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.bannerInner p {
+  flex: 1 1 20rem;
+  margin: 0;
+}

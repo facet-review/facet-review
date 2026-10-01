@@ -4,6 +4,7 @@ import { Link, Outlet, useLocation } from 'react-router';
 import { Footer } from './Footer';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { UpdatePrompt } from './UpdatePrompt';
 import styles from './Layout.module.css';
 
 export function Layout() {
@@ -41,6 +42,8 @@ export function Layout() {
           </div>
         </div>
       </header>
+
+      <UpdatePrompt />
 
       <main id="main" ref={mainRef} tabIndex={-1} className={styles.main}>
         <Outlet />
