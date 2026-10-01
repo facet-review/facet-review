@@ -1,0 +1,53 @@
+/**
+ * Column names and values of the data exports. Strings live in the i18n files
+ * under `export.labels.*`; domain code only knows the keys.
+ */
+export const EXPORT_LABEL_KEYS = [
+  'recordId',
+  'unit',
+  'role',
+  'primary',
+  'duplicateOf',
+  'source',
+  'searchDate',
+  'file',
+  'line',
+  'title',
+  'authors',
+  'year',
+  'container',
+  'doi',
+  'pmid',
+  'removed',
+  'removedNote',
+  'titleAbstract',
+  'titleAbstractReason',
+  'fullText',
+  'fullTextReason',
+  'study',
+  'ownStudy',
+  'flags',
+  'history',
+  'reports',
+  'sources',
+  'open',
+  'conflict',
+  'review',
+  'inherited',
+  'include',
+  'exclude',
+  'maybe',
+  'not_retrieved',
+  'remove_automation',
+  'remove_other',
+  'reset',
+  'pre_screening',
+  'title_abstract',
+  'full_text',
+  'notInStage',
+  'source2020',
+  'license',
+] as const;
+
+export type ExportLabelKey = (typeof EXPORT_LABEL_KEYS)[number];
+export type ExportLabels = (key: ExportLabelKey) => string;

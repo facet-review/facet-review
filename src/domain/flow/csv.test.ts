@@ -76,15 +76,15 @@ describe('flowRows', () => {
 
 describe('flowCsv', () => {
   it('quotes values and ends with source and licence (CC BY 4.0)', () => {
-    const csv = flowCsv(counts, labels, { workingTranslation: true });
+    const csv = flowCsv(counts, labels, { workingTranslation: true, delimiter: ',' });
     const lines = csv.trimEnd().split('\r\n');
-    expect(lines[0]).toBe('"<csvBox>","<csvN>"');
+    expect(lines[0]).toBe('\uFEFF"<csvBox>","<csvN>"');
     expect(csv).toContain('"<reportsExcluded>: Wrong ""design"", sic","3"');
     expect(lines.slice(-3)).toEqual(['"<workingTranslation>"', '"<source>"', '"<license>"']);
   });
 
   it('omits the working-translation note for the English original', () => {
-    expect(flowCsv(counts, labels, { workingTranslation: false })).not.toContain(
+    expect(flowCsv(counts, labels, { workingTranslation: false, delimiter: ';' })).not.toContain(
       'workingTranslation',
     );
   });

@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "erasableSyntaxOnly": true
   },
-  "include": ["src"]
+  "include": ["src", "docs/reference/prisma2020-checklist.json"]
 }
