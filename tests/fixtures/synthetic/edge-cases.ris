@@ -1,0 +1,119 @@
+TY  - JOUR
+TI  - Reporting literature searches in systematic reviews: an audit of search methods sections
+AU  - Berger, Anna
+AU  - Novak, Petr
+PY  - 2022
+T2  - Journal of Evidence Synthesis Methods
+VL  - 14
+IS  - 3
+SP  - 201
+EP  - 214
+DO  - 10.5555/FR.TEST.0001
+AB  - Synthetic test record A1. Primary version with upper-case DOI.
+ER  - 
+
+TY  - JOUR
+TI  - Reporting literature searches in systematic reviews: An audit of search methods sections.
+AU  - Berger, A.
+AU  - Novak, P.
+PY  - 2022
+JO  - J Evid Synth Methods
+DO  - https://doi.org/10.5555/fr.test.0001
+AB  - Synthetic test record A2. Same DOI as A1 but lower case, with resolver prefix and trailing period in title. Expected: automatic merge (rule doi).
+ER  - 
+
+TY  - JOUR
+TI  - Informationskompetenz und systematische Übersichtsarbeiten an Fachhochschulen
+AU  - Müller, Jürgen
+AU  - Größ, Käthe
+PY  - 2023
+T2  - Bibliotheksdienst
+DO  - 
+AB  - Synthetic test record C1. No DOI. German umlauts and sharp s.
+ER  - 
+
+TY  - JOUR
+TI  - INFORMATIONSKOMPETENZ UND SYSTEMATISCHE UEBERSICHTSARBEITEN AN FACHHOCHSCHULEN
+AU  - Mueller, Juergen
+AU  - Groess, Kaethe
+PY  - 2023
+T2  - BIBLIOTHEKSDIENST
+AB  - Synthetic test record C2. Same work as C1, all caps (Web-of-Science style), umlauts transliterated. Expected: fuzzy-title candidate, confirmed manually.
+ER  - 
+
+TY  - JOUR
+TI  - Peer review of search strategies: a randomised comparison of two checklists
+AU  - Okafor, Chidi
+AU  - Lindqvist, Maja
+PY  - 2023
+T2  - medRxiv
+DO  - 10.5555/FR.TEST.0004
+AB  - Synthetic test record D1. Preprint version.
+ER  - 
+
+TY  - JOUR
+TI  - Peer review of search strategies: a randomized comparison of two checklists
+AU  - Okafor, Chidi
+AU  - Lindqvist, Maja
+PY  - 2024
+T2  - Research Synthesis Methods
+DO  - 10.5555/FR.TEST.0005
+AB  - Synthetic test record D2. Published version of D1: different DOI, British vs American spelling, year +1. Expected: fuzzy candidate only, NOT auto-merged; user decides.
+ER  - 
+
+TY  - JOUR
+TI  - Correction to: Peer review of search strategies: a randomized comparison of two checklists
+AU  - Okafor, Chidi
+AU  - Lindqvist, Maja
+PY  - 2024
+T2  - Research Synthesis Methods
+DO  - 10.5555/FR.TEST.0006
+AB  - Synthetic test record E1. Erratum to D2. Expected: must NOT be merged with D2 (different DOI, title prefix "Correction to").
+ER  - 
+
+TY  - JOUR
+TI  - Editorial
+AU  - Svensson, Lars
+PY  - 2024
+T2  - Health Information and Libraries Journal
+DO  - 10.5555/FR.TEST.0007
+AB  - Synthetic test record F1. Generic title.
+ER  - 
+
+TY  - JOUR
+TI  - Editorial
+AU  - Tanaka, Hiroshi
+PY  - 2024
+T2  - Journal of the Medical Library Association
+DO  - 10.5555/FR.TEST.0008
+AB  - Synthetic test record F2. Same generic title and year as F1, different author, journal and DOI. Expected: NOT merged.
+ER  - 
+
+TY  - CHAP
+TI  - Grey literature searching &amp; documentation – a practical guide
+AU  - O'Brien, Siobhán
+PY  - 
+T2  - Handbook of Evidence Synthesis in Libraries
+PB  - Example Academic Press
+AB  - Synthetic test record G1. Book chapter, missing year, HTML entity in title, en-dash, apostrophe and accented name. Expected: imports without error; year empty.
+ER  - 
+
+TY  - JOUR
+TI  - Search filters for study design: validation of a filter for qualitative research in CINAHL, MEDLINE and PsycINFO across three independent reference sets and implications for librarians supporting evidence synthesis in nursing and allied health
+PY  - 2021
+T2  - Journal of Evidence Synthesis Methods
+DO  - 10.5555/FR.TEST.0010
+AB  - Synthetic test record H1. Very long title, no authors.
+AB  - Second AB line: some exporters split abstracts across repeated tags. Expected: both lines joined.
+ER  - 
+
+TY  - JOUR
+TI  - Automation tools in title and abstract screening: a scoping review
+AU  - García-López, María José
+AU  - Nguyen, Thi Thu
+AU  - van der Berg, Johannes
+PY  - 2025
+T2  - Systematic Reviews
+DO  - 10.5555/FR.TEST.0011
+AB  - Synthetic test record B-ris. Same DOI as record B-nbib in edge-cases.nbib. Expected: merged across files (rule doi). Compound surnames with particles.
+ER  - 

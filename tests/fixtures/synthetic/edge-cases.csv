@@ -1,0 +1,3 @@
+Title,Authors,Year,Source,DOI,PMID,Abstract
+"Documenting database searches with PRISMA-S: a cross-sectional study","Weber, K.; Lopes, R.",2024,"Journal of the Medical Library Association",,99000002,"Synthetic test record K2. Same PMID as K1 in edge-cases.nbib, no DOI. Expected: merged (rule pmid)."
+"Semicolons; commas, and ""quotes"" in a CSV title","Doe, J.",2020,"Test Journal",10.5555/FR.TEST.0013,,"Synthetic test record L1. CSV escaping edge case. Expected: imports cleanly."
