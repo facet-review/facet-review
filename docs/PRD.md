@@ -74,6 +74,17 @@ Dazu kommen **projektweite Angaben:**
 
 **OpenAlex-Suche:** Direkt aus dem Tool über die OpenAlex-API. Suchstring, Filter und Datum werden automatisch protokolliert, die Treffer direkt importiert. Das Tool fügt nach der Konvention von OpenAlex eine `mailto`-Angabe hinzu, und zwar die der Nutzerin, falls hinterlegt.
 
+**Umsetzung OpenAlex (Meilenstein 7):** eigene Seite „Suche in OpenAlex“ im Modul Suche (`src/domain/openalex/`).
+
+- **Suche:** Suchstring unverändert, durchsuchte Felder wählbar (Titel und Abstract = `title_and_abstract.search`, Standard; nur Titel; Volltext-Index = `search`). Limits: Erscheinungsjahr von/bis, Publikationstypen, Sprachen (ISO 639-1), nur Open Access. Kommas im Suchstring sind bei Feldsuchen nicht erlaubt, weil OpenAlex damit Filter trennt (verständliche Fehlermeldung statt stiller Verfälschung).
+- **Ablauf:** erst „Treffer zählen“ (eine kleine Anfrage, Vorschau der ersten Titel), dann „importieren“. Alle Seiten werden per Cursor geladen (200 je Seite, mindestens 150 ms Abstand, bei 429/5xx `Retry-After` bzw. 1/2/4 s Backoff, höchstens drei Wiederholungen). **Erst wenn alle Seiten da sind, wird in einer Transaktion gespeichert** (Quelle „OpenAlex“ mit Plattform „OpenAlex API“, beim ersten Mal angelegt; Suchlauf; Importdatei; Datensätze). Abbruch oder Fehler speichern nichts – kein halb protokollierter Suchlauf in der Kette.
+- **Automatisches Protokoll (Suchlauf):** Datum (lokaler Tag), Suchstring in Parameterform (z. B. `title_and_abstract.search:…`), Limits lesbar plus Roh-Filter `filter=…` (ohne Limits: „Keine Limits angewendet“), gemeldete Trefferzahl `meta.count`, Notiz mit der vollständigen Abfrage-URL **ohne** E-Mail-Adresse und Key.
+- **Obergrenze 10 000 Treffer pro Import** (Performance-Ziel §6); darüber muss die Suche eingeschränkt werden.
+- **mailto und optionaler API-Key** werden nur gesendet, wenn die Nutzerin sie einträgt, und **nur im Browser** gespeichert (localStorage), nie im Projekt oder Export. Der Key ist vorsorglich vorgesehen; die aktuelle OpenAlex-Dokumentation war während der Umsetzung nicht erreichbar.
+- **Abbildung:** Work → CSL (Abstract aus dem invertierten Index rekonstruiert, Namen „Vorname Nachname“ mit Namenszusätzen wie „van der“ zum Nachnamen, einteilige Namen als Körperschaft). `raw` ist das Work als JSON, `sourceLine` die Position in der Trefferliste. DOI/PMID-Dubletten zu Datei-Importen werden automatisch erkannt.
+- **Tests ohne Live-Abfragen:** nachgebaute Antworten in `tests/fixtures/openalex/`; `scripts/record-openalex.mjs` ersetzt sie durch echte Aufnahmen.
+- Offline zeigt die Seite einen Hinweis; alles andere funktioniert weiter.
+
 **Export:** Die Suchdokumentation lässt sich als Anhang für die Arbeit exportieren (PDF und Markdown), einschließlich der vollständigen Suchstrings aller Quellen (Item 8).
 
 ### Modul 3: Import & Deduplizierung
@@ -175,7 +186,7 @@ Dazu kommen **projektweite Angaben:**
 
 ### Projektverwaltung
 
-- Mehrere Projekte pro Browser, mit Projektübersicht als Startseite.
+- Mehrere Projekte pro Browser, mit Projektübersicht als Startseite. **Umsetzung (Meilenstein 7):** Die Startseite zeigt oben Logo, Slogan, Kurzbeschreibung, die Kette, die Einstiege „Neues Projekt“ und „Projekt öffnen“ (lädt eine Projektdatei) sowie den Hinweis „Ihre Daten bleiben in Ihrem Browser“; darunter die Projekte.
 - Automatisches Speichern in IndexedDB.
 - **Sicherungserinnerung:** Nach X Änderungen oder Y Tagen ohne JSON-Export erscheint ein Hinweis, weil Browserdaten gelöscht werden können. `navigator.storage.persist()` wird angefordert.
 - Import eines Projekt-JSON, auch auf einem anderen Gerät.
@@ -373,6 +384,14 @@ Pflichtfelder weichen an zwei Stellen bewusst von der Tabelle in Modul 2 ab (bes
 
 Weitere Regeln: Einheiten **nur** aus anderen Methoden (Websites, Zitationssuche, Kontakte, sonstige) gehen direkt in Stufe 2; ist ein Datensatz aus Datenbank, Register oder Suchmaschine dabei, durchläuft die Einheit Stufe 1. Stufe 2 ist gesperrt, solange es „Vielleicht“ gibt (außer per Einstellung mitgenommen); unentschiedene Stufe-1-Datensätze erzeugen nur eine Warnung. Ändert sich die Stufe-1-Entscheidung nachträglich, bleibt eine Stufe-2-Entscheidung in der Historie, zählt aber nicht.
 
+### Änderungen in Meilenstein 7 (OpenAlex)
+
+| Entscheidung | Begründung |
+|---|---|
+| `ImportBatch.format` kennt zusätzlich `'openalex'`; `fileName` enthält dann die Abfrage-URL (ohne E-Mail-Adresse und Key) | Die Herkunft eines OpenAlex-Imports ist eine Anfrage, keine Datei. Rein additiv: bestehende Daten ändern sich nicht, daher **kein Versionssprung**; die Validierung des Projekt-JSON ist nachgezogen |
+| Keine neue Tabelle, keine Dexie-Version | Quelle, Suchlauf, Importdatei und Datensätze nutzen das bestehende Modell |
+| `mailto` und API-Key nicht im Datenmodell | Persönliche Angaben gehören nicht in ein Projekt, das weitergegeben wird |
+
 ### Wann steigt `schemaVersion`?
 
 `schemaVersion` steigt, sobald **bestehende Daten transformiert werden müssen** (Umbenennen, Umstrukturieren, geänderte Bedeutung). Rein additive, optionale Felder ohne vorhandene Daten brauchen keinen Versionssprung. Meilenstein 2 bleibt daher bei Version 1: `sources` und `sourceRuns` waren in allen bisherigen Exporten leer. **Meilenstein 3 hebt auf Version 2:** Die Migration 1 → 2 ergänzt die Sammlungen `importBatches` und `dedupDecisions` (leer); Datensätze gab es vorher nicht. Die Browser-Datenbank (Dexie) steht auf Version 2 mit den Tabellen `importBatches`, `dedupDecisions` und dem Index `records.importBatchId`. **Meilenstein 4 hebt auf Version 3:** Die Migration 2 → 3 wandelt `recordId` in `recordIds: [recordId]` und `shownRecordId`, entfernt die ungenutzten Datensatz-Felder `studyId` und `removedBeforeScreening` und ergänzt `project.screening` mit Standardwerten; Dexie Version 3 macht dasselbe in der Browser-Datenbank (Multi-Entry-Index `decisions.*recordIds`). `SourceRun.noLimits` ist ein additives, optionales Feld ohne Versionssprung. Bis dahin leere Limits-Felder gelten als „nicht dokumentiert“; ob damit „keine Limits“ gemeint war, lässt sich nicht automatisch ableiten und muss bei Bedarf per Checkbox nachgetragen werden.
@@ -441,10 +460,12 @@ Alle Werte werden in `src/domain/flow/` als reine Funktion `computeFlow(projectD
 - **Performance:** 10.000 Datensätze pro Projekt ohne spürbare Verzögerung beim Screening (Virtualisierung von Listen, Deduplizierung im Web Worker).
 - **Datenschutz:** Kein Datenversand außer an OpenAlex bei aktiver Suche. Die Datenschutzerklärung ist entsprechend kurz.
   - **Content Security Policy (spätestens Meilenstein 7):** Das Versprechen „kein Datenversand außer an OpenAlex“ wird technisch erzwungen, nicht nur zugesagt. Weil GitHub Pages keine eigenen HTTP-Header erlaubt, wird die CSP als `<meta http-equiv="Content-Security-Policy">` in `index.html` gesetzt, mindestens mit `default-src 'self'` und `connect-src 'self' https://api.openalex.org`; Schriften, Skripte, Styles und Bilder nur aus `'self'` (bzw. `data:`/`blob:`, wo für Exporte nötig). Ein E2E-Test prüft, dass die Policy greift. Die CSP ist auch ein Argument gegenüber Hochschulen und Datenschutzbeauftragten.
+  - **Umsetzung (Meilenstein 7):** Die Policy steht in `src/app/csp.ts` und wird nur im Build als `<meta>` in `index.html` (und damit `404.html`) geschrieben: `default-src 'self'; connect-src 'self' https://api.openalex.org; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'`. `'wasm-unsafe-eval'` braucht der PDF-Export (Layout-Engine Yoga als WebAssembly); es erlaubt kein `eval()`. Die PDF-Bibliothek versucht zunächst, ihr WebAssembly per `fetch()` aus einer eingebetteten `data:`-URL zu laden; die Policy blockiert das bewusst (`connect-src` bleibt exakt `'self'` und OpenAlex), die Bibliothek dekodiert dieselben Bytes dann im Speicher. E2E-Tests prüfen, dass fremde `fetch`-, Beacon-, Bild- und Skript-Anfragen blockiert werden, OpenAlex erreichbar ist und ein Rundgang durch alle Module und Exporte keine fremde Anfrage auslöst. `frame-ancestors` lässt sich per `<meta>` nicht setzen.
   - **Hosting-Hinweis für die Datenschutzerklärung:** Die App wird über GitHub Pages (GitHub Inc., USA) unter facetreview.org ausgeliefert. Beim Seitenaufruf verarbeitet GitHub technisch notwendige Verbindungsdaten, insbesondere die IP-Adresse. Das ist kein Tracking durch die App, muss aber in der Datenschutzerklärung benannt werden (inkl. Verweis auf die GitHub-Datenschutzbestimmungen).
-- **Barrierefreiheit:** WCAG 2.1 AA, vollständige Tastaturbedienung, sichtbarer Fokus, Kontraste ≥ 4.5:1.
+- **Barrierefreiheit:** WCAG 2.1 AA, vollständige Tastaturbedienung, sichtbarer Fokus, Kontraste ≥ 4.5:1. Audit in Meilenstein 7: [`docs/a11y-audit.md`](a11y-audit.md), automatisiert in `tests/e2e/a11y.spec.ts`.
 - **Browser:** Aktuelle Versionen von Chrome, Edge, Firefox und Safari.
-- **Offline:** Als PWA installierbar (Meilenstein 7). Ohne Netz funktioniert alles außer der OpenAlex-Suche.
+- **Offline:** Als PWA installierbar (Meilenstein 7). Ohne Netz funktioniert alles außer der OpenAlex-Suche. **Umsetzung:** `vite-plugin-pwa` (Workbox, `generateSW`) speichert den gesamten Build vorab, auch die nachgeladene PDF-Engine, den Import-Worker und alle Schriften; Navigationen fallen auf `index.html` zurück (Deep Links offline). OpenAlex wird nie zwischengespeichert. Eine neue Version wird nur angekündigt („Jetzt neu laden“ / „Später“), nie ungefragt aktiviert – auch nicht mitten im Screening.
+- **Rechtliches:** Seiten „Impressum“ (`/impressum`) und „Datenschutz“ (`/datenschutz`), verlinkt in der Fußzeile. Die Inhalte liefert der Autor; bis dahin stehen markierte Platzhalter und ein automatischer Entwurfshinweis. Die Datenschutzseite enthält bereits den Hosting-Hinweis (GitHub Pages), die OpenAlex-Suche, die lokale Speicherung und die CSP.
 - **Robustheit:** Beschädigte Importdateien führen zu verständlichen Fehlermeldungen mit Zeilenangabe, nie zu einem Absturz.
 
 ## 7. Roadmap
