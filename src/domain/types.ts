@@ -9,7 +9,7 @@ export type UUID = string;
 export type ISODate = string;
 
 /** Version of the project exchange format (JSON export). Independent of the Dexie DB version. */
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 export type QuestionFramework = 'PICO' | 'PICo' | 'SPIDER' | 'free';
 export type ReviewType = 'new' | 'update';
@@ -94,13 +94,62 @@ export interface SourceRun {
   seedDocuments?: string;
   description?: string;
   notes?: string;
+  /** Justification when imported and reported numbers differ (PRD, Modul 3). */
+  importNote?: string;
 }
 
-/** Minimal CSL-JSON item; refined in milestone 3. */
+export interface CslName {
+  family?: string;
+  given?: string;
+  suffix?: string;
+  /** Organisations or names that cannot be split. */
+  literal?: string;
+}
+
+/** CSL-JSON item (bibliographic data in the internal format). Only commonly used fields are typed. */
 export interface CslItem {
   type?: string;
   title?: string;
+  author?: CslName[];
+  editor?: CslName[];
+  issued?: { 'date-parts'?: (number | string)[][]; raw?: string };
+  'container-title'?: string;
+  'container-title-short'?: string;
+  volume?: string;
+  issue?: string;
+  page?: string;
+  DOI?: string;
+  PMID?: string;
+  ISSN?: string;
+  ISBN?: string;
+  URL?: string;
+  abstract?: string;
+  keyword?: string;
+  language?: string;
+  publisher?: string;
   [key: string]: unknown;
+}
+
+export type ImportFormat = 'ris' | 'nbib' | 'bibtex' | 'csv';
+
+/** A problem found while reading a file; never fatal for the other records. */
+export interface ImportWarning {
+  code: string;
+  /** 1-based line in the imported file, if known. */
+  line?: number;
+  detail?: string;
+}
+
+/** One imported file. Records keep their batch, so an import can be undone as a whole. */
+export interface ImportBatch {
+  id: UUID;
+  projectId: UUID;
+  sourceRunId: UUID;
+  fileName: string;
+  format: ImportFormat;
+  importedAt: ISODate;
+  recordCount: number;
+  warnings: ImportWarning[];
 }
 
 /** Not `Record` – that name collides with the TypeScript utility type. */
@@ -108,8 +157,13 @@ export interface BibRecord {
   id: UUID;
   projectId: UUID;
   sourceRunId: UUID;
+  importBatchId: UUID;
+  /** 1-based line where the record starts in the imported file. */
+  sourceLine?: number;
   csl: CslItem;
+  /** Original entry from the import file, unchanged. */
   raw: string;
+  /** Normalised identifiers, indexed for deduplication. */
   doi?: string;
   pmid?: string;
   removedBeforeScreening?: { by: 'automation' | 'other'; reason: string };
@@ -117,14 +171,44 @@ export interface BibRecord {
   studyId?: UUID;
 }
 
+export type DuplicateRule = 'doi' | 'pmid' | 'title-fuzzy' | 'manual';
+
+/** Why two records belong together. */
+export interface DuplicateLink {
+  a: UUID;
+  b: UUID;
+  rule: DuplicateRule;
+  /** Title similarity 0–1 for fuzzy links. */
+  score?: number;
+}
+
+/**
+ * Derived from records and dedup decisions (see domain/dedup); stored so that
+ * screening and counting can use it directly. `rule` is the strongest rule
+ * among the links; `links` explains every connection.
+ */
 export interface DuplicateGroup {
   id: UUID;
   projectId: UUID;
   primaryRecordId: UUID;
   memberIds: UUID[];
-  rule: 'doi' | 'pmid' | 'title-fuzzy' | 'manual';
+  rule: DuplicateRule;
+  links: DuplicateLink[];
   score?: number;
   confirmedAt?: ISODate;
+}
+
+/**
+ * Append-only user decision about duplicates; the latest decision per record
+ * pair wins. merge/separate/reset concern a pair, primary a single record.
+ */
+export interface DedupDecision {
+  id: UUID;
+  projectId: UUID;
+  recordIds: UUID[];
+  value: 'merge' | 'separate' | 'reset' | 'primary';
+  reviewerId: UUID;
+  timestamp: ISODate;
 }
 
 /** Append-only audit trail; the current status is the latest decision. */
@@ -161,8 +245,10 @@ export interface ProjectBundle {
   project: Project;
   sources: Source[];
   sourceRuns: SourceRun[];
+  importBatches: ImportBatch[];
   records: BibRecord[];
   duplicateGroups: DuplicateGroup[];
+  dedupDecisions: DedupDecision[];
   decisions: Decision[];
   studies: Study[];
   checklist: ChecklistEntry[];

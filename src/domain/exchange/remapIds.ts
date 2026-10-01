@@ -33,12 +33,19 @@ export function remapIds(bundle: ProjectBundle, newId: () => UUID): ProjectBundl
       projectId,
       sourceId: map(r.sourceId),
     })),
+    importBatches: bundle.importBatches.map((b) => ({
+      ...b,
+      id: map(b.id),
+      projectId,
+      sourceRunId: map(b.sourceRunId),
+    })),
     records: bundle.records.map((r) =>
       withoutUndefined({
         ...r,
         id: map(r.id),
         projectId,
         sourceRunId: map(r.sourceRunId),
+        importBatchId: map(r.importBatchId),
         duplicateGroupId: opt(r.duplicateGroupId),
         studyId: opt(r.studyId),
       }),
@@ -49,6 +56,14 @@ export function remapIds(bundle: ProjectBundle, newId: () => UUID): ProjectBundl
       projectId,
       primaryRecordId: map(g.primaryRecordId),
       memberIds: g.memberIds.map(map),
+      links: g.links.map((link) => ({ ...link, a: map(link.a), b: map(link.b) })),
+    })),
+    dedupDecisions: bundle.dedupDecisions.map((d) => ({
+      ...d,
+      id: map(d.id),
+      projectId,
+      recordIds: d.recordIds.map(map),
+      reviewerId: map(d.reviewerId),
     })),
     decisions: bundle.decisions.map((d) =>
       withoutUndefined({

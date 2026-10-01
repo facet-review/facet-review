@@ -11,7 +11,14 @@ export type MigrationRegistry = Readonly<Record<number, Migration>>;
  * Registry of the project exchange format. Every schema change adds one entry
  * (and a test) – see CLAUDE.md, Konventionen.
  */
-export const PROJECT_MIGRATIONS: MigrationRegistry = {};
+export const PROJECT_MIGRATIONS: MigrationRegistry = {
+  /** Milestone 3: import protocol and dedup decisions become part of every file. */
+  1: (file) => ({
+    ...file,
+    importBatches: file.importBatches ?? [],
+    dedupDecisions: file.dedupDecisions ?? [],
+  }),
+};
 
 export function runMigrations(
   file: VersionedFile,

@@ -178,6 +178,58 @@ describe('parseProjectFile', () => {
     expect(roundTrip(bundle)).toEqual({ ok: true, value: bundle });
   });
 
+  it('migrates version 1 files (milestones 1–2) by adding the new collections', () => {
+    const file = corruptibleFile();
+    file.schemaVersion = 1;
+    delete file.importBatches;
+    delete file.dedupDecisions;
+    file.records = [];
+    file.duplicateGroups = [];
+    file.decisions = [];
+    file.studies = [];
+    const result = parseProjectFile(JSON.stringify(file));
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.importBatches).toEqual([]);
+      expect(result.value.dedupDecisions).toEqual([]);
+      expect(result.value.sources).toHaveLength(1);
+    }
+  });
+
+  it('validates import batches, records and dedup data', () => {
+    const file = corruptibleFile();
+    file.importBatches[0].format = 'docx';
+    file.importBatches[0].warnings = [{ line: 'x' }];
+    file.records[0].csl = 'not an object';
+    file.records[1].sourceLine = -1;
+    file.duplicateGroups[0].rule = 'vibes';
+    file.dedupDecisions[0].value = 'maybe';
+    expect(errorsOf(JSON.stringify(file))).toEqual([
+      { code: 'invalidField', path: 'importBatches[0].format' },
+      { code: 'invalidField', path: 'importBatches[0].warnings[0]' },
+      { code: 'invalidField', path: 'records[0].csl' },
+      { code: 'invalidField', path: 'records[1].sourceLine' },
+      { code: 'invalidField', path: 'duplicateGroups[0].rule' },
+      { code: 'invalidField', path: 'dedupDecisions[0].value' },
+    ]);
+  });
+
+  it('rejects broken references along the chain search → batch → record → group', () => {
+    const file = corruptibleFile();
+    file.importBatches[0].sourceRunId = 'run-missing';
+    file.records[0].importBatchId = 'batch-missing';
+    file.records[1].sourceRunId = 'run-missing';
+    file.duplicateGroups[0].memberIds = ['rec-1', 'rec-missing'];
+    file.dedupDecisions[0].recordIds = ['rec-missing'];
+    expect(errorsOf(JSON.stringify(file))).toEqual([
+      { code: 'invalidField', path: 'importBatches[0].sourceRunId' },
+      { code: 'invalidField', path: 'records[0].importBatchId' },
+      { code: 'invalidField', path: 'records[1].sourceRunId' },
+      { code: 'invalidField', path: 'duplicateGroups[0].memberIds[1]' },
+      { code: 'invalidField', path: 'dedupDecisions[0].recordIds[0]' },
+    ]);
+  });
+
   it('accepts files without optional project fields', () => {
     const bundle = makeLinkedBundle();
     bundle.project.flowOverrides = { variant: 'new_db', previousStudies: 3 };

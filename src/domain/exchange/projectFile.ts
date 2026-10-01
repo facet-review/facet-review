@@ -30,8 +30,10 @@ export function serializeProjectFile(
 const COLLECTIONS = [
   'sources',
   'sourceRuns',
+  'importBatches',
   'records',
   'duplicateGroups',
+  'dedupDecisions',
   'decisions',
   'studies',
   'checklist',
@@ -60,11 +62,20 @@ export function parseProjectFile(text: string): Result<ProjectBundle, ImportIssu
   const invalid = (path: string) => issues.push({ code: 'invalidField', path });
 
   const projectId = validateProject(file.project, invalid);
-  const sourceIds = new Set(
-    Array.isArray(file.sources) ? file.sources.filter(isObject).map((source) => source.id) : [],
-  );
+  // A collection that is itself broken is reported once; references into it are not checked.
+  const idsOf = (key: (typeof COLLECTIONS)[number]) =>
+    Array.isArray(file[key])
+      ? new Set((file[key] as unknown[]).filter(isObject).map((entity) => entity.id))
+      : undefined;
+  const context: Context = {
+    projectId,
+    sourceIds: idsOf('sources'),
+    runIds: idsOf('sourceRuns'),
+    batchIds: idsOf('importBatches'),
+    recordIds: idsOf('records'),
+  };
   for (const key of COLLECTIONS) {
-    validateCollection(file[key], key, { projectId, sourceIds }, invalid);
+    validateCollection(file[key], key, context, invalid);
   }
   if (issues.length > 0) return { ok: false, errors: issues };
 
@@ -223,29 +234,112 @@ function checkList(value: unknown, path: string, report: Report, fields: Record<
 const isCount: Check = (v) => typeof v === 'number' && Number.isInteger(v) && v >= 0;
 const isDate: Check = (v) => typeof v === 'string' && isDateOnly(v);
 
+interface Context {
+  projectId: string | undefined;
+  sourceIds: Set<unknown> | undefined;
+  runIds: Set<unknown> | undefined;
+  batchIds: Set<unknown> | undefined;
+  recordIds: Set<unknown> | undefined;
+}
+
+/** Reference into another collection; only the type is checked if that collection is broken. */
+const refersTo =
+  (ids: Set<unknown> | undefined): Check =>
+  (v) =>
+    isString(v) && (ids === undefined || ids.has(v));
+
 /** Entity-specific fields; entities not listed yet are refined in their milestone. */
-const ENTITY_FIELDS: Partial<Record<(typeof COLLECTIONS)[number], Record<string, Check>>> = {
-  sources: {
-    type: oneOf(...SOURCE_TYPES),
-    name: isString,
-    platform: optional(isString),
-    url: optional(isString),
-  },
-  sourceRuns: {
-    date: isDate,
-    dateTo: optional(isDate),
-    searchString: isString,
-    limits: optional(isString),
-    reportedHits: optional(isCount),
-    tool: optional(isString),
-    method: optional(oneOf('search', 'browse')),
-    recordsChecked: optional(isCount),
-    citationDirection: optional(oneOf('backward', 'forward', 'both')),
-    seedDocuments: optional(isString),
-    description: optional(isString),
-    notes: optional(isString),
-  },
-};
+function entityFields(key: (typeof COLLECTIONS)[number], context: Context): Record<string, Check> {
+  switch (key) {
+    case 'sources':
+      return {
+        type: oneOf(...SOURCE_TYPES),
+        name: isString,
+        platform: optional(isString),
+        url: optional(isString),
+      };
+    case 'sourceRuns':
+      return {
+        sourceId: refersTo(context.sourceIds),
+        date: isDate,
+        dateTo: optional(isDate),
+        searchString: isString,
+        limits: optional(isString),
+        reportedHits: optional(isCount),
+        tool: optional(isString),
+        method: optional(oneOf('search', 'browse')),
+        recordsChecked: optional(isCount),
+        citationDirection: optional(oneOf('backward', 'forward', 'both')),
+        seedDocuments: optional(isString),
+        description: optional(isString),
+        notes: optional(isString),
+        importNote: optional(isString),
+      };
+    case 'importBatches':
+      return {
+        sourceRunId: refersTo(context.runIds),
+        fileName: isString,
+        format: oneOf('ris', 'nbib', 'bibtex', 'csv'),
+        importedAt: isString,
+        recordCount: isCount,
+      };
+    case 'records':
+      return {
+        sourceRunId: refersTo(context.runIds),
+        importBatchId: refersTo(context.batchIds),
+        sourceLine: optional(isCount),
+        csl: isObject,
+        raw: isString,
+        doi: optional(isString),
+        pmid: optional(isString),
+        duplicateGroupId: optional(isString),
+        studyId: optional(isString),
+        removedBeforeScreening: optional(isObject),
+      };
+    case 'duplicateGroups':
+      return {
+        primaryRecordId: refersTo(context.recordIds),
+        rule: oneOf('doi', 'pmid', 'title-fuzzy', 'manual'),
+        score: optional(isNumber),
+        confirmedAt: optional(isString),
+      };
+    case 'dedupDecisions':
+      return {
+        value: oneOf('merge', 'separate', 'reset', 'primary'),
+        reviewerId: isString,
+        timestamp: isString,
+      };
+    default:
+      return {};
+  }
+}
+
+/** Arrays inside entities, checked element by element. */
+function entityArrays(key: (typeof COLLECTIONS)[number], context: Context): Record<string, Check> {
+  const isWarning: Check = (v) =>
+    isObject(v) && isString(v.code) && optional(isCount)(v.line) && optional(isString)(v.detail);
+  const isLink: Check = (v) =>
+    isObject(v) &&
+    isString(v.a) &&
+    isString(v.b) &&
+    oneOf('doi', 'pmid', 'title-fuzzy', 'manual')(v.rule) &&
+    optional(isNumber)(v.score);
+  switch (key) {
+    case 'sources':
+      return { databases: isString };
+    case 'importBatches':
+      return { warnings: isWarning };
+    case 'duplicateGroups':
+      return { memberIds: refersTo(context.recordIds), links: isLink };
+    case 'dedupDecisions':
+      return { recordIds: refersTo(context.recordIds) };
+    default:
+      return {};
+  }
+}
+
+/** Arrays that may be absent on an entity (all others are required). */
+const OPTIONAL_ARRAYS = new Set(['databases']);
 
 /**
  * Child entities: identity (id, or itemId for the checklist), matching projectId,
@@ -254,25 +348,30 @@ const ENTITY_FIELDS: Partial<Record<(typeof COLLECTIONS)[number], Record<string,
 function validateCollection(
   value: unknown,
   key: (typeof COLLECTIONS)[number],
-  context: { projectId: string | undefined; sourceIds: Set<unknown> },
+  context: Context,
   report: Report,
 ) {
   const belongs: Check = (v) => context.projectId === undefined || v === context.projectId;
   const identity: Record<string, Check> =
     key === 'checklist' ? { itemId: isString } : { id: isString };
-  const references: Record<string, Check> =
-    key === 'sourceRuns' ? { sourceId: (v) => isString(v) && context.sourceIds.has(v) } : {};
-  checkList(value, key, report, {
-    ...identity,
-    projectId: belongs,
-    ...references,
-    ...ENTITY_FIELDS[key],
-  });
-  if (key === 'sources' && Array.isArray(value)) {
-    value.forEach((source, index) => {
-      if (isObject(source) && source.databases !== undefined) {
-        checkArray(source.databases, `sources[${index}].databases`, isString, report);
-      }
-    });
+  if (!Array.isArray(value)) {
+    report(key);
+    return;
   }
+  const arrays = entityArrays(key, context);
+  value.forEach((entity, index) => {
+    const path = `${key}[${index}]`;
+    const ok = checkFields(
+      entity,
+      path,
+      { ...identity, projectId: belongs, ...entityFields(key, context) },
+      report,
+    );
+    if (!ok) return;
+    for (const [field, item] of Object.entries(arrays)) {
+      const array = entity[field];
+      if (array === undefined && OPTIONAL_ARRAYS.has(field)) continue;
+      checkArray(array, `${path}.${field}`, item, report);
+    }
+  });
 }

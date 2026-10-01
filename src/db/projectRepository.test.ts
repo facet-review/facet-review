@@ -2,6 +2,7 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { remapIds } from '../domain/exchange/remapIds';
 import { makeLinkedBundle, sequentialIds } from '../domain/testing';
+import type { ProjectBundle } from '../domain/types';
 import { FacetReviewDB } from './db';
 import {
   addProject,
@@ -13,6 +14,16 @@ import {
   markExported,
   saveProject,
 } from './projectRepository';
+
+/** IndexedDB returns rows in key order; compare bundles independent of array order. */
+function byId(bundle: ProjectBundle | undefined) {
+  if (!bundle) return bundle;
+  const sort = <T extends object>(rows: T[]) =>
+    [...rows].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
+  return Object.fromEntries(
+    Object.entries(bundle).map(([key, value]) => [key, Array.isArray(value) ? sort(value) : value]),
+  );
+}
 
 let db: FacetReviewDB;
 let counter = 0;
@@ -102,7 +113,7 @@ describe('project repository', () => {
       expect(await table.where('projectId').equals(bundle.project.id).count()).toBe(0);
     }
     expect(await getProject(db, bundle.project.id)).toBeUndefined();
-    expect(await loadBundle(db, other.project.id)).toEqual(other);
+    expect(byId(await loadBundle(db, other.project.id))).toEqual(byId(other));
   });
 
   it('refuses to import a new project over an existing id', async () => {

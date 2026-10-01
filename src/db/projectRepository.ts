@@ -54,27 +54,20 @@ export async function loadBundle(
   return db.transaction('r', [db.projects, ...db.childTables], async () => {
     const project = await db.projects.get(projectId);
     if (!project) return undefined;
-    const where = (table: FacetReviewDB['childTables'][number]) =>
-      table.where('projectId').equals(projectId);
-    const [sources, sourceRuns, records, duplicateGroups, decisions, studies, checklist] =
-      await Promise.all([
-        where(db.sources).toArray() as Promise<ProjectBundle['sources']>,
-        where(db.sourceRuns).toArray() as Promise<ProjectBundle['sourceRuns']>,
-        where(db.records).toArray() as Promise<ProjectBundle['records']>,
-        where(db.duplicateGroups).toArray() as Promise<ProjectBundle['duplicateGroups']>,
-        where(db.decisions).toArray() as Promise<ProjectBundle['decisions']>,
-        where(db.studies).toArray() as Promise<ProjectBundle['studies']>,
-        where(db.checklist).toArray() as Promise<ProjectBundle['checklist']>,
-      ]);
+    const byProject = <T>(table: {
+      where(index: string): { equals(v: string): { toArray(): Promise<T[]> } };
+    }) => table.where('projectId').equals(projectId).toArray();
     return {
       project,
-      sources,
-      sourceRuns,
-      records,
-      duplicateGroups,
-      decisions,
-      studies,
-      checklist,
+      sources: await byProject(db.sources),
+      sourceRuns: await byProject(db.sourceRuns),
+      importBatches: await byProject(db.importBatches),
+      records: await byProject(db.records),
+      duplicateGroups: await byProject(db.duplicateGroups),
+      dedupDecisions: await byProject(db.dedupDecisions),
+      decisions: await byProject(db.decisions),
+      studies: await byProject(db.studies),
+      checklist: await byProject(db.checklist),
     };
   });
 }
@@ -122,8 +115,10 @@ export async function importBundle(
     await db.projects.add(bundle.project);
     await db.sources.bulkAdd(bundle.sources);
     await db.sourceRuns.bulkAdd(bundle.sourceRuns);
+    await db.importBatches.bulkAdd(bundle.importBatches);
     await db.records.bulkAdd(bundle.records);
     await db.duplicateGroups.bulkAdd(bundle.duplicateGroups);
+    await db.dedupDecisions.bulkAdd(bundle.dedupDecisions);
     await db.decisions.bulkAdd(bundle.decisions);
     await db.studies.bulkAdd(bundle.studies);
     await db.checklist.bulkAdd(bundle.checklist);

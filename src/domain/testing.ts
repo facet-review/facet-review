@@ -40,11 +40,25 @@ export function makeLinkedBundle(): ProjectBundle {
         reportedHits: 2,
       },
     ],
+    importBatches: [
+      {
+        id: 'batch-1',
+        projectId,
+        sourceRunId: 'run-1',
+        fileName: 'scopus.ris',
+        format: 'ris',
+        importedAt: '2026-09-30T10:30:00.000Z',
+        recordCount: 2,
+        warnings: [],
+      },
+    ],
     records: [
       {
         id: 'rec-1',
         projectId,
         sourceRunId: 'run-1',
+        importBatchId: 'batch-1',
+        sourceLine: 1,
         csl: { type: 'article-journal', title: 'A' },
         raw: 'TY  - JOUR',
         doi: '10.1/a',
@@ -55,6 +69,7 @@ export function makeLinkedBundle(): ProjectBundle {
         id: 'rec-2',
         projectId,
         sourceRunId: 'run-1',
+        importBatchId: 'batch-1',
         csl: { title: 'A (dup)' },
         raw: 'TY  - JOUR',
         doi: '10.1/a',
@@ -68,6 +83,17 @@ export function makeLinkedBundle(): ProjectBundle {
         primaryRecordId: 'rec-1',
         memberIds: ['rec-1', 'rec-2'],
         rule: 'doi',
+        links: [{ a: 'rec-1', b: 'rec-2', rule: 'doi' }],
+      },
+    ],
+    dedupDecisions: [
+      {
+        id: 'dd-1',
+        projectId,
+        recordIds: ['rec-1', 'rec-2'],
+        value: 'merge',
+        reviewerId,
+        timestamp: '2026-09-30T11:30:00.000Z',
       },
     ],
     decisions: [
