@@ -122,3 +122,7 @@
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+
+.delimiter {
+  max-width: 20rem;
+}

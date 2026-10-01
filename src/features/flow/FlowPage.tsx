@@ -27,6 +27,8 @@ import { download, pngBlob, svgDocument } from './exportFlow';
 import styles from './Flow.module.css';
 import { FlowSvg } from './FlowSvg';
 import { flowLayout, type Box, type Target } from './layout';
+import { CsvDelimiterField } from '../export/CsvDelimiterField';
+import { useCsvDelimiter } from '../export/useCsvDelimiter';
 
 type LabelLanguage = 'en' | 'de';
 const LANGUAGE_KEY = 'flow.labels';
@@ -76,6 +78,7 @@ function FlowView({ project, counts, data }: { project: Project; counts: FlowCou
   const [selection, setSelection] = useState<{ title: string; targets: Target[]; boxId: string }>();
   const [message, setMessage] = useState('');
   const drillHeading = useRef<HTMLHeadingElement>(null);
+  const [delimiter, setDelimiter] = useCsvDelimiter();
 
   const fixed = i18n.getFixedT(language);
   const label = (key: FlowLabelKey) => fixed(`flow.diagram.${key}`);
@@ -106,8 +109,7 @@ function FlowView({ project, counts, data }: { project: Project; counts: FlowCou
     setMessage(t('flow.page.exported', { format: 'PNG' }));
   };
   const exportCsv = () => {
-    // BOM: spreadsheet programs then read UTF-8 correctly.
-    const csv = `\uFEFF${flowCsv(counts, label, { workingTranslation })}`;
+    const csv = flowCsv(counts, label, { workingTranslation, delimiter });
     download(csv, `${fileBase}.csv`, 'text/csv;charset=utf-8');
     setMessage(t('flow.page.exported', { format: 'CSV' }));
   };
@@ -152,6 +154,9 @@ function FlowView({ project, counts, data }: { project: Project; counts: FlowCou
         <button type="button" className={button.button} onClick={exportCsv}>
           {t('flow.page.exportCsv')}
         </button>
+      </div>
+      <div className={styles.delimiter}>
+        <CsvDelimiterField id="flow-csv-delimiter" value={delimiter} onChange={setDelimiter} />
       </div>
       <p role="status" className={message ? notice.notice : 'visually-hidden'}>
         {message}

@@ -1,0 +1,33 @@
+.page {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 52rem;
+}
+
+.group {
+  display: grid;
+  gap: var(--space-3);
+  padding-bottom: var(--space-5);
+  border-bottom: var(--line-hairline);
+}
+
+.group h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+}
+
+.hint {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-3);
+}
+
+.delimiter {
+  max-width: 20rem;
+}

@@ -1,3 +1,4 @@
+import { toCsv, type CsvDelimiter } from '../export/csv';
 import type { FlowLabels } from './labels';
 import type { FlowCounts, Retrieval } from './types';
 import { hasOtherMethods, isUpdateVariant } from './variant';
@@ -61,21 +62,21 @@ export function flowRows(counts: FlowCounts, label: FlowLabels): Row[] {
   return rows;
 }
 
-const quote = (value: string) => `"${value.replace(/"/g, '""')}"`;
-
-/** CSV of the numbers (RFC 4180, CRLF), ending with source and licence of the template. */
+/** CSV of the numbers, ending with source and licence of the template. */
 export function flowCsv(
   counts: FlowCounts,
   label: FlowLabels,
-  options: { workingTranslation: boolean },
+  options: { workingTranslation: boolean; delimiter: CsvDelimiter },
 ): string {
-  const lines = [
-    [label('csvBox'), label('csvN')],
-    ...flowRows(counts, label),
-    [],
-    ...(options.workingTranslation ? [[label('workingTranslation')]] : []),
-    [label('source')],
-    [label('license')],
-  ];
-  return lines.map((cells) => cells.map(quote).join(',')).join('\r\n') + '\r\n';
+  return toCsv(
+    [
+      [label('csvBox'), label('csvN')],
+      ...flowRows(counts, label),
+      [],
+      ...(options.workingTranslation ? [[label('workingTranslation')]] : []),
+      [label('source')],
+      [label('license')],
+    ],
+    options.delimiter,
+  );
 }

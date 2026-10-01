@@ -88,7 +88,9 @@ test('exports SVG, PNG and CSV with the attribution', async ({ page }) => {
   await setUpFlow(page);
   const csv = await downloadText(page, 'Zahlen als CSV exportieren');
   expect(csv.name).toMatch(/^facet-review-flow-\d{4}-\d{2}-\d{2}\.csv$/);
-  expect(csv.text).toContain('"Records screened","13"');
+  // German UI: semicolon by default (opens in German Excel), UTF-8 with BOM.
+  expect(csv.text.startsWith('\uFEFF')).toBe(true);
+  expect(csv.text).toContain('"Records screened";"13"');
   expect(csv.text).toContain('Page MJ, et al. BMJ 2021;372:n71');
   expect(csv.text).toContain('CC BY 4.0');
 

@@ -34,6 +34,10 @@
     "checklist": {
       "title": "Checkliste",
       "description": "PRISMA-2020-Checkliste mit Vorschlägen aus den Projektdaten."
+    },
+    "export": {
+      "title": "Exporte",
+      "description": "Alle Exporte an einem Ort: Projekt, Suchanhang, Checkliste, Flow-Diagramm, eingeschlossene Studien und alle Datensätze."
     }
   },
   "pages": {
@@ -825,6 +829,221 @@
       },
       "error": "Zählfehler bei „{{check}}“: {{total}} ≠ {{sum}}. Bitte melden – das sollte nicht vorkommen.",
       "toScreening": "Zu den offenen Datensätzen"
+    }
+  },
+  "checklist": {
+    "source": "Quelle der Checkliste: {{source}} · Lizenz CC BY 4.0",
+    "progressHeading": "Fortschritt",
+    "progress": "{{done}} erledigt, {{na}} nicht zutreffend, {{open}} offen (von {{total}})",
+    "filterLabel": "Anzeigen",
+    "filter": {
+      "all": "Alle",
+      "open": "Offen",
+      "done": "Erledigt",
+      "na": "Nicht zutreffend"
+    },
+    "status": {
+      "open": "Offen",
+      "done": "Erledigt",
+      "na": "Nicht zutreffend"
+    },
+    "statusLegend": "Status – {{name}}",
+    "itemName": "Item {{id}} {{topic}}",
+    "fields": {
+      "location": "Wo berichtet",
+      "note": "Notiz"
+    },
+    "locationHint": "z. B. „S. 12, Abschnitt 2.3“ – erscheint im PDF in der Spalte „Location where item is reported“.",
+    "original": "Englischer Originaltext",
+    "suggestionHeading": "Vorschlag aus den Projektdaten",
+    "adopt": "Vorschlag übernehmen",
+    "replace": "Vorschlag übernehmen (ersetzt Eingaben) …",
+    "confirmTitle": "Eingaben ersetzen? ({{name}})",
+    "confirmBody": "Der Vorschlag ersetzt Ihren bisherigen Text in: {{fields}}. Das lässt sich nur durch erneutes Bearbeiten rückgängig machen.",
+    "confirmReplace": "Ersetzen",
+    "saved": "{{name}} gespeichert.",
+    "pdfLanguage": "Sprache des PDF",
+    "exportPdf": "Checkliste als PDF exportieren",
+    "pdf": {
+      "title": "PRISMA-2020-Checkliste",
+      "columnTopic": "Abschnitt und Thema",
+      "columnItem": "Item-Nr.",
+      "columnText": "Checklisten-Item",
+      "columnLocation": "Wo berichtet",
+      "notApplicable": "Nicht zutreffend",
+      "from": "Aus:",
+      "license": "Lizenz: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Deutsche Fassung: inoffizielle Arbeitsübersetzung.",
+      "page": "Seite {{page}} von {{total}}"
+    },
+    "suggestion": {
+      "eligibility": {
+        "inclusion": "Einschlusskriterien: {{list}}",
+        "exclusion": "Ausschlusskriterien: {{list}}",
+        "none": "Noch keine Ein- oder Ausschlusskriterien im Projekt erfasst."
+      },
+      "sources": {
+        "line": "{{source}} – zuletzt durchsucht am {{date}}",
+        "none": "Noch keine Suche dokumentiert."
+      },
+      "appendix": {
+        "note": "Die vollständigen Suchstrategien aller Quellen stehen im Suchanhang (PRISMA-S), exportierbar als PDF oder Markdown.",
+        "location": "Anhang: Suchstrategien"
+      },
+      "selection": {
+        "single": "Alle Datensätze wurden von einer Person ({{name}}) gescreent, im Titel-/Abstract- und im Volltext-Screening; es gab keine unabhängige Zweitprüfung.",
+        "automation": "{{count}} Datensätze wurden vor dem Screening durch Automation-Tools als ungeeignet markiert.",
+        "noAutomation": "Es wurden keine Automation-Tools eingesetzt."
+      },
+      "flow": {
+        "summary": "Identifiziert: {{identified}}; Dubletten entfernt: {{duplicates}}; vor dem Screening entfernt: {{removed}}; gescreent: {{screened}}; ausgeschlossen: {{excluded}}; zur Beschaffung angefordert: {{sought}}; nicht beschafft: {{notRetrieved}}; auf Eignung geprüft: {{assessed}}; ausgeschlossen: {{reportsExcluded}}; eingeschlossen: {{studies}} Studien ({{reports}} Berichte). Siehe Flow-Diagramm."
+      },
+      "excludedReports": {
+        "line": "{{author}} {{year}} – {{title}}: {{reason}}",
+        "none": "Im Volltext wurden (noch) keine Berichte ausgeschlossen."
+      },
+      "registration": {
+        "registered": "Registriert bei {{registry}}, Registriernummer {{id}} {{url}}",
+        "none": "Der Review wurde nicht registriert."
+      },
+      "protocol": {
+        "url": "Protokoll: {{url}}",
+        "none": "Kein Protokoll angegeben."
+      }
+    }
+  },
+  "export": {
+    "done": "{{file}}-Datei erstellt.",
+    "working": "Wird erstellt …",
+    "languageCode": "de",
+    "delimiter": {
+      "label": "Trennzeichen für CSV",
+      "hint": "Semikolon öffnet sich in deutschem Excel per Doppelklick korrekt; Komma ist international üblich. Alle CSV-Dateien sind UTF-8 mit BOM.",
+      "semicolon": "Semikolon (;)",
+      "comma": "Komma (,)",
+      "tab": "Tabulator"
+    },
+    "project": {
+      "title": "Gesamtes Projekt",
+      "hint": "JSON-Datei mit allen Daten und Entscheidungen – zur Sicherung oder Übertragung in einen anderen Browser.",
+      "button": "Projekt als JSON exportieren"
+    },
+    "appendixGroup": {
+      "title": "Suchanhang (PRISMA-S)",
+      "hint": "Alle Quellen und Suchläufe mit vollständigen Suchstrings, Limits, Trefferzahlen und Begründungen.",
+      "missing": "Noch keine Suchläufe dokumentiert.",
+      "pdf": "Suchanhang als PDF",
+      "markdown": "Suchanhang als Markdown"
+    },
+    "checklistGroup": {
+      "title": "PRISMA-2020-Checkliste",
+      "hint": "Im Layout der offiziellen Checkliste mit der Spalte „Location where item is reported“."
+    },
+    "flowGroup": {
+      "title": "Flow-Diagramm",
+      "hint": "SVG, PNG und CSV der Zahlen exportieren Sie auf der Seite des Flow-Diagramms.",
+      "link": "Zum Flow-Diagramm"
+    },
+    "csvHeading": "Tabellen (CSV)",
+    "included": {
+      "title": "Eingeschlossene Studien",
+      "hint": "{{reports}} Berichte aus {{studies}} Studien – als RIS für die Literaturverwaltung (Zotero, Citavi, EndNote) oder als CSV mit Studienzuordnung.",
+      "missing": "Noch keine Berichte im Volltext eingeschlossen.",
+      "ris": "Eingeschlossene Studien als RIS",
+      "csv": "Eingeschlossene Studien als CSV"
+    },
+    "records": {
+      "title": "Alle Datensätze",
+      "hint": "{{count}} importierte Datensätze mit Herkunft, Dublettenzuordnung, Status beider Stufen und vollständigem Entscheidungsverlauf.",
+      "missing": "Noch keine Datensätze importiert.",
+      "csv": "Alle Datensätze als CSV"
+    },
+    "labels": {
+      "recordId": "Datensatz-ID",
+      "unit": "Einheit (Primärdatensatz)",
+      "role": "Rolle",
+      "primary": "Primärdatensatz",
+      "duplicateOf": "Dublette von",
+      "source": "Quelle",
+      "searchDate": "Suchdatum",
+      "file": "Datei",
+      "line": "Zeile",
+      "title": "Titel",
+      "authors": "Autor:innen",
+      "year": "Jahr",
+      "container": "Zeitschrift bzw. Quelle",
+      "doi": "DOI",
+      "pmid": "PMID",
+      "removed": "Vor dem Screening entfernt",
+      "removedNote": "Begründung der Entfernung",
+      "titleAbstract": "Titel/Abstract",
+      "titleAbstractReason": "Grund (Titel/Abstract)",
+      "fullText": "Volltext",
+      "fullTextReason": "Grund (Volltext)",
+      "study": "Studie",
+      "ownStudy": "eigene Studie",
+      "flags": "Hinweise",
+      "history": "Entscheidungsverlauf",
+      "reports": "Berichte",
+      "sources": "Gefunden in",
+      "open": "offen",
+      "conflict": "Konflikt",
+      "review": "nach Aufteilung prüfen",
+      "inherited": "übernommen (Dubletten)",
+      "include": "eingeschlossen",
+      "exclude": "ausgeschlossen",
+      "maybe": "vielleicht",
+      "not_retrieved": "nicht beschaffbar",
+      "remove_automation": "durch Automation-Tool",
+      "remove_other": "aus anderem Grund",
+      "reset": "zurückgesetzt",
+      "pre_screening": "vor dem Screening",
+      "title_abstract": "Titel/Abstract",
+      "full_text": "Volltext",
+      "notInStage": "–",
+      "source2020": "Status und Zählung nach PRISMA 2020: Page MJ, et al. BMJ 2021;372:n71. doi:10.1136/bmj.n71",
+      "license": "Lizenz der PRISMA-Vorlagen: CC BY 4.0. Erstellt mit Facet Review."
+    },
+    "appendix": {
+      "heading": "Suchanhang (PRISMA-S)",
+      "type": {
+        "database": "Bibliografische Datenbanken",
+        "register": "Studienregister",
+        "website": "Websites",
+        "search_engine": "Suchmaschinen",
+        "citation_search": "Zitationssuche",
+        "contact": "Kontakte",
+        "other": "Sonstige Methoden"
+      },
+      "platform": "Plattform",
+      "url": "URL",
+      "run": "Suchlauf",
+      "date": "Datum der Suche",
+      "searchString": "Suchstring",
+      "limits": "Limits und Filter",
+      "noLimits": "Keine Limits angewendet",
+      "undocumented": "Nicht dokumentiert",
+      "reportedHits": "Gemeldete Treffer",
+      "imported": "Importierte Datensätze",
+      "importNote": "Begründung bei Abweichung",
+      "tool": "Werkzeug",
+      "method": "Vorgehen",
+      "method.search": "Suche",
+      "method.browse": "Durchsicht",
+      "recordsChecked": "Geprüfte Treffer",
+      "citationDirection": "Richtung",
+      "direction.backward": "rückwärts (Literaturverzeichnisse)",
+      "direction.forward": "vorwärts (zitierende Arbeiten)",
+      "direction.both": "rückwärts und vorwärts",
+      "seedDocuments": "Ausgangsdokumente",
+      "description": "Beschreibung",
+      "notes": "Notizen",
+      "projectWide": "Projektweite Angaben",
+      "filters": "Suchfilter",
+      "priorWork": "Frühere Arbeiten",
+      "updates": "Updates",
+      "peerReview": "Peer Review der Suche",
+      "source2021": "Struktur nach PRISMA-S: Rethlefsen ML, et al. Syst Rev 2021;10:39. doi:10.1186/s13643-020-01542-z",
+      "license": "Lizenz: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Erstellt mit Facet Review."
     }
   }
 }
