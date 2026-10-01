@@ -1,0 +1,119 @@
+.source {
+  margin: 0 0 var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.summary {
+  display: grid;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  border: var(--line-hairline);
+  background: var(--color-surface);
+}
+
+.summary progress {
+  width: 100%;
+  height: 0.75rem;
+  accent-color: var(--color-accent);
+}
+
+.pdf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-3) var(--space-5);
+}
+
+.section {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.section h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+}
+
+.item {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: var(--line-hairline);
+  background: var(--color-surface-raised);
+}
+
+.itemTitle {
+  margin: 0;
+  font-size: var(--font-size-lg);
+}
+
+.itemId {
+  display: inline-block;
+  min-width: 2.5em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+}
+
+.itemText {
+  margin: 0;
+  max-width: 52rem;
+  line-height: var(--line-height-relaxed);
+}
+
+.original {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.original p {
+  margin: var(--space-2) 0 0;
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.status legend {
+  width: 100%;
+  margin-bottom: var(--space-2);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 48rem) {
+  .fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.suggestion {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+  padding: var(--space-3) var(--space-4);
+  border-left: calc(var(--line-width) * 3) solid var(--color-accent);
+  background: var(--color-surface);
+}
+
+.suggestion h4 {
+  margin: 0;
+  font-size: var(--font-size-sm);
+}
+
+.suggestionText {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  white-space: pre-line;
+}

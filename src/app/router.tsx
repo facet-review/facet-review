@@ -15,6 +15,7 @@ import ScreeningPage from '../features/screening/ScreeningPage';
 import ScreeningUnitPage from '../features/screening/ScreeningUnitPage';
 import FlowPage from '../features/flow/FlowPage';
 import ChecklistPage from '../features/checklist/ChecklistPage';
+import ExportPage from '../features/export/ExportPage';
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
           { path: 'screening/:stage/:recordId', element: <ScreeningUnitPage /> },
           { path: 'flow', element: <FlowPage /> },
           { path: 'checklist', element: <ChecklistPage /> },
+          { path: 'export', element: <ExportPage /> },
         ],
       },
       { path: '*', element: <NotFoundPage /> },

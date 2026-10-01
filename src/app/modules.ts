@@ -6,6 +6,7 @@ export const MODULES = [
   { key: 'screening', path: 'screening', milestone: 4 },
   { key: 'flow', path: 'flow', milestone: 5 },
   { key: 'checklist', path: 'checklist', milestone: 6 },
+  { key: 'export', path: 'export', milestone: 6 },
 ] as const;
 
 export type ModuleKey = (typeof MODULES)[number]['key'];
