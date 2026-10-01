@@ -9,7 +9,7 @@ export type UUID = string;
 export type ISODate = string;
 
 /** Version of the project exchange format (JSON export). Independent of the Dexie DB version. */
-export const CURRENT_SCHEMA_VERSION = 2;
+export const CURRENT_SCHEMA_VERSION = 3;
 
 export type QuestionFramework = 'PICO' | 'PICo' | 'SPIDER' | 'free';
 export type ReviewType = 'new' | 'update';
@@ -23,6 +23,14 @@ export interface ExclusionReason {
   id: UUID;
   label: string;
   order: number;
+}
+
+/** Per-project screening options (PRD Modul 4). */
+export interface ScreeningSettings {
+  /** Take unresolved "maybe" records into full-text screening instead of blocking stage 2. */
+  maybeToFullText: boolean;
+  /** Terms highlighted in title and abstract; `*` truncates (like in databases). */
+  highlights: { include: string[]; exclude: string[] };
 }
 
 export interface Project {
@@ -45,6 +53,7 @@ export interface Project {
   reviewers: Reviewer[];
   searchMeta: { filters?: string; priorWork?: string; updates?: string; peerReview?: string };
   flowOverrides?: { variant?: FlowVariant; previousStudies?: number; previousReports?: number };
+  screening: ScreeningSettings;
   backup: { lastExportedAt?: ISODate; changesSinceExport: number };
   createdAt: ISODate;
   updatedAt: ISODate;
@@ -171,9 +180,7 @@ export interface BibRecord {
   /** Normalised identifiers, indexed for deduplication. */
   doi?: string;
   pmid?: string;
-  removedBeforeScreening?: { by: 'automation' | 'other'; reason: string };
   duplicateGroupId?: UUID;
-  studyId?: UUID;
 }
 
 export type DuplicateRule = 'doi' | 'pmid' | 'title-fuzzy' | 'manual';
@@ -216,16 +223,41 @@ export interface DedupDecision {
   timestamp: ISODate;
 }
 
-/** Append-only audit trail; the current status is the latest decision. */
+export type ScreeningStage = 'title_abstract' | 'full_text';
+/** `pre_screening` holds "removed before screening" (automation tools or other reasons). */
+export type DecisionStage = 'pre_screening' | ScreeningStage;
+export type DecisionValue =
+  | 'include'
+  | 'exclude'
+  | 'maybe'
+  | 'not_retrieved'
+  | 'remove_automation'
+  | 'remove_other'
+  /** Back to "open" (undo without an earlier state). */
+  | 'reset';
+
+/**
+ * Append-only screening decision about one screening unit (a duplicate group
+ * or a single record). It refers to the unit's records at decision time, not
+ * to the group, so primary changes, merges and splits never rewrite it; the
+ * current status is derived (see domain/screening/status.ts).
+ */
 export interface Decision {
   id: UUID;
   projectId: UUID;
-  recordId: UUID;
+  /** All members of the screening unit when the decision was made. */
+  recordIds: UUID[];
+  /** The record shown to the reviewer (the primary record at that time). */
+  shownRecordId: UUID;
   reviewerId: UUID;
-  stage: 'title_abstract' | 'full_text';
-  value: 'include' | 'exclude' | 'maybe' | 'not_retrieved';
+  stage: DecisionStage;
+  value: DecisionValue;
   reasonId?: UUID;
   note?: string;
+  /** Full text, include: report belongs to this study (absent: own study). */
+  studyId?: UUID;
+  /** Set when this entry undoes another one ("Z"). */
+  undoOf?: UUID;
   timestamp: ISODate;
 }
 

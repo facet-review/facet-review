@@ -33,6 +33,7 @@ describe('createProject', () => {
       metadata: { author: 'Ada', institution: '', language: 'de' },
       reviewers: [{ id: 'id-2', name: 'Ada' }],
       searchMeta: {},
+      screening: { maybeToFullText: false, highlights: { include: [], exclude: [] } },
       backup: { changesSinceExport: 0 },
       createdAt: '2026-09-30T10:00:00.000Z',
       updatedAt: '2026-09-30T10:00:00.000Z',

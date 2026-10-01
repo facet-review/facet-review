@@ -150,6 +150,38 @@ describe('parseProjectFile', () => {
     ]);
   });
 
+  it('validates screening settings, decisions and studies', () => {
+    const file = corruptibleFile();
+    file.project.screening.highlights.include = ['ok', 3];
+    file.decisions[0].recordIds = ['rec-1', 'rec-missing'];
+    file.decisions[0].shownRecordId = 'rec-missing';
+    file.decisions[0].stage = 'triage';
+    file.decisions[0].value = 'perhaps';
+    file.decisions[0].reasonId = 'reason-missing';
+    file.decisions[1].studyId = 'study-missing';
+    file.decisions[1].undoOf = 'dec-missing';
+    file.studies[0].label = 3;
+    expect(errorsOf(JSON.stringify(file))).toEqual([
+      { code: 'invalidField', path: 'project.screening.highlights.include[1]' },
+      { code: 'invalidField', path: 'decisions[0].shownRecordId' },
+      { code: 'invalidField', path: 'decisions[0].stage' },
+      { code: 'invalidField', path: 'decisions[0].value' },
+      { code: 'invalidField', path: 'decisions[0].reasonId' },
+      { code: 'invalidField', path: 'decisions[0].recordIds[1]' },
+      { code: 'invalidField', path: 'decisions[1].studyId' },
+      { code: 'invalidField', path: 'decisions[1].undoOf' },
+      { code: 'invalidField', path: 'studies[0].label' },
+    ]);
+  });
+
+  it('requires screening settings on the project', () => {
+    const file = corruptibleFile();
+    delete file.project.screening;
+    expect(errorsOf(JSON.stringify(file))).toEqual([
+      { code: 'invalidField', path: 'project.screening' },
+    ]);
+  });
+
   it('rejects search runs that point to a missing source', () => {
     const file = corruptibleFile();
     file.sourceRuns[0].sourceId = 'src-missing';
@@ -178,6 +210,32 @@ describe('parseProjectFile', () => {
       notes: 'n',
     };
     expect(roundTrip(bundle)).toEqual({ ok: true, value: bundle });
+  });
+
+  it('migrates version 2 files (milestone 3) to unit decisions', () => {
+    const file = corruptibleFile();
+    file.schemaVersion = 2;
+    delete file.project.screening;
+    file.decisions = [
+      {
+        id: 'dec-old',
+        projectId: file.project.id,
+        recordId: 'rec-2',
+        reviewerId: file.project.reviewers[0].id,
+        stage: 'title_abstract',
+        value: 'include',
+        timestamp: '2026-09-30T11:00:00.000Z',
+      },
+    ];
+    const result = parseProjectFile(JSON.stringify(file));
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.decisions[0]).toMatchObject({
+        recordIds: ['rec-2'],
+        shownRecordId: 'rec-2',
+      });
+      expect(result.value.project.screening.maybeToFullText).toBe(false);
+    }
   });
 
   it('migrates version 1 files (milestones 1–2) by adding the new collections', () => {

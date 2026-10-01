@@ -60,6 +60,7 @@ interface TextFieldProps extends BaseFieldProps {
   /** id of a <datalist> with suggestions. */
   list?: string;
   disabled?: boolean;
+  onBlur?: () => void;
 }
 
 export function TextField({
@@ -74,6 +75,7 @@ export function TextField({
   code = false,
   list,
   disabled,
+  onBlur,
   ...frame
 }: TextFieldProps) {
   const generatedId = useId();
@@ -84,6 +86,7 @@ export function TextField({
     className: code ? `${styles.input} ${styles.code}` : styles.input,
     spellCheck: code ? false : undefined,
     disabled,
+    onBlur,
     required: frame.required,
     'aria-invalid': frame.error ? true : undefined,
     'aria-describedby': describedBy(frame.hint && `${id}-hint`, frame.error && `${id}-error`),

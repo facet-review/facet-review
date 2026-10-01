@@ -142,7 +142,8 @@
       "registrationUrl": "Link zur Registrierung",
       "protocolUrl": "Link zum Protokoll",
       "protocolUrlHint": "PRISMA Item 24b",
-      "urlHint": "Vollständige Adresse mit https://"
+      "urlHint": "Vollständige Adresse mit https://",
+      "reasonInUse": "Wird in Screening-Entscheidungen verwendet und kann daher nicht entfernt werden."
     },
     "frameworkDiscardTitle": "Strukturierung wechseln?",
     "frameworkDiscardBody": "Folgende ausgefüllte Felder gibt es in der neuen Strukturierung nicht; ihr Inhalt geht verloren: {{fields}}",
@@ -544,5 +545,180 @@
     "noSeparated": "Keine.",
     "reconsider": "Wieder prüfen",
     "linkExplanation": "{{a}} ↔ {{b}}: {{rule}}"
+  },
+  "screening": {
+    "stages": "Screening-Stufen",
+    "stage": {
+      "title_abstract": "Stufe 1: Titel und Abstract",
+      "full_text": "Stufe 2: Volltext"
+    },
+    "decidedOf": "{{decided}} von {{total}} entschieden",
+    "noRecords": "Noch keine Datensätze zum Screenen.",
+    "toImport": "Zum Import",
+    "openCandidates_one": "{{count}} Dublettenkandidat ist noch offen. Entscheidungen werden beim späteren Zusammenführen übernommen oder als Konflikt markiert.",
+    "openCandidates_other": "{{count}} Dublettenkandidaten sind noch offen. Entscheidungen werden beim späteren Zusammenführen übernommen oder als Konflikt markiert.",
+    "toDuplicates": "Dubletten prüfen",
+    "gate": {
+      "locked_one": "Stufe 2 ist gesperrt: {{count}} Datensatz steht in Stufe 1 noch auf „Vielleicht“. Lösen Sie ihn auf oder nehmen Sie „Vielleicht“-Einträge bewusst in den Volltext mit.",
+      "locked_other": "Stufe 2 ist gesperrt: {{count}} Datensätze stehen in Stufe 1 noch auf „Vielleicht“. Lösen Sie sie auf oder nehmen Sie „Vielleicht“-Einträge bewusst in den Volltext mit.",
+      "showMaybes": "„Vielleicht“-Einträge in Stufe 1 anzeigen",
+      "setting": "Die Einstellung „Vielleicht-Einträge in Stufe 2 mitnehmen“ finden Sie unten auf dieser Seite.",
+      "openWarning_one": "Hinweis: {{count}} Datensatz ist in Stufe 1 noch nicht entschieden.",
+      "openWarning_other": "Hinweis: {{count}} Datensätze sind in Stufe 1 noch nicht entschieden."
+    },
+    "removed": {
+      "heading_one": "Vor dem Screening entfernt ({{count}})",
+      "heading_other": "Vor dem Screening entfernt ({{count}})"
+    },
+    "untitled": "(ohne Titel)",
+    "studies": "Studien",
+    "progress": "Fortschritt: {{decided}} von {{total}} entschieden",
+    "start": "Screening starten",
+    "continue": "Screening fortsetzen",
+    "allDecided": "Alle Datensätze dieser Stufe sind entschieden.",
+    "filterLabel": "Anzeigen",
+    "filter": {
+      "all": "Alle",
+      "open": "Offen",
+      "conflict": "Konflikt",
+      "review": "Nach Aufteilung prüfen",
+      "include": "Eingeschlossen",
+      "exclude": "Ausgeschlossen",
+      "maybe": "Vielleicht",
+      "not_retrieved": "Nicht beschaffbar"
+    },
+    "emptyFilter": "Keine Datensätze in dieser Ansicht.",
+    "listCaption": "{{stage}} – {{filter}}",
+    "columns": {
+      "title": "Titel",
+      "authors": "Erstautor:in, Jahr",
+      "status": "Status"
+    },
+    "more_one": "{{count}} weiteren anzeigen",
+    "more_other": "{{count}} weitere anzeigen",
+    "value": {
+      "include": "Eingeschlossen",
+      "exclude": "Ausgeschlossen",
+      "maybe": "Vielleicht",
+      "not_retrieved": "Nicht beschaffbar",
+      "remove_automation": "Entfernt durch Automation-Tool",
+      "remove_other": "Entfernt aus anderem Grund",
+      "reset": "Zurückgesetzt (offen)"
+    },
+    "settings": {
+      "heading": "Einstellungen",
+      "maybeToFullText": "„Vielleicht“-Einträge in Stufe 2 (Volltext) mitnehmen, statt sie vorher aufzulösen",
+      "includeTerms": "Hervorheben: einschließende Begriffe",
+      "excludeTerms": "Hervorheben: ausschließende Begriffe",
+      "termsHint": "Ein Begriff pro Zeile oder durch Komma getrennt. * kürzt ab (tutor* findet tutoring). Groß-/Kleinschreibung und Akzente spielen keine Rolle.",
+      "deviceHint": "Die folgenden Einstellungen gelten nur für diesen Browser.",
+      "highlight": "Suchbegriffe hervorheben",
+      "shortcuts": "Tastenkürzel mit einzelnen Tasten verwenden (I, E, M, N, Z, ←, →)"
+    },
+    "unitTitle": "Screening – {{stage}}",
+    "unitGone": "Dieser Datensatz ist nicht mehr vorhanden (z. B. weil ein Import rückgängig gemacht wurde).",
+    "backToList": "Zur Liste",
+    "notInTitleAbstract": "Dieser Datensatz ist nicht Teil von Stufe 1: Er stammt nur aus anderen Methoden (Websites, Zitationssuche, Kontakte, sonstige) oder wurde vor dem Screening entfernt.",
+    "notInFullText": "Dieser Datensatz ist nicht Teil von Stufe 2: Er wurde in Stufe 1 nicht eingeschlossen.",
+    "position": {
+      "label": "Position",
+      "text": "Datensatz {{n}} von {{total}} ({{filter}})"
+    },
+    "announce": {
+      "next": "{{decision}}. Nächster Datensatz.",
+      "endOfList": "{{decision}}. Das war der letzte Datensatz dieser Ansicht.",
+      "saved": "Gespeichert: {{decision}}.",
+      "undone": "Letzte Entscheidung rückgängig gemacht.",
+      "nothingToUndo": "Es gibt keine Entscheidung, die rückgängig gemacht werden kann."
+    },
+    "fields": {
+      "authors": "Autor:innen",
+      "year": "Jahr",
+      "container": "Zeitschrift bzw. Quelle",
+      "abstract": "Abstract"
+    },
+    "noAbstract": "Kein Abstract vorhanden.",
+    "legend": {
+      "label": "Hervorhebung:",
+      "include": "einschließender Begriff",
+      "exclude": "ausschließender Begriff"
+    },
+    "links": {
+      "label": "Volltext finden",
+      "doi": "DOI {{doi}}",
+      "unpaywall": "Open-Access-Version (Unpaywall)",
+      "openAlex": "Metadaten (OpenAlex)",
+      "pubmed": "PubMed {{pmid}}"
+    },
+    "provenance": {
+      "summary_one": "Herkunft ({{count}} Datensatz)",
+      "summary_other": "Herkunft ({{count}} Datensätze, als Dubletten zusammengeführt)",
+      "line": "Zeile {{line}}",
+      "primary": "angezeigt"
+    },
+    "decision": {
+      "heading": "Entscheidung",
+      "include": "Einschließen",
+      "exclude": "Ausschließen",
+      "maybe": "Vielleicht",
+      "notRetrieved": "Nicht beschaffbar",
+      "optionalReason": "Ausschlussgrund (optional in Stufe 1)",
+      "noReason": "ohne Grund",
+      "reasonLegend": "Ausschlussgrund",
+      "reasonHint": "Pflicht im Volltext-Screening. Ziffer wählt direkt, Enter bestätigt, Esc bricht ab.",
+      "reasonRequired": "Bitte einen Ausschlussgrund wählen.",
+      "confirmExclude": "Ausschließen",
+      "notRetrievedNote": "Notiz (optional), z. B. „Fernleihe erfolglos“",
+      "confirmNotRetrieved": "Als nicht beschaffbar markieren",
+      "previous": "Vorheriger",
+      "next": "Nächster",
+      "undo": "Letzte Entscheidung rückgängig"
+    },
+    "status": {
+      "open": "Noch nicht entschieden.",
+      "current": "Aktuell: {{decision}}.",
+      "inherited": "Übernommen aus einer früheren Entscheidung (Dubletten zusammengeführt oder nachimportiert).",
+      "conflict": "Konflikt: Diese Datensätze wurden als Dubletten zusammengeführt, waren aber unterschiedlich entschieden. Bitte einmal neu entscheiden.",
+      "split": "Abgespalten aus einer Dublettengruppe. Frühere Entscheidung (an einem anderen Datensatz getroffen): {{decision}}. Bitte prüfen.",
+      "adopt": "Frühere Entscheidung übernehmen"
+    },
+    "study": {
+      "heading": "Report und Studie",
+      "own": "Dieser Report zählt als eigene Studie.",
+      "member_one": "Teil der Studie „{{label}}“ ({{count}} Report).",
+      "member_other": "Teil der Studie „{{label}}“ ({{count}} Reports).",
+      "detach": "Als eigene Studie führen",
+      "assignLabel": "Gehört zur selben Studie wie",
+      "choose": "Report wählen …",
+      "assign": "Zuordnen",
+      "assigned": "Report der Studie zugeordnet.",
+      "detached": "Report wird wieder als eigene Studie geführt.",
+      "of": "Studie „{{label}}“"
+    },
+    "removal": {
+      "heading": "Vor dem Screening entfernen",
+      "by": "Entfernt durch",
+      "note": "Begründung",
+      "noteRequired": "Bitte eine Begründung angeben.",
+      "submit": "Entfernen",
+      "removed": "Vor dem Screening entfernt: {{how}} – {{note}}. Frühere Entscheidungen bleiben in der Historie, zählen aber nicht.",
+      "restore": "Wiederherstellen"
+    },
+    "duplicate": {
+      "heading": "Als Dublette markieren",
+      "search": "Titel suchen (mind. 3 Zeichen)",
+      "results_one": "{{count}} Treffer",
+      "results_other": "{{count}} Treffer",
+      "merge": "Ist Dublette hiervon",
+      "merged": "Als Dublette zusammengeführt. Die Entscheidungen beider Datensätze werden übernommen oder als Konflikt markiert."
+    },
+    "history": {
+      "heading_one": "Historie ({{count}} Eintrag)",
+      "heading_other": "Historie ({{count}} Einträge)",
+      "empty": "Noch keine Entscheidungen.",
+      "note": "„{{note}}“",
+      "undo": "Rückgängig",
+      "otherRecord": "getroffen an: {{title}}"
+    }
   }
 }

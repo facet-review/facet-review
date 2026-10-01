@@ -28,3 +28,21 @@ export const importPaths = {
   run: (projectId: string, runId: string) => `/projects/${projectId}/import/runs/${runId}`,
   duplicates: (projectId: string) => `/projects/${projectId}/import/duplicates`,
 };
+
+/** URL form of the screening stages. */
+export type StageSlug = 'title-abstract' | 'full-text';
+
+export const screeningPaths = {
+  page: (projectId: string, stage?: StageSlug, filter?: string) => {
+    const query = new URLSearchParams({
+      ...(stage && { stage }),
+      ...(filter && filter !== 'all' && { filter }),
+    }).toString();
+    return `/projects/${projectId}/screening${query ? `?${query}` : ''}`;
+  },
+  /** A screening unit, addressed by one of its records (stable across dedup changes). */
+  unit: (projectId: string, stage: StageSlug, recordId: string, filter?: string) =>
+    `/projects/${projectId}/screening/${stage}/${recordId}${
+      filter && filter !== 'all' ? `?filter=${filter}` : ''
+    }`,
+};

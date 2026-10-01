@@ -117,6 +117,13 @@ tests/e2e/
 - Echtdaten-Erwartungen (`tests/unit/*.fixtures.test.ts`) sind fixiert. Ändert sich eine Regel, Zahlen erst manuell prüfen, dann Test und `tests/fixtures/README.md` anpassen.
 - Parsen und Deduplizieren laufen im Web Worker (`src/features/import/worker/`). Schwere Bibliotheken (citation-js, papaparse) nur dort importieren, nicht im Haupt-Bundle.
 
+## Screening (ab Meilenstein 4)
+
+- Entscheidungen beziehen sich auf **alle Datensätze einer Screening-Einheit** (`recordIds`, `shownRecordId`), nie auf eine Gruppen-ID. Einheiten und Status werden in `src/domain/screening/` abgeleitet (`screeningUnits`, `stageStatus`, `evaluateUnits`); die fünf Regeln für Dedup-Änderungen stehen in PRD §4 und sind in `tests/unit/screening.fixtures.test.ts` fixiert.
+- Alles bleibt append-only: Rückgängig, Entfernen vor dem Screening, Studienzuordnung sind neue `Decision`s.
+- URLs der Einzelansicht nennen einen Datensatz, nicht die Gruppe (stabil bei Zusammenführen/Aufteilen).
+- Einzeltasten-Kürzel: abschaltbar (WCAG 2.1.4), nie in Eingabefeldern; jede Aktion auch als Button.
+
 ## Befehle
 
 Node 22 (`.nvmrc`). Paketmanager: npm.

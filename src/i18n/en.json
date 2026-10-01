@@ -142,7 +142,8 @@
       "registrationUrl": "Registration link",
       "protocolUrl": "Protocol link",
       "protocolUrlHint": "PRISMA item 24b",
-      "urlHint": "Full address including https://"
+      "urlHint": "Full address including https://",
+      "reasonInUse": "Used in screening decisions and therefore cannot be removed."
     },
     "frameworkDiscardTitle": "Change structure?",
     "frameworkDiscardBody": "The following filled-in fields do not exist in the new structure; their content will be lost: {{fields}}",
@@ -544,5 +545,180 @@
     "noSeparated": "None.",
     "reconsider": "Review again",
     "linkExplanation": "{{a}} ↔ {{b}}: {{rule}}"
+  },
+  "screening": {
+    "stages": "Screening stages",
+    "stage": {
+      "title_abstract": "Stage 1: Title and abstract",
+      "full_text": "Stage 2: Full text"
+    },
+    "decidedOf": "{{decided}} of {{total}} decided",
+    "noRecords": "No records to screen yet.",
+    "toImport": "Go to import",
+    "openCandidates_one": "{{count}} duplicate candidate is still open. When merged later, decisions are adopted or marked as a conflict.",
+    "openCandidates_other": "{{count}} duplicate candidates are still open. When merged later, decisions are adopted or marked as a conflict.",
+    "toDuplicates": "Review duplicates",
+    "gate": {
+      "locked_one": "Stage 2 is locked: {{count}} record in stage 1 is still “maybe”. Resolve it or deliberately take “maybe” records into full-text screening.",
+      "locked_other": "Stage 2 is locked: {{count}} records in stage 1 are still “maybe”. Resolve them or deliberately take “maybe” records into full-text screening.",
+      "showMaybes": "Show “maybe” records in stage 1",
+      "setting": "The setting “Take maybe records into stage 2” is at the bottom of this page.",
+      "openWarning_one": "Note: {{count}} record in stage 1 is not decided yet.",
+      "openWarning_other": "Note: {{count}} records in stage 1 are not decided yet."
+    },
+    "removed": {
+      "heading_one": "Removed before screening ({{count}})",
+      "heading_other": "Removed before screening ({{count}})"
+    },
+    "untitled": "(untitled)",
+    "studies": "Studies",
+    "progress": "Progress: {{decided}} of {{total}} decided",
+    "start": "Start screening",
+    "continue": "Continue screening",
+    "allDecided": "All records of this stage are decided.",
+    "filterLabel": "Show",
+    "filter": {
+      "all": "All",
+      "open": "Open",
+      "conflict": "Conflict",
+      "review": "Review after split",
+      "include": "Included",
+      "exclude": "Excluded",
+      "maybe": "Maybe",
+      "not_retrieved": "Not retrieved"
+    },
+    "emptyFilter": "No records in this view.",
+    "listCaption": "{{stage}} – {{filter}}",
+    "columns": {
+      "title": "Title",
+      "authors": "First author, year",
+      "status": "Status"
+    },
+    "more_one": "Show {{count}} more",
+    "more_other": "Show {{count}} more",
+    "value": {
+      "include": "Included",
+      "exclude": "Excluded",
+      "maybe": "Maybe",
+      "not_retrieved": "Not retrieved",
+      "remove_automation": "Removed by automation tool",
+      "remove_other": "Removed for other reasons",
+      "reset": "Reset (open)"
+    },
+    "settings": {
+      "heading": "Settings",
+      "maybeToFullText": "Take “maybe” records into stage 2 (full text) instead of resolving them first",
+      "includeTerms": "Highlight: inclusion terms",
+      "excludeTerms": "Highlight: exclusion terms",
+      "termsHint": "One term per line or separated by commas. * truncates (tutor* finds tutoring). Case and accents are ignored.",
+      "deviceHint": "The following settings apply to this browser only.",
+      "highlight": "Highlight search terms",
+      "shortcuts": "Use single-key shortcuts (I, E, M, N, Z, ←, →)"
+    },
+    "unitTitle": "Screening – {{stage}}",
+    "unitGone": "This record no longer exists (for example because an import was undone).",
+    "backToList": "Back to list",
+    "notInTitleAbstract": "This record is not part of stage 1: it comes only from other methods (websites, citation searching, contacts, other) or was removed before screening.",
+    "notInFullText": "This record is not part of stage 2: it was not included in stage 1.",
+    "position": {
+      "label": "Position",
+      "text": "Record {{n}} of {{total}} ({{filter}})"
+    },
+    "announce": {
+      "next": "{{decision}}. Next record.",
+      "endOfList": "{{decision}}. That was the last record in this view.",
+      "saved": "Saved: {{decision}}.",
+      "undone": "Last decision undone.",
+      "nothingToUndo": "There is no decision to undo."
+    },
+    "fields": {
+      "authors": "Authors",
+      "year": "Year",
+      "container": "Journal or source",
+      "abstract": "Abstract"
+    },
+    "noAbstract": "No abstract available.",
+    "legend": {
+      "label": "Highlighting:",
+      "include": "inclusion term",
+      "exclude": "exclusion term"
+    },
+    "links": {
+      "label": "Find the full text",
+      "doi": "DOI {{doi}}",
+      "unpaywall": "Open access version (Unpaywall)",
+      "openAlex": "Metadata (OpenAlex)",
+      "pubmed": "PubMed {{pmid}}"
+    },
+    "provenance": {
+      "summary_one": "Provenance ({{count}} record)",
+      "summary_other": "Provenance ({{count}} records, merged as duplicates)",
+      "line": "line {{line}}",
+      "primary": "shown"
+    },
+    "decision": {
+      "heading": "Decision",
+      "include": "Include",
+      "exclude": "Exclude",
+      "maybe": "Maybe",
+      "notRetrieved": "Not retrieved",
+      "optionalReason": "Exclusion reason (optional in stage 1)",
+      "noReason": "no reason",
+      "reasonLegend": "Exclusion reason",
+      "reasonHint": "Required in full-text screening. A digit picks directly, Enter confirms, Esc cancels.",
+      "reasonRequired": "Please choose an exclusion reason.",
+      "confirmExclude": "Exclude",
+      "notRetrievedNote": "Note (optional), e.g. “interlibrary loan failed”",
+      "confirmNotRetrieved": "Mark as not retrieved",
+      "previous": "Previous",
+      "next": "Next",
+      "undo": "Undo last decision"
+    },
+    "status": {
+      "open": "Not decided yet.",
+      "current": "Current: {{decision}}.",
+      "inherited": "Adopted from an earlier decision (duplicates merged or imported later).",
+      "conflict": "Conflict: these records were merged as duplicates but had different decisions. Please decide once again.",
+      "split": "Split off from a duplicate group. Earlier decision (made on another record): {{decision}}. Please review.",
+      "adopt": "Adopt earlier decision"
+    },
+    "study": {
+      "heading": "Report and study",
+      "own": "This report counts as a study of its own.",
+      "member_one": "Part of study “{{label}}” ({{count}} report).",
+      "member_other": "Part of study “{{label}}” ({{count}} reports).",
+      "detach": "Treat as a study of its own",
+      "assignLabel": "Belongs to the same study as",
+      "choose": "Choose a report …",
+      "assign": "Assign",
+      "assigned": "Report assigned to the study.",
+      "detached": "Report is a study of its own again.",
+      "of": "study “{{label}}”"
+    },
+    "removal": {
+      "heading": "Remove before screening",
+      "by": "Removed by",
+      "note": "Justification",
+      "noteRequired": "Please give a justification.",
+      "submit": "Remove",
+      "removed": "Removed before screening: {{how}} – {{note}}. Earlier decisions stay in the history but do not count.",
+      "restore": "Restore"
+    },
+    "duplicate": {
+      "heading": "Mark as duplicate",
+      "search": "Search titles (at least 3 characters)",
+      "results_one": "{{count}} result",
+      "results_other": "{{count}} results",
+      "merge": "Is a duplicate of this",
+      "merged": "Merged as duplicates. Decisions of both records are adopted or marked as a conflict."
+    },
+    "history": {
+      "heading_one": "History ({{count}} entry)",
+      "heading_other": "History ({{count}} entries)",
+      "empty": "No decisions yet.",
+      "note": "“{{note}}”",
+      "undo": "undo",
+      "otherRecord": "made on: {{title}}"
+    }
   }
 }

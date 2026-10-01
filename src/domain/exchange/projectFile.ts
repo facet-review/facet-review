@@ -62,17 +62,23 @@ export function parseProjectFile(text: string): Result<ProjectBundle, ImportIssu
   const invalid = (path: string) => issues.push({ code: 'invalidField', path });
 
   const projectId = validateProject(file.project, invalid);
-  // A collection that is itself broken is reported once; references into it are not checked.
-  const idsOf = (key: (typeof COLLECTIONS)[number]) =>
-    Array.isArray(file[key])
-      ? new Set((file[key] as unknown[]).filter(isObject).map((entity) => entity.id))
-      : undefined;
+  // A collection that is itself broken (or has entries without id) is reported once;
+  // references into it are not checked, so one error does not cascade.
+  const idsOf = (key: (typeof COLLECTIONS)[number]) => {
+    const entities = file[key];
+    if (!Array.isArray(entities)) return undefined;
+    if (!entities.every((entity) => isObject(entity) && isString(entity.id))) return undefined;
+    return new Set(entities.map((entity: Record<string, unknown>) => entity.id));
+  };
   const context: Context = {
     projectId,
     sourceIds: idsOf('sources'),
     runIds: idsOf('sourceRuns'),
     batchIds: idsOf('importBatches'),
     recordIds: idsOf('records'),
+    studyIds: idsOf('studies'),
+    decisionIds: idsOf('decisions'),
+    reasonIds: reasonIdsOf(file.project),
   };
   for (const key of COLLECTIONS) {
     validateCollection(file[key], key, context, invalid);
@@ -83,6 +89,11 @@ export function parseProjectFile(text: string): Result<ProjectBundle, ImportIssu
     ['project', ...COLLECTIONS].map((key) => [key, file[key]]),
   ) as unknown as ProjectBundle;
   return { ok: true, value: bundle };
+}
+
+function reasonIdsOf(project: unknown): Set<unknown> | undefined {
+  if (!isObject(project) || !Array.isArray(project.exclusionReasons)) return undefined;
+  return new Set(project.exclusionReasons.filter(isObject).map((reason) => reason.id));
 }
 
 function fail(issue: ImportIssue): Result<never, ImportIssue> {
@@ -202,6 +213,14 @@ function validateProject(value: unknown, report: Report): string | undefined {
     },
     report,
   );
+  if (isObject(project.screening)) {
+    if (!isBoolean(project.screening.maybeToFullText)) report('project.screening.maybeToFullText');
+    const highlights = project.screening.highlights;
+    if (isObject(highlights)) {
+      for (const kind of ['include', 'exclude'] as const)
+        checkArray(highlights[kind], `project.screening.highlights.${kind}`, isString, report);
+    } else report('project.screening.highlights');
+  } else report('project.screening');
   if (project.flowOverrides !== undefined) {
     checkFields(
       project.flowOverrides,
@@ -241,6 +260,9 @@ interface Context {
   runIds: Set<unknown> | undefined;
   batchIds: Set<unknown> | undefined;
   recordIds: Set<unknown> | undefined;
+  studyIds: Set<unknown> | undefined;
+  decisionIds: Set<unknown> | undefined;
+  reasonIds: Set<unknown> | undefined;
 }
 
 /** Reference into another collection; only the type is checked if that collection is broken. */
@@ -295,8 +317,6 @@ function entityFields(key: (typeof COLLECTIONS)[number], context: Context): Reco
         doi: optional(isString),
         pmid: optional(isString),
         duplicateGroupId: optional(isString),
-        studyId: optional(isString),
-        removedBeforeScreening: optional(isObject),
       };
     case 'duplicateGroups':
       return {
@@ -311,6 +331,28 @@ function entityFields(key: (typeof COLLECTIONS)[number], context: Context): Reco
         reviewerId: isString,
         timestamp: isString,
       };
+    case 'decisions':
+      return {
+        shownRecordId: refersTo(context.recordIds),
+        reviewerId: isString,
+        stage: oneOf('pre_screening', 'title_abstract', 'full_text'),
+        value: oneOf(
+          'include',
+          'exclude',
+          'maybe',
+          'not_retrieved',
+          'remove_automation',
+          'remove_other',
+          'reset',
+        ),
+        reasonId: optional(refersTo(context.reasonIds)),
+        note: optional(isString),
+        studyId: optional(refersTo(context.studyIds)),
+        undoOf: optional(refersTo(context.decisionIds)),
+        timestamp: isString,
+      };
+    case 'studies':
+      return { label: isString };
     default:
       return {};
   }
@@ -334,6 +376,7 @@ function entityArrays(key: (typeof COLLECTIONS)[number], context: Context): Reco
     case 'duplicateGroups':
       return { memberIds: refersTo(context.recordIds), links: isLink };
     case 'dedupDecisions':
+    case 'decisions':
       return { recordIds: refersTo(context.recordIds) };
     default:
       return {};

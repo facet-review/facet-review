@@ -91,7 +91,7 @@ Dazu kommen **projektweite Angaben:**
 4. Sichere Treffer (1 und 2) werden automatisch zusammengeführt, aber **rückgängig gemacht werden kann das jederzeit.**
 5. Jede Zusammenführung bildet eine `DuplicateGroup` mit einem Primärdatensatz und protokollierter Regel (`rule: 'doi' | 'pmid' | 'title-fuzzy' | 'manual'`).
 
-**Automatisierung und sonstige Entfernungen vor dem Screening:** Datensätze können mit Begründung als „vor dem Screening entfernt“ markiert werden, mit der Unterscheidung „durch Automation-Tool“ bzw. „aus anderem Grund“ (eigene Boxen im Flow-Diagramm).
+**Automatisierung und sonstige Entfernungen vor dem Screening:** Datensätze können mit Begründung als „vor dem Screening entfernt“ markiert werden, mit der Unterscheidung „durch Automation-Tool“ bzw. „aus anderem Grund“ (eigene Boxen im Flow-Diagramm). Umgesetzt in Meilenstein 4 als protokollierte, rücknehmbare Entscheidung (`stage: 'pre_screening'`) in der Screening-Ansicht.
 
 ### Modul 4: Screening
 
@@ -177,6 +177,7 @@ interface Project {
   reviewers: Reviewer[];              // V1: genau eine Person, synchron mit metadata.author
   searchMeta: { filters?: string; priorWork?: string; updates?: string; peerReview?: string };
   flowOverrides?: { variant?: FlowVariant; previousStudies?: number; previousReports?: number };
+  screening: { maybeToFullText: boolean; highlights: { include: string[]; exclude: string[] } };  // M4
   backup: { lastExportedAt?: ISODate; changesSinceExport: number };  // Sicherungserinnerung
   createdAt: ISODate; updatedAt: ISODate;
 }
@@ -227,9 +228,7 @@ interface BibRecord {             // nicht 'Record' – Kollision mit TS-Utility
   csl: CSLJSON;                       // normalisierte bibliografische Daten
   raw: string;                        // Originaleintrag aus der Importdatei
   doi?: string; pmid?: string;        // normalisiert, für Dedup indiziert
-  removedBeforeScreening?: { by: 'automation' | 'other'; reason: string };
   duplicateGroupId?: UUID;
-  studyId?: UUID;                     // Zuordnung Report → Studie
 }
 
 interface DuplicateGroup {             // abgeleitet aus Datensätzen + DedupDecisions
@@ -245,11 +244,16 @@ interface DedupDecision {             // append-only, je Paar gilt die letzte (M
   reviewerId: UUID; timestamp: ISODate;
 }
 
-interface Decision {                  // append-only
-  id: UUID; projectId: UUID; recordId: UUID; reviewerId: UUID;
-  stage: 'title_abstract' | 'full_text';
-  value: 'include' | 'exclude' | 'maybe' | 'not_retrieved';
-  reasonId?: UUID; note?: string;
+interface Decision {                  // append-only (M4: bezieht sich auf eine Screening-Einheit)
+  id: UUID; projectId: UUID; reviewerId: UUID;
+  recordIds: UUID[];                  // alle Mitglieder der Einheit zum Zeitpunkt der Entscheidung
+  shownRecordId: UUID;                // der angezeigte (Primär-)Datensatz
+  stage: 'pre_screening' | 'title_abstract' | 'full_text';
+  value: 'include' | 'exclude' | 'maybe' | 'not_retrieved'
+       | 'remove_automation' | 'remove_other' | 'reset';
+  reasonId?: UUID; note?: string;     // note Pflicht bei remove_*
+  studyId?: UUID;                     // Stufe 2 include: Report gehört zu dieser Studie
+  undoOf?: UUID;                      // „Z“: dieser Eintrag macht jenen rückgängig
   timestamp: ISODate;
 }
 
@@ -320,16 +324,43 @@ Pflichtfelder weichen an zwei Stellen bewusst von der Tabelle in Modul 2 ab (bes
 
 **Leistung:** Blocking nach Erstautor:in und gleitendes Fenster (10) über sortierte Titel, Levenshtein mit Abbruchgrenze; Berechnung im Web Worker.
 
+### Änderungen in Meilenstein 4 (Screening)
+
+**Kernproblem:** Entscheidungen müssen stabil bleiben, wenn sich die Dublettenstruktur nach Screening-Beginn ändert. Gruppen-IDs folgen dem Primärdatensatz (`assignGroupIds`) und sind daher kein stabiler Bezug.
+
+| Entscheidung | Begründung |
+|---|---|
+| `Decision.recordIds` (alle Mitglieder der Einheit) und `shownRecordId` statt `recordId` | Datensatz-IDs ändern sich nie; Zusammenführen, Aufteilen und Primärwechsel schreiben keine Entscheidung um |
+| **Screening-Einheiten** (Dublettengruppe oder Einzeldatensatz) werden wie die Gruppen beim Lesen abgeleitet (`src/domain/screening/`) | Eine Regel statt Umschreib-Code bei jeder Dedup-Änderung |
+| „Vor dem Screening entfernt“ ist eine Entscheidung (`stage: 'pre_screening'`), kein Feld am Datensatz; `BibRecord.removedBeforeScreening` und `BibRecord.studyId` entfallen | Protokolliert und rücknehmbar; beide Felder wurden nie befüllt |
+| Report → Studie über `studyId` an der Stufe-2-Einschlussentscheidung; ohne Zuordnung 1 Report = 1 Studie | Umhängen ist eine neue Entscheidung und damit im Audit-Trail |
+| „Z“ hängt einen Eintrag mit `undoOf` an, der den vorherigen Zustand herstellt (oder `reset`) | Append-only, nichts wird gelöscht |
+| `Project.screening` (Vielleicht in Stufe 2 mitnehmen, Suchbegriffe); Tastenkürzel und Hervorhebung an/aus pro Browser | Projekteinstellung vs. Gerätepräferenz |
+| Ausschlussgründe, auf die eine Entscheidung verweist, sind nicht löschbar (umbenennen geht) | Audit-Trail und Flow-Zählung nach `reasonId` |
+| Kein automatischer OA-Abruf bei OpenAlex, nur Links (DOI, Unpaywall, OpenAlex, PubMed) | Prinzip 1: Datenübertragung nur bei aktiver Suche; API-Anbindung in M7 |
+
+**Regel für den Status einer Einheit (je Stufe):** Für jedes Mitglied gilt dessen letzte Entscheidung (`reset` = keine). Sie zählt, wenn der damals angezeigte Datensatz in der Einheit liegt; sonst ist sie nur ein **Vorschlag**. Keine zählende Entscheidung → offen; alle stimmen überein → entschieden; Widerspruch → **Konflikt** (zählt als offen, steht oben). In Stufe 1 zählt dabei nur der Wert, in Stufe 2 auch Ausschlussgrund und Studie.
+
+| Fall (bestätigt am 01.10.2026) | Verhalten |
+|---|---|
+| 1 Primärwechsel | Status unverändert |
+| 2 Zusammenführen | Gleiche Entscheidungen → übernommen; entschieden + offen → übernommen; widersprechend → Konflikt, eine neue Entscheidung löst ihn |
+| 3 Aufteilen | Der Teil mit dem angezeigten Datensatz behält die Entscheidung; abgespaltene Teile sind **offen mit Vorschlag** („Nach Aufteilung prüfen“), Übernahme per Klick oder Taste wird protokolliert. Begründung: Ein abgespaltener Datensatz ist eine andere Publikation, die nie gesehen wurde |
+| 4 Entfernt | Entscheidung bleibt in der Historie, zählt nicht; „Import rückgängig“ ist gesperrt, sobald eine Entscheidung auf einen Datensatz des Imports verweist (geerbte Entscheidungen sperren nicht) |
+| 5 Nachimport | Erkannte Dubletten entschiedener Einheiten erben deren Status, alles andere ist offen |
+
+Weitere Regeln: Einheiten **nur** aus anderen Methoden (Websites, Zitationssuche, Kontakte, sonstige) gehen direkt in Stufe 2; ist ein Datensatz aus Datenbank, Register oder Suchmaschine dabei, durchläuft die Einheit Stufe 1. Stufe 2 ist gesperrt, solange es „Vielleicht“ gibt (außer per Einstellung mitgenommen); unentschiedene Stufe-1-Datensätze erzeugen nur eine Warnung. Ändert sich die Stufe-1-Entscheidung nachträglich, bleibt eine Stufe-2-Entscheidung in der Historie, zählt aber nicht.
+
 ### Wann steigt `schemaVersion`?
 
-`schemaVersion` steigt, sobald **bestehende Daten transformiert werden müssen** (Umbenennen, Umstrukturieren, geänderte Bedeutung). Rein additive, optionale Felder ohne vorhandene Daten brauchen keinen Versionssprung. Meilenstein 2 bleibt daher bei Version 1: `sources` und `sourceRuns` waren in allen bisherigen Exporten leer. **Meilenstein 3 hebt auf Version 2:** Die Migration 1 → 2 ergänzt die Sammlungen `importBatches` und `dedupDecisions` (leer); Datensätze gab es vorher nicht. Die Browser-Datenbank (Dexie) steht auf Version 2 mit den Tabellen `importBatches`, `dedupDecisions` und dem Index `records.importBatchId`. `SourceRun.noLimits` ist ein additives, optionales Feld ohne Versionssprung. Bis dahin leere Limits-Felder gelten als „nicht dokumentiert“; ob damit „keine Limits“ gemeint war, lässt sich nicht automatisch ableiten und muss bei Bedarf per Checkbox nachgetragen werden.
+`schemaVersion` steigt, sobald **bestehende Daten transformiert werden müssen** (Umbenennen, Umstrukturieren, geänderte Bedeutung). Rein additive, optionale Felder ohne vorhandene Daten brauchen keinen Versionssprung. Meilenstein 2 bleibt daher bei Version 1: `sources` und `sourceRuns` waren in allen bisherigen Exporten leer. **Meilenstein 3 hebt auf Version 2:** Die Migration 1 → 2 ergänzt die Sammlungen `importBatches` und `dedupDecisions` (leer); Datensätze gab es vorher nicht. Die Browser-Datenbank (Dexie) steht auf Version 2 mit den Tabellen `importBatches`, `dedupDecisions` und dem Index `records.importBatchId`. **Meilenstein 4 hebt auf Version 3:** Die Migration 2 → 3 wandelt `recordId` in `recordIds: [recordId]` und `shownRecordId`, entfernt die ungenutzten Datensatz-Felder `studyId` und `removedBeforeScreening` und ergänzt `project.screening` mit Standardwerten; Dexie Version 3 macht dasselbe in der Browser-Datenbank (Multi-Entry-Index `decisions.*recordIds`). `SourceRun.noLimits` ist ein additives, optionales Feld ohne Versionssprung. Bis dahin leere Limits-Felder gelten als „nicht dokumentiert“; ob damit „keine Limits“ gemeint war, lässt sich nicht automatisch ableiten und muss bei Bedarf per Checkbox nachgetragen werden.
 
 ### Austauschformat (Projekt-JSON)
 
 ```json
 {
   "format": "facet-review-project",
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "exportedAt": "2026-09-30T12:00:00.000Z",
   "app": { "name": "Facet Review", "version": "0.0.0" },
   "project": { … },
@@ -347,6 +378,8 @@ Pflichtfelder weichen an zwei Stellen bewusst von der Tabelle in Modul 2 ab (bes
 
 ## 5. Zähllogik Flow-Diagramm
 
+„Letzte Entscheidung“ meint ab Meilenstein 4 den abgeleiteten Status der Screening-Einheit (siehe Abschnitt 4, Änderungen in Meilenstein 4); Konflikte zählen als offen.
+
 Alle Werte werden in `src/domain/flow/` als reine Funktion `computeFlow(projectData) → FlowCounts` berechnet und mit Fixtures getestet.
 
 | Box (PRISMA 2020) | Ableitung |
@@ -354,8 +387,8 @@ Alle Werte werden in `src/domain/flow/` als reine Funktion `computeFlow(projectD
 | Records identified from databases (n, pro Datenbank) | Summe der importierten Datensätze aus `SourceRun`s mit `type ∈ {database, search_engine}`; eine gemeinsame Suche über mehrere Datenbanken erscheint als **eine** Zeile, z. B. „EBSCOhost (CINAHL, ERIC)“ |
 | … from registers | dto. mit `type = register` |
 | Duplicate records removed | Anzahl der Nicht-Primär-Mitglieder aller `DuplicateGroup`s |
-| Records marked as ineligible by automation tools | `removedBeforeScreening.by = 'automation'` |
-| Records removed for other reasons | `removedBeforeScreening.by = 'other'` |
+| Records marked as ineligible by automation tools | Einheiten mit `pre_screening`-Entscheidung `remove_automation` |
+| Records removed for other reasons | Einheiten mit `pre_screening`-Entscheidung `remove_other` |
 | Records screened | Eindeutige Datensätze (Primär bzw. ohne Gruppe), nicht vorher entfernt, aus Datenbanken und Registern |
 | Records excluded | Letzte Entscheidung in Stufe 1 = `exclude` |
 | Reports sought for retrieval | Letzte Entscheidung in Stufe 1 = `include` (bzw. `maybe`, wenn so eingestellt) |
@@ -363,7 +396,7 @@ Alle Werte werden in `src/domain/flow/` als reine Funktion `computeFlow(projectD
 | Reports assessed for eligibility | sought − not retrieved |
 | Reports excluded: Reason n | Letzte Entscheidung in Stufe 2 = `exclude`, gruppiert nach `reasonId` |
 | Reports of included studies | Letzte Entscheidung in Stufe 2 = `include` |
-| Studies included in review | Anzahl verschiedener `studyId` unter den eingeschlossenen Reports (ohne Zuordnung: 1 Report = 1 Studie) |
+| Studies included in review | Anzahl verschiedener `studyId` an den Stufe-2-Einschlussentscheidungen (ohne Zuordnung: 1 Report = 1 Studie; `includedCounts()` in `src/domain/screening/studies.ts`) |
 | Rechte Spalte „other methods“ | Analog für Quellen mit `type ∈ {website, citation_search, contact, other}`; hier wird ab „Reports sought“ gezählt, weil die PRISMA-Vorlage dort kein Titel-Screening vorsieht |
 
 **Konsistenzprüfungen** (als Warnung in der UI anzeigen):

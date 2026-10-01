@@ -1,4 +1,6 @@
+import { useLiveQuery } from 'dexie-react-hooks';
 import { useTranslation } from 'react-i18next';
+import { db } from '../../../db/db';
 import {
   addReason,
   moveReason,
@@ -23,6 +25,11 @@ export function ExclusionReasonsSection({ project, update }: Props) {
   const change = (next: (r: Project['exclusionReasons']) => Project['exclusionReasons']) =>
     update((p) => ({ ...p, exclusionReasons: next(p.exclusionReasons) }));
   const idAt = (index: number) => reasons[index]?.id ?? '';
+  // Reasons used by decisions stay (audit trail); renaming is still possible.
+  const used = useLiveQuery(async () => {
+    const decisions = await db.decisions.where('projectId').equals(project.id).toArray();
+    return new Set(decisions.map((d) => d.reasonId).filter(Boolean));
+  }, [project.id]);
 
   return (
     <FormSection title={t('project.sections.exclusionReasons')}>
@@ -37,6 +44,9 @@ export function ExclusionReasonsSection({ project, update }: Props) {
         onAdd={() => change((r) => addReason(r, '', newId))}
         onRemove={(index) => change((r) => removeReason(r, idAt(index)))}
         onMove={(index, direction) => change((r) => moveReason(r, idAt(index), direction))}
+        removeBlocked={(index) =>
+          used?.has(idAt(index)) ? t('project.fields.reasonInUse') : undefined
+        }
       />
     </FormSection>
   );

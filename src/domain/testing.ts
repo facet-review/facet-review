@@ -13,7 +13,7 @@ export function fixedClock(iso: ISODate): () => ISODate {
 
 /**
  * A small but fully linked bundle: every reference type (source → run → record →
- * duplicate group / decision / study, reviewer, exclusion reason) is present once.
+ * duplicate group / decision / study, reviewer, exclusion reason, undo) is present.
  */
 export function makeLinkedBundle(): ProjectBundle {
   const project = createProject(
@@ -63,7 +63,6 @@ export function makeLinkedBundle(): ProjectBundle {
         raw: 'TY  - JOUR',
         doi: '10.1/a',
         duplicateGroupId: 'grp-1',
-        studyId: 'study-1',
       },
       {
         id: 'rec-2',
@@ -100,12 +99,25 @@ export function makeLinkedBundle(): ProjectBundle {
       {
         id: 'dec-1',
         projectId,
-        recordId: 'rec-1',
+        recordIds: ['rec-1', 'rec-2'],
+        shownRecordId: 'rec-1',
         reviewerId,
         stage: 'full_text',
         value: 'exclude',
         reasonId,
         timestamp: '2026-09-30T11:00:00.000Z',
+      },
+      {
+        id: 'dec-2',
+        projectId,
+        recordIds: ['rec-1', 'rec-2'],
+        shownRecordId: 'rec-1',
+        reviewerId,
+        stage: 'full_text',
+        value: 'include',
+        studyId: 'study-1',
+        undoOf: 'dec-1',
+        timestamp: '2026-09-30T11:05:00.000Z',
       },
     ],
     studies: [{ id: 'study-1', projectId, label: 'Study A' }],
