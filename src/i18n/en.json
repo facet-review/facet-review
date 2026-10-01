@@ -276,6 +276,7 @@
       "date": "Date",
       "hits": "Hits",
       "content": "Search string or description",
+      "limits": "Limits",
       "actions": "Actions",
       "editFor": "search run of {{date}}",
       "none": "No search runs yet.",
@@ -304,7 +305,11 @@
     "summarySources_one": "{{count}} source",
     "summarySources_other": "{{count}} sources",
     "summaryRuns_one": "{{count}} search run",
-    "summaryRuns_other": "{{count}} search runs"
+    "summaryRuns_other": "{{count}} search runs",
+    "limits": {
+      "none": "No limits applied",
+      "undocumented": "Not documented"
+    }
   },
   "sourceForm": {
     "newTitle": "Add source",
@@ -346,7 +351,8 @@
     "copied": "Search string copied to the clipboard.",
     "copyFailed": "Copying is not possible in this browser.",
     "limits": "Limits and filters",
-    "limitsHint": "e.g. publication years, languages, document types; leave empty if none were set (PRISMA-S item 9)",
+    "limitsHint": "e.g. publication years, languages, document types (PRISMA-S item 9). Empty means “not documented”.",
+    "noLimits": "No limits applied",
     "reportedHits": "Reported number of hits",
     "reportedHitsHint": "Number as reported by the source; compared with the number of imported records.",
     "recordsChecked": "Number of results examined",

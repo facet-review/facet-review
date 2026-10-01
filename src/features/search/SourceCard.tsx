@@ -3,7 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { db } from '../../db/db';
 import { deleteSource, RecordsExistError } from '../../db/searchRepository';
-import { latestRunDate, sortRuns, sourceLabel } from '../../domain/search/summary';
+import { SOURCE_TYPE_CONFIG } from '../../domain/search/sourceTypes';
+import {
+  latestRunDate,
+  limitsStatus,
+  sortRuns,
+  sourceLabel,
+  type LimitsStatus,
+} from '../../domain/search/summary';
 import type { Source, SourceRun } from '../../domain/types';
 import { formatDate, formatNumber } from '../../app/format';
 import { searchPaths } from '../../app/modules';
@@ -32,6 +39,7 @@ export function SourceCard({ source, runs, onDeleted }: Props) {
   const label = sourceLabel(source);
   const last = latestRunDate(runs);
   const headingId = `source-${source.id}`;
+  const hasLimits = SOURCE_TYPE_CONFIG[source.type].runFields.includes('limits');
 
   async function remove() {
     setConfirming(false);
@@ -85,6 +93,7 @@ export function SourceCard({ source, runs, onDeleted }: Props) {
                   {t('search.runs.hits')}
                 </th>
                 <th scope="col">{t('search.runs.content')}</th>
+                {hasLimits && <th scope="col">{t('search.runs.limits')}</th>}
                 <th scope="col">
                   <span className="visually-hidden">{t('search.runs.actions')}</span>
                 </th>
@@ -106,6 +115,7 @@ export function SourceCard({ source, runs, onDeleted }: Props) {
                     <td className={run.searchString ? styles.codeCell : styles.textCell}>
                       {runSummary(run)}
                     </td>
+                    {hasLimits && <LimitsCell status={limitsStatus(source.type, run)} />}
                     <td>
                       <Link to={searchPaths.run(source.projectId, run.id)}>
                         {t('common.edit')}
@@ -164,4 +174,11 @@ export function SourceCard({ source, runs, onDeleted }: Props) {
       </ConfirmDialog>
     </article>
   );
+}
+
+function LimitsCell({ status }: { status: LimitsStatus | undefined }) {
+  const { t } = useTranslation();
+  if (status?.kind === 'text') return <td className={styles.textCell}>{status.text}</td>;
+  if (status?.kind === 'none') return <td>{t('search.limits.none')}</td>;
+  return <td className={styles.muted}>{t('search.limits.undocumented')}</td>;
 }

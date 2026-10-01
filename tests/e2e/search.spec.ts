@@ -59,6 +59,38 @@ test('documents a multi-database search with two runs', async ({ page }) => {
   await expect(page.getByLabel('Suchstring')).toHaveValue(STRATEGY);
 });
 
+test('distinguishes "no limits applied" from undocumented limits', async ({ page }) => {
+  await openSearch(page);
+  await addSource(page, 'Bibliografische Datenbank (PRISMA-S Item 1, 2)', 'ERIC');
+  await page.getByLabel('Plattform bzw. Oberfläche').fill('EBSCOhost');
+  await page.getByRole('button', { name: 'Speichern und Suchlauf erfassen' }).click();
+  await page.getByLabel('Datum der Suche').fill('2026-09-01');
+  await page.getByLabel('Suchstring').fill('tutoring');
+  await page.getByLabel('Gemeldete Trefferzahl').fill('10');
+  await page.getByLabel('Limits und Filter').fill('2010–2026');
+  await page.getByLabel('Keine Limits angewendet').check();
+  await expect(page.getByLabel('Limits und Filter')).toBeDisabled();
+  await page.getByRole('button', { name: 'Speichern', exact: true }).click();
+
+  const card = page.getByRole('article', { name: 'ERIC' });
+  await expect(card.getByRole('columnheader', { name: 'Limits' })).toBeVisible();
+  await expect(card.getByRole('cell', { name: 'Keine Limits angewendet' })).toBeVisible();
+
+  await card.getByRole('link', { name: 'Suchlauf hinzufügen – ERIC' }).click();
+  await page.getByLabel('Datum der Suche').fill('2026-09-20');
+  await page.getByLabel('Suchstring').fill('tutoring');
+  await page.getByLabel('Gemeldete Trefferzahl').fill('10');
+  await page.getByRole('button', { name: 'Speichern', exact: true }).click();
+  await expect(card.getByRole('cell', { name: 'Nicht dokumentiert' })).toBeVisible();
+
+  // The checkbox is stored; the contradicting text is not.
+  await page.reload();
+  await card.getByRole('link', { name: /Bearbeiten – Suchlauf vom 01\.09\.2026/ }).click();
+  await expect(page.getByLabel('Keine Limits angewendet')).toBeChecked();
+  await page.getByLabel('Keine Limits angewendet').uncheck();
+  await expect(page.getByLabel('Limits und Filter')).toHaveValue('');
+});
+
 test('shows type-specific fields and blocks saving incomplete entries', async ({ page }) => {
   await openSearch(page);
   await page.getByRole('link', { name: 'Quelle hinzufügen' }).click();

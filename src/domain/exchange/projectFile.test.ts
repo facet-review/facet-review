@@ -137,12 +137,14 @@ describe('parseProjectFile', () => {
     file.sourceRuns[0].reportedHits = -2;
     file.sourceRuns[0].method = 'guess';
     file.sourceRuns[0].searchString = null;
+    file.sourceRuns[0].noLimits = 'yes';
     expect(errorsOf(JSON.stringify(file))).toEqual([
       { code: 'invalidField', path: 'sources[0].type' },
       { code: 'invalidField', path: 'sources[0].databases[1]' },
       { code: 'invalidField', path: 'sourceRuns[0].date' },
       { code: 'invalidField', path: 'sourceRuns[0].dateTo' },
       { code: 'invalidField', path: 'sourceRuns[0].searchString' },
+      { code: 'invalidField', path: 'sourceRuns[0].noLimits' },
       { code: 'invalidField', path: 'sourceRuns[0].reportedHits' },
       { code: 'invalidField', path: 'sourceRuns[0].method' },
     ]);
