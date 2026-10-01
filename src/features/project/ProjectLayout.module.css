@@ -1,5 +1,7 @@
 .frame {
   display: grid;
+  /* minmax(0, …): wide content must not widen the page (WCAG 1.4.10 reflow). */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-5);
 }
 

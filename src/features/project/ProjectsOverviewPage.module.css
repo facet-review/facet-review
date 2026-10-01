@@ -16,6 +16,7 @@
 
 .list {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   margin: 0;
   padding: 0;
@@ -24,6 +25,7 @@
 
 .card {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
   border: var(--line-hairline);
@@ -72,6 +74,7 @@
 
 .heroText {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-1);
 }
 

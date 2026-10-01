@@ -62,6 +62,21 @@ textarea {
   outline-offset: var(--focus-offset);
 }
 
+/* Date fields: Chromium moves focus into the field's own parts (day, month,
+   year, calendar button), where :focus-visible on the field does not match
+   (WCAG 2.4.7). */
+input[type='date']:focus-within {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* Controls never grow beyond their container (WCAG 1.4.10 reflow at 320 px). */
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
