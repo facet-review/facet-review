@@ -106,7 +106,7 @@ test('exports a project and imports it again as a copy', async ({ page }) => {
   );
   const file = JSON.parse(await readFile((await download.path())!, 'utf8'));
   expect(file.format).toBe('facet-review-project');
-  expect(file.schemaVersion).toBe(2);
+  expect(file.schemaVersion).toBe(3);
   expect(file.project.metadata.institution).toBe('FH OÖ');
   await expect(page.getByText('noch nie')).toHaveCount(0);
 
