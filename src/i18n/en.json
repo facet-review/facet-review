@@ -68,7 +68,10 @@
     "attributionHeading": "Foundations",
     "attributionNote": "The PRISMA 2020 checklist and flow diagram template are licensed under CC BY 4.0.",
     "license": "Free software under the GNU AGPL-3.0.",
-    "sourceCode": "Source code"
+    "sourceCode": "Source code",
+    "imprint": "Legal notice",
+    "privacy": "Privacy",
+    "legalNav": "Legal"
   },
   "common": {
     "loading": "Loading …",
@@ -1133,5 +1136,90 @@
     "later": "Later",
     "offlineReady": "Facet Review can now be used offline (except the OpenAlex search).",
     "dismiss": "Dismiss"
+  },
+  "home": {
+    "description": "Facet Review guides you through the literature search, screening and reporting of a systematic review. Every number in the flow diagram can be traced back to specific records – from the documented search to the completed checklist.",
+    "chainLabel": "The chain of a review in Facet Review",
+    "chain": {
+      "search": "Search (PRISMA-S)",
+      "records": "Records",
+      "dedup": "Duplicates",
+      "screening": "Screening",
+      "flow": "Flow diagram (PRISMA 2020)",
+      "checklist": "Checklist"
+    },
+    "openProject": "Open project",
+    "openHint": "“Open project” loads a saved project file (JSON), e.g. from another device. Your projects in this browser are listed below.",
+    "privacyTitle": "Your data stays in your browser.",
+    "privacyBody": "Projects, records and decisions are stored only in this browser. There is no account, no server and no tracking. Only when you search OpenAlex yourself is your query sent to the OpenAlex API. Back up your projects regularly as a JSON file.",
+    "privacyLink": "More in the privacy policy"
+  },
+  "legal": {
+    "placeholderNotice": "Draft: the details marked [PLACEHOLDER] will be added.",
+    "imprint": {
+      "title": "Legal notice",
+      "description": "Information according to § 5 of the Austrian E-Commerce Act and § 25 of the Austrian Media Act.",
+      "sections": {
+        "owner": {
+          "heading": "Owner and publisher",
+          "body": "[PLACEHOLDER: name]\n[PLACEHOLDER: address]\n[PLACEHOLDER: e-mail address]"
+        },
+        "purpose": {
+          "heading": "Purpose",
+          "body": "Facet Review is free, non-commercial software for documenting systematic reviews traceably according to PRISMA 2020 and PRISMA-S. [PLACEHOLDER: please check and complete]"
+        },
+        "license": {
+          "heading": "Licence and source code",
+          "body": "Facet Review is licensed under the GNU Affero General Public License 3.0 (AGPL-3.0). The source code is publicly available on GitHub."
+        },
+        "attribution": {
+          "heading": "Foundations",
+          "body": "PRISMA 2020 checklist and flow diagram template: Page MJ, et al. BMJ 2021;372:n71, licence CC BY 4.0. PRISMA-S: Rethlefsen ML, et al. Syst Rev 2021;10:39. “PRISMA” names the guidelines; Facet Review is not offered by the PRISMA group."
+        }
+      }
+    },
+    "privacy": {
+      "title": "Privacy",
+      "description": "Short, because Facet Review hardly processes any data: your data stays in your browser.",
+      "sections": {
+        "controller": {
+          "heading": "Controller",
+          "body": "[PLACEHOLDER: name, address, e-mail address]"
+        },
+        "local": {
+          "heading": "Your data stays in your browser",
+          "body": "Facet Review is a web app without a server component. All project data – search documentation, imported records, screening decisions and checklists – is stored only locally in your browser (IndexedDB). Settings such as language, appearance, CSV delimiter and the optional e-mail address for OpenAlex are kept in the browser's local storage (localStorage).\n\nThis data is not transferred to us or to third parties. There are no accounts, no cookies, no analytics or tracking tools and no externally loaded fonts or scripts."
+        },
+        "hosting": {
+          "heading": "Hosting on GitHub Pages",
+          "body": "The app is delivered by GitHub Pages (GitHub Inc., USA) at facetreview.org. When you open the page, GitHub processes technically necessary connection data, in particular your IP address, to deliver the files and secure the service. This is not tracking by Facet Review. Details are governed by GitHub's privacy statement.\n\n[PLACEHOLDER: legal basis (e.g. Art. 6(1)(f) GDPR) and note on data transfer to the USA]",
+          "link": "GitHub General Privacy Statement"
+        },
+        "openalex": {
+          "heading": "Searching OpenAlex",
+          "body": "Only when you start an OpenAlex search yourself in the “Search” module does your browser send the search string and the chosen filters directly to the OpenAlex API (operated by OurResearch, USA); OpenAlex also receives your IP address. If you have entered an e-mail address or API key, these are sent along – both are voluntary and can be deleted at any time.\n\n[PLACEHOLDER: legal basis and link to the OpenAlex privacy policy]"
+        },
+        "links": {
+          "heading": "Links to other sites",
+          "body": "Links, e.g. to DOI, PubMed or Unpaywall, open these sites only when you click them. The privacy policies of those providers then apply."
+        },
+        "csp": {
+          "heading": "Technical safeguard",
+          "body": "A Content Security Policy allows the browser to connect only to the app itself and to the OpenAlex API. The browser blocks all other connections."
+        },
+        "deletion": {
+          "heading": "Deleting your data",
+          "body": "You delete projects in the project overview. To remove all data, delete the site data of facetreview.org in your browser. Back up projects as a JSON file first if you want to keep them."
+        },
+        "rights": {
+          "heading": "Your rights",
+          "body": "[PLACEHOLDER: rights of data subjects – access, rectification, erasure, restriction, objection, data portability, complaint to the data protection authority]"
+        },
+        "updated": {
+          "heading": "Last updated",
+          "body": "[PLACEHOLDER: date]"
+        }
+      }
+    }
   }
 }

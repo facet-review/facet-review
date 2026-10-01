@@ -4,6 +4,7 @@ import { Link, Outlet, useLocation } from 'react-router';
 import { Footer } from './Footer';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { Logo } from '../design/Logo';
 import { UpdatePrompt } from './UpdatePrompt';
 import styles from './Layout.module.css';
 
@@ -32,6 +33,7 @@ export function Layout() {
         <div className={styles.headerInner}>
           <div className={styles.brand}>
             <Link to="/" className={styles.wordmark} aria-label={t('app.homeLink')}>
+              <Logo size={28} className={styles.mark} />
               {t('app.name')}
             </Link>
             <p className={styles.subtitle}>{t('app.subtitle')}</p>

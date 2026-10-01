@@ -8,17 +8,23 @@ import { needsBackupReminder } from '../../domain/project/backupReminder';
 import type { Project } from '../../domain/types';
 import { formatDateTime } from '../../app/format';
 import { projectPath } from '../../app/modules';
-import { PageHeading } from '../../app/PageHeading';
+import { useDocumentTitle } from '../../app/useDocumentTitle';
 import { nowIso } from '../../app/runtime';
 import button from '../../design/button.module.css';
 import notice from '../../design/notice.module.css';
 import { ConfirmDialog } from '../../design/ConfirmDialog';
+import { Logo } from '../../design/Logo';
 import { ImportProject } from './ImportProject';
 import { exportProject } from './projectFileIO';
 import styles from './ProjectsOverviewPage.module.css';
 
+/** The chain that sets Facet Review apart (CLAUDE.md), shown on the start page. */
+const CHAIN = ['search', 'records', 'dedup', 'screening', 'flow', 'checklist'] as const;
+
+/** Start page: what Facet Review is, how to begin, and the projects in this browser. */
 export default function ProjectsOverviewPage() {
   const { t, i18n } = useTranslation();
+  useDocumentTitle(t('app.tagline'));
   const projects = useLiveQuery(() => listProjects(db), []);
   const [toDelete, setToDelete] = useState<Project>();
   const [status, setStatus] = useState('');
@@ -28,17 +34,42 @@ export default function ProjectsOverviewPage() {
 
   return (
     <>
-      <PageHeading
-        title={t('pages.overview.title')}
-        description={t('pages.overview.description')}
-      />
+      <header className={styles.hero}>
+        <Logo size={96} className={styles.logo} />
+        <div className={styles.heroText}>
+          <h1 className={styles.title}>{t('app.name')}</h1>
+          <p className={styles.tagline}>{t('app.tagline')}</p>
+          <p className={styles.subtitle}>{t('app.subtitle')}</p>
+        </div>
+      </header>
+
+      <p className={styles.lead}>{t('home.description')}</p>
+      <ol className={styles.chain} aria-label={t('home.chainLabel')}>
+        {CHAIN.map((step) => (
+          <li key={step}>{t(`home.chain.${step}`)}</li>
+        ))}
+      </ol>
 
       <div className={styles.actions}>
         <Link to="/projects/new" className={`${button.button} ${button.primary}`}>
           {t('overview.newProject')}
         </Link>
-        <ImportProject onImported={(title) => setStatus(t('importFile.success', { title }))} />
+        <ImportProject
+          label={t('home.openProject')}
+          onImported={(title) => setStatus(t('importFile.success', { title }))}
+        />
       </div>
+      <p className={styles.hint}>{t('home.openHint')}</p>
+
+      <section aria-labelledby="home-privacy" className={styles.privacy}>
+        <h2 id="home-privacy" className={styles.privacyTitle}>
+          {t('home.privacyTitle')}
+        </h2>
+        <p>{t('home.privacyBody')}</p>
+        <p>
+          <Link to="/datenschutz">{t('home.privacyLink')}</Link>
+        </p>
+      </section>
 
       <p role="status" className={styles.status}>
         {status}

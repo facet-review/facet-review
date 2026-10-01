@@ -1,0 +1,13 @@
+.section {
+  max-width: 44rem;
+  margin-top: var(--space-5);
+}
+
+.section h2 {
+  font-size: var(--font-size-lg);
+}
+
+/* Line breaks in addresses are part of the text. */
+.paragraph {
+  white-space: pre-line;
+}

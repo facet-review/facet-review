@@ -68,7 +68,10 @@
     "attributionHeading": "Grundlagen",
     "attributionNote": "PRISMA-2020-Checkliste und Flow-Diagramm-Vorlage stehen unter der Lizenz CC BY 4.0.",
     "license": "Freie Software unter der GNU AGPL-3.0.",
-    "sourceCode": "Quellcode"
+    "sourceCode": "Quellcode",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "legalNav": "Rechtliches"
   },
   "common": {
     "loading": "Wird geladen …",
@@ -1133,5 +1136,90 @@
     "later": "Später",
     "offlineReady": "Facet Review ist jetzt auch offline nutzbar (außer der OpenAlex-Suche).",
     "dismiss": "Ausblenden"
+  },
+  "home": {
+    "description": "Facet Review führt Sie durch Literatursuche, Screening und Reporting eines Systematic Reviews. Jede Zahl im Flow-Diagramm lässt sich auf konkrete Datensätze zurückführen – von der dokumentierten Suche bis zur ausgefüllten Checkliste.",
+    "chainLabel": "Die Kette eines Reviews in Facet Review",
+    "chain": {
+      "search": "Suche (PRISMA-S)",
+      "records": "Treffer",
+      "dedup": "Dubletten",
+      "screening": "Screening",
+      "flow": "Flow-Diagramm (PRISMA 2020)",
+      "checklist": "Checkliste"
+    },
+    "openProject": "Projekt öffnen",
+    "openHint": "„Projekt öffnen“ lädt eine gespeicherte Projektdatei (JSON), z. B. von einem anderen Gerät. Ihre Projekte in diesem Browser finden Sie unten.",
+    "privacyTitle": "Ihre Daten bleiben in Ihrem Browser.",
+    "privacyBody": "Projekte, Treffer und Entscheidungen werden nur in diesem Browser gespeichert. Es gibt kein Konto, keinen Server und kein Tracking. Nur wenn Sie selbst in OpenAlex suchen, geht Ihre Suchanfrage an die OpenAlex-API. Sichern Sie Ihre Projekte regelmäßig als JSON-Datei.",
+    "privacyLink": "Mehr dazu in der Datenschutzerklärung"
+  },
+  "legal": {
+    "placeholderNotice": "Entwurf: Die mit [PLATZHALTER] markierten Angaben werden noch ergänzt.",
+    "imprint": {
+      "title": "Impressum",
+      "description": "Angaben nach § 5 E-Commerce-Gesetz und § 25 Mediengesetz.",
+      "sections": {
+        "owner": {
+          "heading": "Medieninhaber und Herausgeber",
+          "body": "[PLATZHALTER: Name]\n[PLATZHALTER: Anschrift]\n[PLATZHALTER: E-Mail-Adresse]"
+        },
+        "purpose": {
+          "heading": "Grundlegende Richtung",
+          "body": "Facet Review ist freie, nicht kommerzielle Software zur nachvollziehbaren Dokumentation von Systematic Reviews nach PRISMA 2020 und PRISMA-S. [PLATZHALTER: bitte prüfen und ergänzen]"
+        },
+        "license": {
+          "heading": "Lizenz und Quellcode",
+          "body": "Facet Review steht unter der GNU Affero General Public License 3.0 (AGPL-3.0). Der Quellcode ist öffentlich auf GitHub verfügbar."
+        },
+        "attribution": {
+          "heading": "Grundlagen",
+          "body": "PRISMA-2020-Checkliste und Flow-Diagramm-Vorlage: Page MJ, et al. BMJ 2021;372:n71, Lizenz CC BY 4.0. PRISMA-S: Rethlefsen ML, et al. Syst Rev 2021;10:39. „PRISMA“ bezeichnet die Leitlinien; Facet Review ist kein Angebot der PRISMA-Gruppe."
+        }
+      }
+    },
+    "privacy": {
+      "title": "Datenschutz",
+      "description": "Kurz, weil Facet Review kaum Daten verarbeitet: Ihre Daten bleiben in Ihrem Browser.",
+      "sections": {
+        "controller": {
+          "heading": "Verantwortlich",
+          "body": "[PLATZHALTER: Name, Anschrift, E-Mail-Adresse]"
+        },
+        "local": {
+          "heading": "Ihre Daten bleiben in Ihrem Browser",
+          "body": "Facet Review ist eine Web-App ohne Server-Komponente. Alle Projektdaten – Suchdokumentation, importierte Datensätze, Screening-Entscheidungen und Checklisten – werden ausschließlich lokal in Ihrem Browser gespeichert (IndexedDB). Einstellungen wie Sprache, Darstellung, CSV-Trennzeichen und die optional hinterlegte E-Mail-Adresse für OpenAlex liegen im lokalen Speicher des Browsers (localStorage).\n\nDiese Daten werden weder an uns noch an Dritte übertragen. Es gibt keine Konten, keine Cookies, keine Analyse- oder Tracking-Werkzeuge und keine extern geladenen Schriften oder Skripte."
+        },
+        "hosting": {
+          "heading": "Bereitstellung über GitHub Pages",
+          "body": "Die App wird über GitHub Pages (GitHub Inc., USA) unter facetreview.org ausgeliefert. Beim Aufruf der Seite verarbeitet GitHub technisch notwendige Verbindungsdaten, insbesondere Ihre IP-Adresse, um die Dateien auszuliefern und den Dienst abzusichern. Das ist kein Tracking durch Facet Review. Details regelt die Datenschutzerklärung von GitHub.\n\n[PLATZHALTER: Rechtsgrundlage (z. B. Art. 6 Abs. 1 lit. f DSGVO) und Hinweis zur Datenübermittlung in die USA]",
+          "link": "GitHub General Privacy Statement"
+        },
+        "openalex": {
+          "heading": "Suche in OpenAlex",
+          "body": "Nur wenn Sie im Modul „Suche“ selbst eine OpenAlex-Suche starten, sendet Ihr Browser den Suchstring und die gewählten Filter direkt an die OpenAlex-API (betrieben von OurResearch, USA); dabei erhält OpenAlex auch Ihre IP-Adresse. Haben Sie eine E-Mail-Adresse oder einen API-Key hinterlegt, werden diese mitgeschickt – beides ist freiwillig und kann jederzeit gelöscht werden.\n\n[PLATZHALTER: Rechtsgrundlage und Link zur Datenschutzerklärung von OpenAlex]"
+        },
+        "links": {
+          "heading": "Links zu anderen Seiten",
+          "body": "Links, z. B. zu DOI, PubMed oder Unpaywall, öffnen diese Seiten erst, wenn Sie sie anklicken. Dann gelten die Datenschutzbestimmungen der jeweiligen Anbieter."
+        },
+        "csp": {
+          "heading": "Technische Absicherung",
+          "body": "Eine Content Security Policy erlaubt dem Browser Verbindungen ausschließlich zur App selbst und zur OpenAlex-API. Alle anderen Verbindungen blockiert der Browser."
+        },
+        "deletion": {
+          "heading": "Löschen Ihrer Daten",
+          "body": "Projekte löschen Sie in der Projektübersicht. Alle Daten entfernen Sie, indem Sie die Website-Daten von facetreview.org in Ihrem Browser löschen. Sichern Sie Projekte vorher als JSON-Datei, wenn Sie sie behalten möchten."
+        },
+        "rights": {
+          "heading": "Ihre Rechte",
+          "body": "[PLATZHALTER: Rechte der betroffenen Personen – Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit, Beschwerde bei der Datenschutzbehörde]"
+        },
+        "updated": {
+          "heading": "Stand",
+          "body": "[PLATZHALTER: Datum]"
+        }
+      }
+    }
   }
 }

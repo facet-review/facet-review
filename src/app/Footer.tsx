@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router';
 import { AUTHOR, CC_BY_4_URL, PRISMA_CITATIONS, SOURCE_CODE_URL } from './attribution';
 import styles from './Footer.module.css';
 
@@ -27,6 +28,11 @@ export function Footer() {
             <a href={CC_BY_4_URL}>{t('footer.attributionNote')}</a>
           </p>
         </section>
+
+        <nav aria-label={t('footer.legalNav')} className={styles.legal}>
+          <Link to="/impressum">{t('footer.imprint')}</Link>
+          <Link to="/datenschutz">{t('footer.privacy')}</Link>
+        </nav>
 
         <p className={styles.license}>
           {t('footer.license')} <a href={SOURCE_CODE_URL}>{t('footer.sourceCode')}</a>

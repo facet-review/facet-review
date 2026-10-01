@@ -17,6 +17,7 @@ import ScreeningUnitPage from '../features/screening/ScreeningUnitPage';
 import FlowPage from '../features/flow/FlowPage';
 import ChecklistPage from '../features/checklist/ChecklistPage';
 import ExportPage from '../features/export/ExportPage';
+import LegalPage from '../features/legal/LegalPage';
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,8 @@ export const router = createBrowserRouter([
           { path: 'export', element: <ExportPage /> },
         ],
       },
+      { path: 'impressum', element: <LegalPage page="imprint" /> },
+      { path: 'datenschutz', element: <LegalPage page="privacy" /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

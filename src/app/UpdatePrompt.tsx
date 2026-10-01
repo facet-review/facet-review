@@ -17,32 +17,33 @@ export function UpdatePrompt() {
   } = useRegisterSW();
 
   const message = needRefresh ? t('pwa.update') : offlineReady ? t('pwa.offlineReady') : '';
+  // Rendered only when needed: a permanent second status region would compete
+  // with the status messages of the pages.
+  if (!message) return null;
   return (
-    <div role="status" className={message ? styles.banner : 'visually-hidden'}>
-      {message && (
-        <div className={`${notice.notice} ${styles.bannerInner}`}>
-          <p>{message}</p>
-          {needRefresh && (
-            <button
-              type="button"
-              className={`${button.button} ${button.primary} ${button.small}`}
-              onClick={() => void updateServiceWorker(true)}
-            >
-              {t('pwa.reload')}
-            </button>
-          )}
+    <div role="status" className={styles.banner}>
+      <div className={`${notice.notice} ${styles.bannerInner}`}>
+        <p>{message}</p>
+        {needRefresh && (
           <button
             type="button"
-            className={`${button.button} ${button.small}`}
-            onClick={() => {
-              setNeedRefresh(false);
-              setOfflineReady(false);
-            }}
+            className={`${button.button} ${button.primary} ${button.small}`}
+            onClick={() => void updateServiceWorker(true)}
           >
-            {needRefresh ? t('pwa.later') : t('pwa.dismiss')}
+            {t('pwa.reload')}
           </button>
-        </div>
-      )}
+        )}
+        <button
+          type="button"
+          className={`${button.button} ${button.small}`}
+          onClick={() => {
+            setNeedRefresh(false);
+            setOfflineReady(false);
+          }}
+        >
+          {needRefresh ? t('pwa.later') : t('pwa.dismiss')}
+        </button>
+      </div>
     </div>
   );
 }

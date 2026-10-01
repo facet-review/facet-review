@@ -8,7 +8,8 @@ test.describe('app shell', () => {
     await page.goto('/');
     await expect(page.locator('html')).toHaveAttribute('lang', 'de');
     await expect(page.getByRole('link', { name: /Facet Review/ })).toBeVisible();
-    await expect(page.getByRole('heading', { level: 1, name: 'Projektübersicht' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'Facet Review' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 2, name: 'Ihre Projekte' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Neues Projekt' })).toBeVisible();
     await expect(page.getByText('Ein Projekt von')).toBeVisible();
     await expect(page.getByRole('link', { name: 'doi:10.1136/bmj.n71' })).toBeVisible();
@@ -26,8 +27,8 @@ test.describe('app shell', () => {
     await expect(page.getByRole('link', { name: 'New project' })).toBeVisible();
 
     await page.reload();
-    await expect(page.getByRole('heading', { level: 1, name: 'Projects' })).toBeVisible();
-    await expect(page).toHaveTitle('Projects – Facet Review');
+    await expect(page.getByRole('heading', { level: 2, name: 'Your projects' })).toBeVisible();
+    await expect(page).toHaveTitle('Every facet of your search. Traceable. – Facet Review');
   });
 
   test('offers a skip link as first keyboard stop', async ({ page }) => {
