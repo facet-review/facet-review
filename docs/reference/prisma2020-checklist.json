@@ -1,258 +1,391 @@
 {
   "source": "Page MJ, et al. BMJ 2021;372:n71. doi:10.1136/bmj.n71",
   "license": "CC BY 4.0",
+  "translation": {
+    "lang": "de",
+    "status": "unofficial working translation",
+    "by": "Facet Review (Arbeitsübersetzung, geprüft von G. Hochhauser)",
+    "date": "2026-10-01",
+    "notice_de": "Inoffizielle Arbeitsübersetzung. Maßgeblich ist die englische Originalfassung (Page MJ et al. BMJ 2021;372:n71)."
+  },
   "items": [
     {
       "id": "1",
       "section": "TITLE",
       "topic": "Title",
-      "text_en": "Identify the report as a systematic review."
+      "text_en": "Identify the report as a systematic review.",
+      "section_de": "TITEL",
+      "topic_de": "Titel",
+      "text_de": "Den Bericht als systematische Übersichtsarbeit (Systematic Review) kennzeichnen."
     },
     {
       "id": "2",
       "section": "ABSTRACT",
       "topic": "Abstract",
-      "text_en": "See the PRISMA 2020 for Abstracts checklist."
+      "text_en": "See the PRISMA 2020 for Abstracts checklist.",
+      "section_de": "ABSTRACT",
+      "topic_de": "Abstract",
+      "text_de": "Siehe Checkliste PRISMA 2020 für Abstracts."
     },
     {
       "id": "3",
       "section": "INTRODUCTION",
       "topic": "Rationale",
-      "text_en": "Describe the rationale for the review in the context of existing knowledge."
+      "text_en": "Describe the rationale for the review in the context of existing knowledge.",
+      "section_de": "EINLEITUNG",
+      "topic_de": "Begründung",
+      "text_de": "Die Begründung für den Review im Kontext des vorhandenen Wissensstands darlegen."
     },
     {
       "id": "4",
       "section": "INTRODUCTION",
       "topic": "Objectives",
-      "text_en": "Provide an explicit statement of the objective(s) or question(s) the review addresses."
+      "text_en": "Provide an explicit statement of the objective(s) or question(s) the review addresses.",
+      "section_de": "EINLEITUNG",
+      "topic_de": "Zielsetzung",
+      "text_de": "Das Ziel bzw. die Ziele oder die Fragestellung(en) des Reviews ausdrücklich benennen."
     },
     {
       "id": "5",
       "section": "METHODS",
       "topic": "Eligibility criteria",
-      "text_en": "Specify the inclusion and exclusion criteria for the review and how studies were grouped for the syntheses."
+      "text_en": "Specify the inclusion and exclusion criteria for the review and how studies were grouped for the syntheses.",
+      "section_de": "METHODEN",
+      "topic_de": "Eignungskriterien",
+      "text_de": "Die Ein- und Ausschlusskriterien des Reviews angeben sowie beschreiben, wie die Studien für die Synthesen gruppiert wurden."
     },
     {
       "id": "6",
       "section": "METHODS",
       "topic": "Information sources",
-      "text_en": "Specify all databases, registers, websites, organisations, reference lists and other sources searched or consulted to identify studies. Specify the date when each source was last searched or consulted."
+      "text_en": "Specify all databases, registers, websites, organisations, reference lists and other sources searched or consulted to identify studies. Specify the date when each source was last searched or consulted.",
+      "section_de": "METHODEN",
+      "topic_de": "Informationsquellen",
+      "text_de": "Alle Datenbanken, Register, Websites, Organisationen, Literaturverzeichnisse und sonstigen Quellen angeben, die zur Identifikation von Studien durchsucht oder konsultiert wurden. Für jede Quelle das Datum der letzten Suche bzw. Konsultation angeben."
     },
     {
       "id": "7",
       "section": "METHODS",
       "topic": "Search strategy",
-      "text_en": "Present the full search strategies for all databases, registers and websites, including any filters and limits used."
+      "text_en": "Present the full search strategies for all databases, registers and websites, including any filters and limits used.",
+      "section_de": "METHODEN",
+      "topic_de": "Suchstrategie",
+      "text_de": "Die vollständigen Suchstrategien für alle Datenbanken, Register und Websites darstellen, einschließlich aller verwendeten Filter und Einschränkungen (Limits)."
     },
     {
       "id": "8",
       "section": "METHODS",
       "topic": "Selection process",
-      "text_en": "Specify the methods used to decide whether a study met the inclusion criteria of the review, including how many reviewers screened each record and each report retrieved, whether they worked independently, and if applicable, details of automation tools used in the process."
+      "text_en": "Specify the methods used to decide whether a study met the inclusion criteria of the review, including how many reviewers screened each record and each report retrieved, whether they worked independently, and if applicable, details of automation tools used in the process.",
+      "section_de": "METHODEN",
+      "topic_de": "Auswahlprozess",
+      "text_de": "Die Methoden beschreiben, mit denen entschieden wurde, ob eine Studie die Einschlusskriterien des Reviews erfüllt, einschließlich der Angabe, wie viele Reviewer:innen jeden Datensatz und jeden beschafften Bericht gescreent haben, ob sie unabhängig voneinander gearbeitet haben und, falls zutreffend, Angaben zu den dabei eingesetzten Automatisierungstools."
     },
     {
       "id": "9",
       "section": "METHODS",
       "topic": "Data collection process",
-      "text_en": "Specify the methods used to collect data from reports, including how many reviewers collected data from each report, whether they worked independently, any processes for obtaining or confirming data from study investigators, and if applicable, details of automation tools used in the process."
+      "text_en": "Specify the methods used to collect data from reports, including how many reviewers collected data from each report, whether they worked independently, any processes for obtaining or confirming data from study investigators, and if applicable, details of automation tools used in the process.",
+      "section_de": "METHODEN",
+      "topic_de": "Prozess der Datenerhebung",
+      "text_de": "Die Methoden zur Datenextraktion aus den Berichten beschreiben, einschließlich der Angabe, wie viele Reviewer:innen Daten aus jedem Bericht erhoben haben, ob sie unabhängig voneinander gearbeitet haben, welche Verfahren zur Beschaffung oder Bestätigung von Daten bei den Studienautor:innen angewendet wurden und, falls zutreffend, Angaben zu den dabei eingesetzten Automatisierungstools."
     },
     {
       "id": "10a",
       "section": "METHODS",
       "topic": "Data items",
-      "text_en": "List and define all outcomes for which data were sought. Specify whether all results that were compatible with each outcome domain in each study were sought (e.g. for all measures, time points, analyses), and if not, the methods used to decide which results to collect."
+      "text_en": "List and define all outcomes for which data were sought. Specify whether all results that were compatible with each outcome domain in each study were sought (e.g. for all measures, time points, analyses), and if not, the methods used to decide which results to collect.",
+      "section_de": "METHODEN",
+      "topic_de": "Datenelemente",
+      "text_de": "Alle Endpunkte (Outcomes) auflisten und definieren, für die Daten gesucht wurden. Angeben, ob alle Ergebnisse gesucht wurden, die in jeder Studie mit der jeweiligen Endpunkt-Domäne vereinbar waren (z. B. für alle Messinstrumente, Zeitpunkte, Analysen), und falls nicht, mit welchen Methoden entschieden wurde, welche Ergebnisse erhoben werden."
     },
     {
       "id": "10b",
       "section": "METHODS",
       "topic": "Data items",
-      "text_en": "List and define all other variables for which data were sought (e.g. participant and intervention characteristics, funding sources). Describe any assumptions made about any missing or unclear information."
+      "text_en": "List and define all other variables for which data were sought (e.g. participant and intervention characteristics, funding sources). Describe any assumptions made about any missing or unclear information.",
+      "section_de": "METHODEN",
+      "topic_de": "Datenelemente",
+      "text_de": "Alle weiteren Variablen auflisten und definieren, für die Daten gesucht wurden (z. B. Merkmale der Teilnehmenden und der Intervention, Finanzierungsquellen). Alle Annahmen beschreiben, die zu fehlenden oder unklaren Informationen getroffen wurden."
     },
     {
       "id": "11",
       "section": "METHODS",
       "topic": "Study risk of bias assessment",
-      "text_en": "Specify the methods used to assess risk of bias in the included studies, including details of the tool(s) used, how many reviewers assessed each study and whether they worked independently, and if applicable, details of automation tools used in the process."
+      "text_en": "Specify the methods used to assess risk of bias in the included studies, including details of the tool(s) used, how many reviewers assessed each study and whether they worked independently, and if applicable, details of automation tools used in the process.",
+      "section_de": "METHODEN",
+      "topic_de": "Bewertung des Verzerrungsrisikos der Studien",
+      "text_de": "Die Methoden zur Bewertung des Verzerrungsrisikos (Risk of Bias) der eingeschlossenen Studien angeben, einschließlich Angaben zu den verwendeten Instrumenten, wie viele Reviewer:innen jede Studie bewertet haben, ob sie unabhängig voneinander gearbeitet haben und, falls zutreffend, Angaben zu den dabei eingesetzten Automatisierungstools."
     },
     {
       "id": "12",
       "section": "METHODS",
       "topic": "Effect measures",
-      "text_en": "Specify for each outcome the effect measure(s) (e.g. risk ratio, mean difference) used in the synthesis or presentation of results."
+      "text_en": "Specify for each outcome the effect measure(s) (e.g. risk ratio, mean difference) used in the synthesis or presentation of results.",
+      "section_de": "METHODEN",
+      "topic_de": "Effektmaße",
+      "text_de": "Für jeden Endpunkt das bzw. die Effektmaß(e) angeben (z. B. relatives Risiko, Mittelwertdifferenz), die in der Synthese oder Ergebnisdarstellung verwendet wurden."
     },
     {
       "id": "13a",
       "section": "METHODS",
       "topic": "Synthesis methods",
-      "text_en": "Describe the processes used to decide which studies were eligible for each synthesis (e.g. tabulating the study intervention characteristics and comparing against the planned groups for each synthesis (item #5))."
+      "text_en": "Describe the processes used to decide which studies were eligible for each synthesis (e.g. tabulating the study intervention characteristics and comparing against the planned groups for each synthesis (item #5)).",
+      "section_de": "METHODEN",
+      "topic_de": "Synthesemethoden",
+      "text_de": "Die Verfahren beschreiben, mit denen entschieden wurde, welche Studien für die jeweilige Synthese geeignet waren (z. B. tabellarische Aufstellung der Interventionsmerkmale der Studien und Abgleich mit den für jede Synthese geplanten Gruppen (Item 5))."
     },
     {
       "id": "13b",
       "section": "METHODS",
       "topic": "Synthesis methods",
-      "text_en": "Describe any methods required to prepare the data for presentation or synthesis, such as handling of missing summary statistics, or data conversions."
+      "text_en": "Describe any methods required to prepare the data for presentation or synthesis, such as handling of missing summary statistics, or data conversions.",
+      "section_de": "METHODEN",
+      "topic_de": "Synthesemethoden",
+      "text_de": "Alle Methoden beschreiben, die zur Aufbereitung der Daten für Darstellung oder Synthese erforderlich waren, etwa der Umgang mit fehlenden zusammenfassenden Statistiken oder Datenumrechnungen."
     },
     {
       "id": "13c",
       "section": "METHODS",
       "topic": "Synthesis methods",
-      "text_en": "Describe any methods used to tabulate or visually display results of individual studies and syntheses."
+      "text_en": "Describe any methods used to tabulate or visually display results of individual studies and syntheses.",
+      "section_de": "METHODEN",
+      "topic_de": "Synthesemethoden",
+      "text_de": "Alle Methoden beschreiben, mit denen die Ergebnisse einzelner Studien und Synthesen tabellarisch oder grafisch dargestellt wurden."
     },
     {
       "id": "13d",
       "section": "METHODS",
       "topic": "Synthesis methods",
-      "text_en": "Describe any methods used to synthesize results and provide a rationale for the choice(s). If meta-analysis was performed, describe the model(s), method(s) to identify the presence and extent of statistical heterogeneity, and software package(s) used."
+      "text_en": "Describe any methods used to synthesize results and provide a rationale for the choice(s). If meta-analysis was performed, describe the model(s), method(s) to identify the presence and extent of statistical heterogeneity, and software package(s) used.",
+      "section_de": "METHODEN",
+      "topic_de": "Synthesemethoden",
+      "text_de": "Alle Methoden zur Synthese der Ergebnisse beschreiben und die Wahl begründen. Wurde eine Metaanalyse durchgeführt, das bzw. die Modell(e), die Methode(n) zur Feststellung von Vorliegen und Ausmaß statistischer Heterogenität sowie die verwendete(n) Software angeben."
     },
     {
       "id": "13e",
       "section": "METHODS",
       "topic": "Synthesis methods",
-      "text_en": "Describe any methods used to explore possible causes of heterogeneity among study results (e.g. subgroup analysis, meta-regression)."
+      "text_en": "Describe any methods used to explore possible causes of heterogeneity among study results (e.g. subgroup analysis, meta-regression).",
+      "section_de": "METHODEN",
+      "topic_de": "Synthesemethoden",
+      "text_de": "Alle Methoden beschreiben, mit denen mögliche Ursachen von Heterogenität zwischen den Studienergebnissen untersucht wurden (z. B. Subgruppenanalyse, Metaregression)."
     },
     {
       "id": "13f",
       "section": "METHODS",
       "topic": "Synthesis methods",
-      "text_en": "Describe any sensitivity analyses conducted to assess robustness of the synthesized results."
+      "text_en": "Describe any sensitivity analyses conducted to assess robustness of the synthesized results.",
+      "section_de": "METHODEN",
+      "topic_de": "Synthesemethoden",
+      "text_de": "Alle Sensitivitätsanalysen beschreiben, die zur Prüfung der Robustheit der synthetisierten Ergebnisse durchgeführt wurden."
     },
     {
       "id": "14",
       "section": "METHODS",
       "topic": "Reporting bias assessment",
-      "text_en": "Describe any methods used to assess risk of bias due to missing results in a synthesis (arising from reporting biases)."
+      "text_en": "Describe any methods used to assess risk of bias due to missing results in a synthesis (arising from reporting biases).",
+      "section_de": "METHODEN",
+      "topic_de": "Bewertung von Berichtsverzerrungen",
+      "text_de": "Alle Methoden beschreiben, mit denen das Verzerrungsrisiko durch fehlende Ergebnisse in einer Synthese (infolge von Berichtsverzerrungen / Reporting Bias) bewertet wurde."
     },
     {
       "id": "15",
       "section": "METHODS",
       "topic": "Certainty assessment",
-      "text_en": "Describe any methods used to assess certainty (or confidence) in the body of evidence for an outcome."
+      "text_en": "Describe any methods used to assess certainty (or confidence) in the body of evidence for an outcome.",
+      "section_de": "METHODEN",
+      "topic_de": "Bewertung der Vertrauenswürdigkeit",
+      "text_de": "Alle Methoden beschreiben, mit denen die Vertrauenswürdigkeit (bzw. das Vertrauen) in die Evidenz für einen Endpunkt bewertet wurde."
     },
     {
       "id": "16a",
       "section": "RESULTS",
       "topic": "Study selection",
-      "text_en": "Describe the results of the search and selection process, from the number of records identified in the search to the number of studies included in the review, ideally using a flow diagram."
+      "text_en": "Describe the results of the search and selection process, from the number of records identified in the search to the number of studies included in the review, ideally using a flow diagram.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Studienauswahl",
+      "text_de": "Die Ergebnisse des Such- und Auswahlprozesses beschreiben, von der Anzahl der in der Suche identifizierten Datensätze bis zur Anzahl der in den Review eingeschlossenen Studien, idealerweise mithilfe eines Flussdiagramms."
     },
     {
       "id": "16b",
       "section": "RESULTS",
       "topic": "Study selection",
-      "text_en": "Cite studies that might appear to meet the inclusion criteria, but which were excluded, and explain why they were excluded."
+      "text_en": "Cite studies that might appear to meet the inclusion criteria, but which were excluded, and explain why they were excluded.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Studienauswahl",
+      "text_de": "Studien zitieren, die die Einschlusskriterien zu erfüllen scheinen, aber ausgeschlossen wurden, und den Ausschluss begründen."
     },
     {
       "id": "17",
       "section": "RESULTS",
       "topic": "Study characteristics",
-      "text_en": "Cite each included study and present its characteristics."
+      "text_en": "Cite each included study and present its characteristics.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Studienmerkmale",
+      "text_de": "Jede eingeschlossene Studie zitieren und ihre Merkmale darstellen."
     },
     {
       "id": "18",
       "section": "RESULTS",
       "topic": "Risk of bias in studies",
-      "text_en": "Present assessments of risk of bias for each included study."
+      "text_en": "Present assessments of risk of bias for each included study.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Verzerrungsrisiko der Studien",
+      "text_de": "Die Bewertungen des Verzerrungsrisikos für jede eingeschlossene Studie darstellen."
     },
     {
       "id": "19",
       "section": "RESULTS",
       "topic": "Results of individual studies",
-      "text_en": "For all outcomes, present, for each study: (a) summary statistics for each group (where appropriate) and (b) an effect estimate and its precision (e.g. confidence/credible interval), ideally using structured tables or plots."
+      "text_en": "For all outcomes, present, for each study: (a) summary statistics for each group (where appropriate) and (b) an effect estimate and its precision (e.g. confidence/credible interval), ideally using structured tables or plots.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Ergebnisse der einzelnen Studien",
+      "text_de": "Für alle Endpunkte für jede Studie darstellen: (a) zusammenfassende Statistiken für jede Gruppe (sofern angemessen) und (b) einen Effektschätzer mit seiner Präzision (z. B. Konfidenz- bzw. Kredibilitätsintervall), idealerweise in strukturierten Tabellen oder Grafiken."
     },
     {
       "id": "20a",
       "section": "RESULTS",
       "topic": "Results of syntheses",
-      "text_en": "For each synthesis, briefly summarise the characteristics and risk of bias among contributing studies."
+      "text_en": "For each synthesis, briefly summarise the characteristics and risk of bias among contributing studies.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Ergebnisse der Synthesen",
+      "text_de": "Für jede Synthese die Merkmale und das Verzerrungsrisiko der einbezogenen Studien kurz zusammenfassen."
     },
     {
       "id": "20b",
       "section": "RESULTS",
       "topic": "Results of syntheses",
-      "text_en": "Present results of all statistical syntheses conducted. If meta-analysis was done, present for each the summary estimate and its precision (e.g. confidence/credible interval) and measures of statistical heterogeneity. If comparing groups, describe the direction of the effect."
+      "text_en": "Present results of all statistical syntheses conducted. If meta-analysis was done, present for each the summary estimate and its precision (e.g. confidence/credible interval) and measures of statistical heterogeneity. If comparing groups, describe the direction of the effect.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Ergebnisse der Synthesen",
+      "text_de": "Die Ergebnisse aller durchgeführten statistischen Synthesen darstellen. Wurde eine Metaanalyse durchgeführt, für jede den zusammenfassenden Schätzer mit seiner Präzision (z. B. Konfidenz- bzw. Kredibilitätsintervall) sowie Maße der statistischen Heterogenität angeben. Bei Gruppenvergleichen die Richtung des Effekts beschreiben."
     },
     {
       "id": "20c",
       "section": "RESULTS",
       "topic": "Results of syntheses",
-      "text_en": "Present results of all investigations of possible causes of heterogeneity among study results."
+      "text_en": "Present results of all investigations of possible causes of heterogeneity among study results.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Ergebnisse der Synthesen",
+      "text_de": "Die Ergebnisse aller Untersuchungen möglicher Ursachen von Heterogenität zwischen den Studienergebnissen darstellen."
     },
     {
       "id": "20d",
       "section": "RESULTS",
       "topic": "Results of syntheses",
-      "text_en": "Present results of all sensitivity analyses conducted to assess the robustness of the synthesized results."
+      "text_en": "Present results of all sensitivity analyses conducted to assess the robustness of the synthesized results.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Ergebnisse der Synthesen",
+      "text_de": "Die Ergebnisse aller Sensitivitätsanalysen darstellen, die zur Prüfung der Robustheit der synthetisierten Ergebnisse durchgeführt wurden."
     },
     {
       "id": "21",
       "section": "RESULTS",
       "topic": "Reporting biases",
-      "text_en": "Present assessments of risk of bias due to missing results (arising from reporting biases) for each synthesis assessed."
+      "text_en": "Present assessments of risk of bias due to missing results (arising from reporting biases) for each synthesis assessed.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Berichtsverzerrungen",
+      "text_de": "Für jede bewertete Synthese die Bewertungen des Verzerrungsrisikos durch fehlende Ergebnisse (infolge von Berichtsverzerrungen) darstellen."
     },
     {
       "id": "22",
       "section": "RESULTS",
       "topic": "Certainty of evidence",
-      "text_en": "Present assessments of certainty (or confidence) in the body of evidence for each outcome assessed."
+      "text_en": "Present assessments of certainty (or confidence) in the body of evidence for each outcome assessed.",
+      "section_de": "ERGEBNISSE",
+      "topic_de": "Vertrauenswürdigkeit der Evidenz",
+      "text_de": "Für jeden bewerteten Endpunkt die Bewertungen der Vertrauenswürdigkeit (bzw. des Vertrauens) in die Evidenz darstellen."
     },
     {
       "id": "23a",
       "section": "DISCUSSION",
       "topic": "Discussion",
-      "text_en": "Provide a general interpretation of the results in the context of other evidence."
+      "text_en": "Provide a general interpretation of the results in the context of other evidence.",
+      "section_de": "DISKUSSION",
+      "topic_de": "Diskussion",
+      "text_de": "Eine allgemeine Interpretation der Ergebnisse im Kontext anderer Evidenz geben."
     },
     {
       "id": "23b",
       "section": "DISCUSSION",
       "topic": "Discussion",
-      "text_en": "Discuss any limitations of the evidence included in the review."
+      "text_en": "Discuss any limitations of the evidence included in the review.",
+      "section_de": "DISKUSSION",
+      "topic_de": "Diskussion",
+      "text_de": "Alle Limitationen der im Review eingeschlossenen Evidenz diskutieren."
     },
     {
       "id": "23c",
       "section": "DISCUSSION",
       "topic": "Discussion",
-      "text_en": "Discuss any limitations of the review processes used."
+      "text_en": "Discuss any limitations of the review processes used.",
+      "section_de": "DISKUSSION",
+      "topic_de": "Diskussion",
+      "text_de": "Alle Limitationen der angewandten Review-Prozesse diskutieren."
     },
     {
       "id": "23d",
       "section": "DISCUSSION",
       "topic": "Discussion",
-      "text_en": "Discuss implications of the results for practice, policy, and future research."
+      "text_en": "Discuss implications of the results for practice, policy, and future research.",
+      "section_de": "DISKUSSION",
+      "topic_de": "Diskussion",
+      "text_de": "Die Implikationen der Ergebnisse für Praxis, Politik und künftige Forschung diskutieren."
     },
     {
       "id": "24a",
       "section": "OTHER INFORMATION",
       "topic": "Registration and protocol",
-      "text_en": "Provide registration information for the review, including register name and registration number, or state that the review was not registered."
+      "text_en": "Provide registration information for the review, including register name and registration number, or state that the review was not registered.",
+      "section_de": "WEITERE INFORMATIONEN",
+      "topic_de": "Registrierung und Protokoll",
+      "text_de": "Registrierungsinformationen zum Review angeben, einschließlich Name des Registers und Registrierungsnummer, oder angeben, dass der Review nicht registriert wurde."
     },
     {
       "id": "24b",
       "section": "OTHER INFORMATION",
       "topic": "Registration and protocol",
-      "text_en": "Indicate where the review protocol can be accessed, or state that a protocol was not prepared."
+      "text_en": "Indicate where the review protocol can be accessed, or state that a protocol was not prepared.",
+      "section_de": "WEITERE INFORMATIONEN",
+      "topic_de": "Registrierung und Protokoll",
+      "text_de": "Angeben, wo das Review-Protokoll zugänglich ist, oder angeben, dass kein Protokoll erstellt wurde."
     },
     {
       "id": "24c",
       "section": "OTHER INFORMATION",
       "topic": "Registration and protocol",
-      "text_en": "Describe and explain any amendments to information provided at registration or in the protocol."
+      "text_en": "Describe and explain any amendments to information provided at registration or in the protocol.",
+      "section_de": "WEITERE INFORMATIONEN",
+      "topic_de": "Registrierung und Protokoll",
+      "text_de": "Alle Änderungen gegenüber den Angaben bei der Registrierung oder im Protokoll beschreiben und begründen."
     },
     {
       "id": "25",
       "section": "OTHER INFORMATION",
       "topic": "Support",
-      "text_en": "Describe sources of financial or non-financial support for the review, and the role of the funders or sponsors in the review."
+      "text_en": "Describe sources of financial or non-financial support for the review, and the role of the funders or sponsors in the review.",
+      "section_de": "WEITERE INFORMATIONEN",
+      "topic_de": "Förderung",
+      "text_de": "Finanzielle und nicht-finanzielle Unterstützung des Reviews sowie die Rolle der Geldgeber:innen oder Sponsor:innen im Review beschreiben."
     },
     {
       "id": "26",
       "section": "OTHER INFORMATION",
       "topic": "Competing interests",
-      "text_en": "Declare any competing interests of review authors."
+      "text_en": "Declare any competing interests of review authors.",
+      "section_de": "WEITERE INFORMATIONEN",
+      "topic_de": "Interessenkonflikte",
+      "text_de": "Alle Interessenkonflikte der Autor:innen des Reviews offenlegen."
     },
     {
       "id": "27",
       "section": "OTHER INFORMATION",
       "topic": "Availability of data, code and other materials",
-      "text_en": "Report which of the following are publicly available and where they can be found: template data collection forms; data extracted from included studies; data used for all analyses; analytic code; any other materials used in the review."
+      "text_en": "Report which of the following are publicly available and where they can be found: template data collection forms; data extracted from included studies; data used for all analyses; analytic code; any other materials used in the review.",
+      "section_de": "WEITERE INFORMATIONEN",
+      "topic_de": "Verfügbarkeit von Daten, Code und weiteren Materialien",
+      "text_de": "Angeben, welche der folgenden Materialien öffentlich verfügbar sind und wo sie zu finden sind: Vorlagen der Datenerhebungsformulare; aus den eingeschlossenen Studien extrahierte Daten; für alle Analysen verwendete Daten; Analysecode; alle weiteren im Review verwendeten Materialien."
     }
   ]
 }
