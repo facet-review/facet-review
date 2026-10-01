@@ -48,7 +48,7 @@
     "notFound": {
       "title": "Page not found",
       "description": "The requested page does not exist.",
-      "backHome": "Go to projects"
+      "backHome": "Go to the start page"
     },
     "placeholder": "Coming soon (milestone {{milestone}})."
   },
@@ -446,7 +446,7 @@
     "file": "Export file",
     "fileHint": "RIS, PubMed/MEDLINE (.nbib), BibTeX or CSV. The file is only read in your browser.",
     "reading": "Reading file …",
-    "unknownFormat": "The file format was not recognised. Supported are RIS, PubMed/MEDLINE (.nbib), BibTeX and CSV.",
+    "unknownFormat": "The file format was not recognised. Supported formats are RIS, PubMed/MEDLINE (.nbib), BibTeX and CSV.",
     "detected": "Detected format: {{format}} · {{count}} records",
     "mappingHeading": "Map columns",
     "mappingHint": "Facet Review suggested the columns from their headers. Check and correct the mapping; the title is required.",
@@ -1188,11 +1188,11 @@
         },
         "local": {
           "heading": "Your data stays in your browser",
-          "body": "Facet Review is a web app without a server component. All project data – search documentation, imported records, screening decisions and checklists – is stored only locally in your browser (IndexedDB). Settings such as language, appearance, CSV delimiter and the optional e-mail address for OpenAlex are kept in the browser's local storage (localStorage).\n\nThis data is not transferred to us or to third parties. There are no accounts, no cookies, no analytics or tracking tools and no externally loaded fonts or scripts."
+          "body": "Facet Review is a web app without a server component. All project data – search documentation, imported records, screening decisions and checklists – is stored only locally in your browser (IndexedDB). Settings such as language, appearance, CSV delimiter and the optional e-mail address for OpenAlex are kept in the browser’s local storage (localStorage).\n\nThis data is not transferred to us or to third parties. There are no accounts, no cookies, no analytics or tracking tools and no externally loaded fonts or scripts."
         },
         "hosting": {
           "heading": "Hosting on GitHub Pages",
-          "body": "The app is delivered by GitHub Pages (GitHub Inc., USA) at facetreview.org. When you open the page, GitHub processes technically necessary connection data, in particular your IP address, to deliver the files and secure the service. This is not tracking by Facet Review. Details are governed by GitHub's privacy statement.\n\n[PLACEHOLDER: legal basis (e.g. Art. 6(1)(f) GDPR) and note on data transfer to the USA]",
+          "body": "The app is delivered by GitHub Pages (GitHub Inc., USA) at facetreview.org. When you open the page, GitHub processes technically necessary connection data, in particular your IP address, to deliver the files and secure the service. This is not tracking by Facet Review. Details are governed by GitHub’s privacy statement.\n\n[PLACEHOLDER: legal basis (e.g. Art. 6(1)(f) GDPR) and note on data transfer to the USA]",
           "link": "GitHub General Privacy Statement"
         },
         "openalex": {

@@ -48,7 +48,7 @@
     "notFound": {
       "title": "Seite nicht gefunden",
       "description": "Die angeforderte Seite existiert nicht.",
-      "backHome": "Zur Projektübersicht"
+      "backHome": "Zur Startseite"
     },
     "placeholder": "In Vorbereitung (Meilenstein {{milestone}})."
   },
