@@ -1,5 +1,5 @@
 import type { DateOnly, Source, SourceRun, SourceType } from '../types';
-import { SOURCE_TYPES, flowColumn, type FlowColumn } from './sourceTypes';
+import { SOURCE_TYPE_CONFIG, SOURCE_TYPES, flowColumn, type FlowColumn } from './sourceTypes';
 
 /** Chronological: the first search, then updates. */
 export function sortRuns(runs: readonly SourceRun[]): SourceRun[] {
@@ -54,4 +54,18 @@ export function sourceLabel(source: Source): string {
   return source.databases && source.databases.length > 0
     ? `${source.name} (${source.databases.join(', ')})`
     : source.name;
+}
+
+export type LimitsStatus =
+  { kind: 'text'; text: string } | { kind: 'none' } | { kind: 'undocumented' };
+
+/**
+ * How a run's limits are reported (PRISMA-S item 9): documented text,
+ * explicitly none, or not documented. `undefined` for source types without limits.
+ */
+export function limitsStatus(type: SourceType, run: SourceRun): LimitsStatus | undefined {
+  if (!SOURCE_TYPE_CONFIG[type].runFields.includes('limits')) return undefined;
+  if (run.noLimits === true) return { kind: 'none' };
+  const text = run.limits?.trim();
+  return text ? { kind: 'text', text } : { kind: 'undocumented' };
 }

@@ -276,6 +276,7 @@
       "date": "Datum",
       "hits": "Treffer",
       "content": "Suchstring bzw. Beschreibung",
+      "limits": "Limits",
       "actions": "Aktionen",
       "editFor": "Suchlauf vom {{date}}",
       "none": "Noch keine Suchläufe.",
@@ -304,7 +305,11 @@
     "summarySources_one": "{{count}} Quelle",
     "summarySources_other": "{{count}} Quellen",
     "summaryRuns_one": "{{count}} Suchlauf",
-    "summaryRuns_other": "{{count}} Suchläufe"
+    "summaryRuns_other": "{{count}} Suchläufe",
+    "limits": {
+      "none": "Keine Limits angewendet",
+      "undocumented": "Nicht dokumentiert"
+    }
   },
   "sourceForm": {
     "newTitle": "Quelle hinzufügen",
@@ -346,7 +351,8 @@
     "copied": "Suchstring wurde in die Zwischenablage kopiert.",
     "copyFailed": "Kopieren ist in diesem Browser nicht möglich.",
     "limits": "Limits und Filter",
-    "limitsHint": "z. B. Publikationsjahre, Sprachen, Dokumenttypen; leer lassen, wenn keine gesetzt wurden (PRISMA-S Item 9)",
+    "limitsHint": "z. B. Publikationsjahre, Sprachen, Dokumenttypen (PRISMA-S Item 9). Leer bedeutet „nicht dokumentiert“.",
+    "noLimits": "Keine Limits angewendet",
     "reportedHits": "Gemeldete Trefferzahl",
     "reportedHitsHint": "Anzahl laut Quelle; wird beim Import mit der importierten Anzahl abgeglichen.",
     "recordsChecked": "Anzahl geprüfter Treffer",

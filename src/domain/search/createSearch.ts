@@ -54,12 +54,19 @@ export function pruneRun(type: SourceType, run: SourceRun): SourceRun {
     if (typeof value === 'string' && value.trim() === '') continue;
     Object.assign(pruned, { [key]: value });
   }
+  if (fields.includes('limits') && run.noLimits === true) {
+    // The checkbox wins: limit text left in the hidden field must not contradict it.
+    delete pruned.limits;
+    pruned.noLimits = true;
+  }
   return pruned;
 }
 
 /** Form state: every editable field as a string (inputs never hold numbers). */
 export type RunDraft = Pick<SourceRun, 'id' | 'projectId' | 'sourceId'> &
-  Record<'date' | 'searchString' | (typeof OPTIONAL_RUN_FIELDS)[number], string>;
+  Record<'date' | 'searchString' | (typeof OPTIONAL_RUN_FIELDS)[number], string> & {
+    noLimits: boolean;
+  };
 
 export function draftFromRun(run: SourceRun): RunDraft {
   const text = (value: string | number | undefined) => (value === undefined ? '' : String(value));
@@ -73,6 +80,7 @@ export function draftFromRun(run: SourceRun): RunDraft {
       (typeof OPTIONAL_RUN_FIELDS)[number],
       string
     >),
+    noLimits: run.noLimits === true,
   };
 }
 
@@ -102,6 +110,7 @@ export function runFromDraft(draft: RunDraft): SourceRun {
     if (value === undefined || value === '') continue;
     Object.assign(run, { [key]: value });
   }
+  if (draft.noLimits) run.noLimits = true;
   return run;
 }
 

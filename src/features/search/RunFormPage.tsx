@@ -235,8 +235,27 @@ function RunForm({
             )}
           </div>
         )}
-        {shows('limits') &&
-          text('limits', { multiline: true, rows: 2, hint: t('runForm.limitsHint') })}
+        {shows('limits') && (
+          <div className={forms.field}>
+            {text('limits', {
+              multiline: true,
+              rows: 2,
+              hint: t('runForm.limitsHint'),
+              disabled: draft.noLimits,
+            })}
+            <label className={forms.radioOption}>
+              <input
+                type="checkbox"
+                checked={draft.noLimits}
+                onChange={(event) => {
+                  const noLimits = event.target.checked;
+                  setDraft((current) => ({ ...current, noLimits }));
+                }}
+              />
+              {t('runForm.noLimits')}
+            </label>
+          </div>
+        )}
 
         <div className={forms.grid2}>
           {shows('reportedHits') &&

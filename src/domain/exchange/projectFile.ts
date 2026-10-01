@@ -99,6 +99,7 @@ function isObject(value: unknown): value is Record<string, unknown> {
 }
 
 const isString: Check = (v) => typeof v === 'string';
+const isBoolean: Check = (v) => typeof v === 'boolean';
 const isNumber: Check = (v) => typeof v === 'number' && Number.isFinite(v);
 const optional =
   (check: Check): Check =>
@@ -265,6 +266,7 @@ function entityFields(key: (typeof COLLECTIONS)[number], context: Context): Reco
         dateTo: optional(isDate),
         searchString: isString,
         limits: optional(isString),
+        noLimits: optional(isBoolean),
         reportedHits: optional(isCount),
         tool: optional(isString),
         method: optional(oneOf('search', 'browse')),

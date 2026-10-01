@@ -79,6 +79,20 @@ describe('pruneRun', () => {
     expect(pruned).not.toHaveProperty('notes');
     expect(pruned.searchString).toBe('  1 exp Tutoring/\n  2 1 and 3  ');
   });
+
+  it('keeps an explicit "no limits" and drops limit text that contradicts it', () => {
+    const pruned = pruneRun('database', { ...fullRun, noLimits: true });
+    expect(pruned.noLimits).toBe(true);
+    expect(pruned).not.toHaveProperty('limits');
+  });
+
+  it('drops "no limits" where the source type has no limits field', () => {
+    expect(pruneRun('contact', { ...fullRun, noLimits: true })).not.toHaveProperty('noLimits');
+  });
+
+  it('stores "no limits" only when set', () => {
+    expect(pruneRun('database', { ...fullRun, noLimits: false })).not.toHaveProperty('noLimits');
+  });
 });
 
 describe('form drafts', () => {
@@ -91,6 +105,15 @@ describe('form drafts', () => {
     const run = runFromDraft(draft);
     expect(run).not.toHaveProperty('reportedHits');
     expect(run.recordsChecked).toBeNaN();
+  });
+
+  it('round-trips the "no limits" checkbox', () => {
+    const run = { ...fullRun, limits: undefined, noLimits: true as const };
+    const draft = draftFromRun(run);
+    expect(draft.noLimits).toBe(true);
+    expect(draftFromRun(fullRun).noLimits).toBe(false);
+    expect(runFromDraft(draft).noLimits).toBe(true);
+    expect(runFromDraft({ ...draft, noLimits: false })).not.toHaveProperty('noLimits');
   });
 
   it('treats an empty end date as absent', () => {

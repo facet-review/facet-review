@@ -200,6 +200,7 @@ interface SourceRun {                 // eine konkrete Ausführung einer Suche
   dateTo?: DateOnly;                  // Ende eines Zeitraums (Websites, Zitationssuche, Kontakte, sonstige)
   searchString: string;               // vollständig, mehrzeilig, unverändert gespeichert
   limits?: string;
+  noLimits?: boolean;                 // ausdrücklich „keine Limits“ ≠ leeres Feld („nicht dokumentiert“)
   reportedHits?: number;              // laut Datenbank
   tool?: string;                      // z. B. 'OpenAlex API', 'Publish or Perish'
   method?: 'search' | 'browse';       // Websites
@@ -289,7 +290,10 @@ Standard-Ausschlussgründe bei neuen Projekten (in der Oberflächensprache angel
 | Suchläufe, aus denen Datensätze importiert wurden, sind nicht löschbar | Schützt die Kette Suche → Treffer |
 | Quellen und Suchläufe werden explizit gespeichert (Formular), projektweite Angaben automatisch | Ein halb ausgefüllter Suchlauf soll nicht als Datensatz in der Kette landen |
 
-Pflichtfelder weichen an zwei Stellen bewusst von der Tabelle in Modul 2 ab: **Limits und Filter** sind optional (leer = keine Limits gesetzt; die Angabe „keine“ wäre sonst erzwungen), die **Trefferzahl** ist bei Zitationssuche, Kontakten und sonstigen Methoden optional.
+Pflichtfelder weichen an zwei Stellen bewusst von der Tabelle in Modul 2 ab (bestätigt am 01.10.2026):
+
+- **Limits und Filter** sind optional, es werden aber drei Zustände unterschieden (PRISMA-S Item 9): dokumentierte Limits (Text), ausdrücklich **„Keine Limits angewendet“** (Checkbox, `noLimits: true`) und **„nicht dokumentiert“** (Feld leer, Checkbox nicht gesetzt). Ist die Checkbox gesetzt, wird ein evtl. noch vorhandener Text nicht gespeichert. Die Suchübersicht zeigt den Zustand je Suchlauf. Im Export der Suchdokumentation (Meilenstein 6) erscheint „Keine Limits angewendet“ als Text, ein leeres Feld als Hinweis „nicht dokumentiert“; die Zuordnung liegt in `limitsStatus()` (`src/domain/search/summary.ts`).
+- Die **Trefferzahl** ist bei Zitationssuche, Kontakten und sonstigen Methoden optional. Die Zahlen für das Flow-Diagramm stammen dort aus den importierten Datensätzen.
 
 ### Änderungen in Meilenstein 3 (Import & Deduplizierung)
 
@@ -318,7 +322,7 @@ Pflichtfelder weichen an zwei Stellen bewusst von der Tabelle in Modul 2 ab: **L
 
 ### Wann steigt `schemaVersion`?
 
-`schemaVersion` steigt, sobald **bestehende Daten transformiert werden müssen** (Umbenennen, Umstrukturieren, geänderte Bedeutung). Rein additive, optionale Felder ohne vorhandene Daten brauchen keinen Versionssprung. Meilenstein 2 bleibt daher bei Version 1: `sources` und `sourceRuns` waren in allen bisherigen Exporten leer. **Meilenstein 3 hebt auf Version 2:** Die Migration 1 → 2 ergänzt die Sammlungen `importBatches` und `dedupDecisions` (leer); Datensätze gab es vorher nicht. Die Browser-Datenbank (Dexie) steht auf Version 2 mit den Tabellen `importBatches`, `dedupDecisions` und dem Index `records.importBatchId`.
+`schemaVersion` steigt, sobald **bestehende Daten transformiert werden müssen** (Umbenennen, Umstrukturieren, geänderte Bedeutung). Rein additive, optionale Felder ohne vorhandene Daten brauchen keinen Versionssprung. Meilenstein 2 bleibt daher bei Version 1: `sources` und `sourceRuns` waren in allen bisherigen Exporten leer. **Meilenstein 3 hebt auf Version 2:** Die Migration 1 → 2 ergänzt die Sammlungen `importBatches` und `dedupDecisions` (leer); Datensätze gab es vorher nicht. Die Browser-Datenbank (Dexie) steht auf Version 2 mit den Tabellen `importBatches`, `dedupDecisions` und dem Index `records.importBatchId`. `SourceRun.noLimits` ist ein additives, optionales Feld ohne Versionssprung. Bis dahin leere Limits-Felder gelten als „nicht dokumentiert“; ob damit „keine Limits“ gemeint war, lässt sich nicht automatisch ableiten und muss bei Bedarf per Checkbox nachgetragen werden.
 
 ### Austauschformat (Projekt-JSON)
 

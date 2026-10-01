@@ -85,6 +85,11 @@ export interface SourceRun {
   /** Complete, multi-line search strategy exactly as executed (PRISMA-S item 8). */
   searchString: string;
   limits?: string;
+  /**
+   * Explicitly "no limits applied" (PRISMA-S item 9) – distinct from an empty
+   * `limits` field, which means "not documented". Stored only when true.
+   */
+  noLimits?: boolean;
   reportedHits?: number;
   tool?: string;
   method?: SearchMethod;

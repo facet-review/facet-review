@@ -3,6 +3,7 @@ import type { Source, SourceRun } from '../types';
 import {
   groupSourcesByType,
   latestRunDate,
+  limitsStatus,
   reportedHitsByColumn,
   sortRuns,
   sourceLabel,
@@ -85,5 +86,41 @@ describe('sourceLabel', () => {
     );
     expect(sourceLabel(src('1', 'database', 'Scopus', []))).toBe('Scopus');
     expect(sourceLabel(src('1', 'database', 'Scopus'))).toBe('Scopus');
+  });
+});
+
+describe('limitsStatus (PRISMA-S item 9)', () => {
+  const run: SourceRun = {
+    id: 'r',
+    projectId: 'p',
+    sourceId: 's',
+    date: '2026-09-01',
+    searchString: 'x',
+  };
+
+  it('reports the documented limits', () => {
+    expect(limitsStatus('database', { ...run, limits: 'English; 2010–2026' })).toEqual({
+      kind: 'text',
+      text: 'English; 2010–2026',
+    });
+  });
+
+  it('distinguishes "no limits applied" from "not documented"', () => {
+    expect(limitsStatus('database', { ...run, noLimits: true })).toEqual({ kind: 'none' });
+    expect(limitsStatus('register', run)).toEqual({ kind: 'undocumented' });
+    expect(limitsStatus('search_engine', { ...run, limits: '   ' })).toEqual({
+      kind: 'undocumented',
+    });
+  });
+
+  it('lets an explicit "no limits" win over leftover text', () => {
+    expect(limitsStatus('database', { ...run, limits: '2010-', noLimits: true })).toEqual({
+      kind: 'none',
+    });
+  });
+
+  it('does not apply to source types without limits', () => {
+    expect(limitsStatus('contact', run)).toBeUndefined();
+    expect(limitsStatus('citation_search', run)).toBeUndefined();
   });
 });
